@@ -27,8 +27,8 @@ $string['plugindesc'] = 'The category admin tool allows mass-administration of c
 
 $string['cat:manage'] = 'Mass-manage courses within a category';
 
-$string['recyclebintaskname'] = 'Category recycle bin Purge';
-
+$string['recyclebintaskname'] = 'Category recycle bin purge';
+$string['managername'] = 'Category manager';
 $string['recyclebin'] = 'Category recyclebin';
 
 $string['enablerecyclebin'] = 'Enable the category manager';

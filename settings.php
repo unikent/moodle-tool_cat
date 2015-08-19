@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die;
 if ($hassiteconfig) {
     $ADMIN->add('tools', new admin_externalpage(
         'categoryadmintool',
-        get_string('pluginname', 'tool_cat'),
+        get_string('managername', 'tool_cat'),
         new \moodle_url("/admin/tool/cat/index.php")
     ));
 

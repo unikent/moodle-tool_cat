@@ -60,11 +60,11 @@ class observers
         $category = recyclebin::get_category();
 
         // Does the course exist in the expiration table already?
-        if ($DB->record_exists("tool_cat_recyclebin", array("courseid" => $event->objectid))) {
+        if ($DB->record_exists("tool_cat_recyclebin", array("courseid" => $course->id))) {
             if ($course->category !== $category->id) {
                 // Delete the record from the expiration table.
                 $DB->delete_records("tool_cat_recyclebin", array(
-                    "courseid" => $event->objectid
+                    'courseid' => $course->id
                 ));
 
                 // Remove notification.
