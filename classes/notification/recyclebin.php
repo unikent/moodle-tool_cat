@@ -22,64 +22,53 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\event;
+namespace tool_cat\notification;
 
 /**
- * Purged event.
+ * Scheduled notification.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class course_purged extends \core\event\base
-{
+class recyclebin extends \local_notifications\notification\base {
     /**
-     * Init method.
+     * Returns the component of the notification.
      */
-    protected function init() {
-        $this->data['objecttable'] = 'course';
-        $this->data['crud'] = 'd';
-        $this->data['edulevel'] = self::LEVEL_TEACHING;
+    public static function get_component() {
+        return 'tool_cat';
     }
 
     /**
-     * Returns localised general event name.
-     *
-     * @return string
+     * Returns the table name the objectid relates to.
      */
-    public static function get_name() {
-        return "Course Purged";
+    public static function get_table() {
+        return 'course';
     }
 
     /**
-     * Returns description of what happened.
-     *
-     * @return string
+     * Returns the level of the notification.
      */
-    public function get_description() {
-        return 'Category manager purged course ' . $this->objectid . '.';
+    public function get_level() {
+        return \local_notifications\notification\base::LEVEL_WARNING;
     }
 
     /**
-     * Returns relevant URL.
-     *
-     * @return \moodle_url
+     * Returns the notification.
      */
-    public function get_url() {
-        return new \moodle_url('/course/view.php', array('id' => $this->objectid));
+    protected function get_contents() {
+        $time = strftime("%H:%M %d/%m/%Y", $this->other['expirationtime']);
+        return "This course is scheduled for deletion at $time.";
     }
 
     /**
-     * Custom validation.
-     *
-     * @throws \coding_exception
-     * @return void
+     * Checks custom data.
      */
-    protected function validate_data() {
-        parent::validate_data();
-
-        if (!isset($this->other['shortname'])) {
-            throw new \coding_exception('The \'shortname\' must be set.');
+    protected function set_custom_data($data) {
+        if (!isset($data['expirationtime'])) {
+            throw new \moodle_exception('You must set "date"!');
         }
+
+        parent::set_custom_data($data);
     }
 }

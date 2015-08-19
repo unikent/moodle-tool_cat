@@ -29,3 +29,7 @@ $plugin->version   = 2015081800;
 $plugin->requires  = 2014051200;
 $plugin->maturity = MATURITY_ALPHA;
 $plugin->release = '0.1 (Build: 2015081800)';
+
+$plugin->dependencies = array(
+    'local_notifications' => 2015062500
+);

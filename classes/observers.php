@@ -68,13 +68,13 @@ class observers
                 ));
 
                 // Remove notification.
-                $notification = \tool_cat\notification\scheduled::get($course->id, $context);
+                $notification = \tool_cat\notification\recyclebin::get($course->id, $context);
                 if ($notification) {
                     $notification->delete();
                 }
 
                 // Schedule an event.
-                $event = \tool_cat\event\course_unscheduled::create(array(
+                $event = \tool_cat\event\recyclebin_unscheduled::create(array(
                     'objectid' => $course->id,
                     'courseid' => $course->id,
                     'context' => $context
@@ -106,7 +106,7 @@ class observers
             update_course($course);
 
             // Create the notification.
-            \tool_cat\notification\scheduled::create(array(
+            \tool_cat\notification\recyclebin::create(array(
                 'objectid' => $course->id,
                 'context' => $context,
                 'other' => array(
@@ -115,7 +115,7 @@ class observers
             ));
 
             // Schedule an event.
-            $event = \tool_cat\event\course_scheduled::create(array(
+            $event = \tool_cat\event\recyclebin_scheduled::create(array(
                 'objectid' => $course->id,
                 'courseid' => $course->id,
                 'context' => $context,

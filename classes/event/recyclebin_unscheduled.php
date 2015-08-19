@@ -22,53 +22,50 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\notification;
+namespace tool_cat\event;
 
 /**
- * Scheduled notification.
+ * Unscheduled event.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class scheduled extends \local_notifications\notification\base {
+class recyclebin_unscheduled extends \core\event\base
+{
     /**
-     * Returns the component of the notification.
+     * Init method.
      */
-    public static function get_component() {
-        return 'tool_cat';
+    protected function init() {
+        $this->data['objecttable'] = 'course';
+        $this->data['crud'] = 'u';
+        $this->data['edulevel'] = self::LEVEL_TEACHING;
     }
 
     /**
-     * Returns the table name the objectid relates to.
+     * Returns localised general event name.
+     *
+     * @return string
      */
-    public static function get_table() {
-        return 'course';
+    public static function get_name() {
+        return "Course Unscheduled";
     }
 
     /**
-     * Returns the level of the notification.
+     * Returns description of what happened.
+     *
+     * @return string
      */
-    public function get_level() {
-        return \local_notifications\notification\base::LEVEL_WARNING;
+    public function get_description() {
+        return 'Category manager unscheduled course ' . s($this->objectid) . ' for purge.';
     }
 
     /**
-     * Returns the notification.
+     * Returns relevant URL.
+     *
+     * @return \moodle_url
      */
-    protected function get_contents() {
-        $time = strftime("%H:%M %d/%m/%Y", $this->other['expirationtime']);
-        return "This course is scheduled for deletion at $time.";
-    }
-
-    /**
-     * Checks custom data.
-     */
-    protected function set_custom_data($data) {
-        if (!isset($data['expirationtime'])) {
-            throw new \moodle_exception('You must set "date"!');
-        }
-
-        parent::set_custom_data($data);
+    public function get_url() {
+        return new \moodle_url('/course/view.php', array('id' => $this->objectid));
     }
 }

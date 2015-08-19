@@ -25,20 +25,20 @@
 namespace tool_cat\event;
 
 /**
- * Unscheduled event.
+ * Purged event.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class course_unscheduled extends \core\event\base
+class recyclebin_purged extends \core\event\base
 {
     /**
      * Init method.
      */
     protected function init() {
         $this->data['objecttable'] = 'course';
-        $this->data['crud'] = 'u';
+        $this->data['crud'] = 'd';
         $this->data['edulevel'] = self::LEVEL_TEACHING;
     }
 
@@ -48,7 +48,7 @@ class course_unscheduled extends \core\event\base
      * @return string
      */
     public static function get_name() {
-        return "Course Unscheduled";
+        return "Course Purged";
     }
 
     /**
@@ -57,7 +57,7 @@ class course_unscheduled extends \core\event\base
      * @return string
      */
     public function get_description() {
-        return 'Category manager unscheduled course ' . s($this->objectid) . ' for purge.';
+        return 'Category manager purged course ' . $this->objectid . '.';
     }
 
     /**
@@ -67,5 +67,19 @@ class course_unscheduled extends \core\event\base
      */
     public function get_url() {
         return new \moodle_url('/course/view.php', array('id' => $this->objectid));
+    }
+
+    /**
+     * Custom validation.
+     *
+     * @throws \coding_exception
+     * @return void
+     */
+    protected function validate_data() {
+        parent::validate_data();
+
+        if (!isset($this->other['shortname'])) {
+            throw new \coding_exception('The \'shortname\' must be set.');
+        }
     }
 }

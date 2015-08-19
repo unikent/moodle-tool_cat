@@ -31,10 +31,10 @@ namespace tool_cat\task;
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class purge extends \core\task\scheduled_task
+class recyclebin extends \core\task\scheduled_task
 {
     public function get_name() {
-        return "Deleted Course Purge";
+        return get_string('recyclebintaskname', 'tool_cat');
     }
 
     public function execute() {
@@ -93,7 +93,7 @@ class purge extends \core\task\scheduled_task
 
             // Raise an event.
             if ($expiration->status = \tool_cat\core::STATUS_COMPLETED) {
-                $event = \tool_cat\event\course_purged::create(array(
+                $event = \tool_cat\event\recyclebin_purged::create(array(
                     'objectid' => $expiration->courseid,
                     'context' => $coursectx,
                     'other' => array(

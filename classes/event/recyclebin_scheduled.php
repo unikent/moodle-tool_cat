@@ -31,7 +31,7 @@ namespace tool_cat\event;
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class course_scheduled extends \core\event\base
+class recyclebin_scheduled extends \core\event\base
 {
     /**
      * Init method.
