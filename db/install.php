@@ -55,7 +55,5 @@ function xmldb_tool_cat_install() {
         }
     }
 
-    unset_all_config_for_plugin('local_catman');
-
     return true;
 }
