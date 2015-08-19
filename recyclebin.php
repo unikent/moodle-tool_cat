@@ -33,7 +33,7 @@ $PAGE->set_context(\context_system::instance());
 $PAGE->set_url('/admin/tool/cat/recyclebin.php');
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('pluginname', 'tool_cat'));
+echo $OUTPUT->heading(get_string('recyclebin', 'tool_cat'));
 
 // Allow the user to delay a purge.
 $action = optional_param('action', false, PARAM_ALPHA);
