@@ -24,6 +24,6 @@
 
 $nagios = array(
     array(
-        'classname' => 'tool_cat\nagios\error_check'
+        'classname' => 'tool_cat\nagios\recyclebin_check'
     )
 );

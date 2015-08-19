@@ -31,7 +31,7 @@ namespace tool_cat\nagios;
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class error_check extends \local_nagios\base_check
+class recyclebin_check extends \local_nagios\base_check
 {
     public function execute() {
         global $DB;

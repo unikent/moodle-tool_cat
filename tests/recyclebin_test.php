@@ -102,7 +102,7 @@ class tool_cat_tests extends \advanced_testcase
 
         // Run task.
         ob_start();
-        $task = new \tool_cat\task\purge();
+        $task = new \tool_cat\task\recyclebin();
         $task->execute();
         ob_get_clean();
 
