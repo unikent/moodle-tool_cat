@@ -24,7 +24,7 @@
 
 $tasks = array(
     array(
-        'classname' => 'tool_cat\task\purge',
+        'classname' => 'tool_cat\task\recyclebin',
         'blocking' => 0,
         'minute' => 'R',
         'hour' => 'R',

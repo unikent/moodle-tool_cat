@@ -27,7 +27,7 @@ namespace tool_cat;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Catman observers.
+ * Category admin tool observers.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
@@ -62,7 +62,7 @@ class observers
         // Does the course exist in the expiration table already?
         if ($DB->record_exists("tool_cat_recyclebin", array("courseid" => $event->objectid))) {
             if ($course->category !== $category->id) {
-                // Delete the record from catman expiration table.
+                // Delete the record from the expiration table.
                 $DB->delete_records("tool_cat_recyclebin", array(
                     "courseid" => $event->objectid
                 ));
