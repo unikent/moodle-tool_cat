@@ -29,13 +29,13 @@ defined('MOODLE_INTERNAL') || die();
 require_once("$CFG->libdir/coursecatlib.php");
 
 /**
- * Category admin tool core.
+ * Category admin tool recyclebin.
  *
  * @package    tool_cat
  * @copyright  2014 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class core
+abstract class recyclebin
 {
     const STATUS_SCHEDULED = 0;
     const STATUS_COMPLETED = 1;
@@ -48,8 +48,8 @@ abstract class core
         // Create a category.
         $category = new \stdClass();
         $category->parent = 0;
-        $category->idnumber = 'catman_removed';
-        $category->name = 'Removed';
+        $category->idnumber = 'cat_recyclebin';
+        $category->name = 'Recycle Bin';
         $category->description = 'Holding place for removed modules.';
         $category->sortorder = 999;
         $category->visible = false;
@@ -62,7 +62,7 @@ abstract class core
      */
     public static function get_category() {
         // Try to use the category we have set if we have it set.
-        $catid = get_config("tool_cat", "catid");
+        $catid = get_config("tool_cat", "recyclebinid");
         if ($catid > 0) {
             $category = \coursecat::get($catid, \IGNORE_MISSING, true);
             if ($category) {
@@ -74,7 +74,7 @@ abstract class core
         $obj = self::create_category();
 
         // Store it.
-        set_config("catid", $obj->id, "tool_cat");
+        set_config("recyclebinid", $obj->id, "tool_cat");
 
         return $obj;
     }
@@ -83,7 +83,7 @@ abstract class core
      * Get the period of holding.
      */
     public static function get_holding_period() {
-        $period = get_config("tool_cat", "period");
+        $period = get_config("tool_cat", "recyclebinexp");
         if ($period === false) {
             $period = 1209600; // 14 day default.
         }

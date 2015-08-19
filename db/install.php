@@ -41,10 +41,18 @@ function xmldb_tool_cat_install() {
     // Delete local_catman table.
     $dbman->drop_table($table);
 
+    $configmap = array(
+        'enable' => 'enablerecyclebin',
+        'catid' => 'recyclebinid',
+        'period' => 'recyclebinexp'
+    );
+
     // Port over config.
     $config = get_config('local_catman');
     foreach ($config as $k => $v) {
-        set_config($k, $v, 'tool_cat');
+        if (isset($configmap[$k])) {
+            set_config($configmap[$k], $v, 'tool_cat');
+        }
     }
 
     unset_all_config_for_plugin('local_catman');

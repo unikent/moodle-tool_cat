@@ -45,7 +45,7 @@ class observers
     public static function course_updated(\core\event\course_updated $event) {
         global $CFG, $DB;
 
-        $enabled = get_config("tool_cat", "enable");
+        $enabled = get_config("tool_cat", "enablerecyclebin");
         if (!$enabled) {
             return true;
         }
@@ -57,7 +57,7 @@ class observers
         $context = \context_course::instance($course->id);
 
         // The ID of the deleted category is stored in config.
-        $category = core::get_category();
+        $category = recyclebin::get_category();
 
         // Does the course exist in the expiration table already?
         if ($DB->record_exists("tool_cat_recyclebin", array("courseid" => $event->objectid))) {
@@ -94,7 +94,7 @@ class observers
             enrol_course_delete($course);
 
             // Insert a record into the DB.
-            $expiration = time() + core::get_holding_period();
+            $expiration = time() + recyclebin::get_holding_period();
             $DB->insert_record("tool_cat_recyclebin", array(
                 "courseid" => $course->id,
                 "deleted_date" => time(),

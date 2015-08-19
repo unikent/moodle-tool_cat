@@ -31,10 +31,9 @@ $string['recyclebintaskname'] = 'Category recycle bin Purge';
 
 $string['recyclebin'] = 'Category recyclebin';
 
-$string['enable'] = 'Enable the category manager';
-$string['limit'] = 'Limits how many items are deleted per cron run';
-$string['catid'] = 'The ID of the removed category';
-$string['period'] = 'Number of seconds between delete and purge';
+$string['enablerecyclebin'] = 'Enable the category manager';
+$string['recyclebinid'] = 'The ID of the removed category';
+$string['recyclebinexp'] = 'Number of seconds between delete and purge';
 
 $string['course'] = 'Course';
 $string['date_deleted'] = 'Date Deleted';

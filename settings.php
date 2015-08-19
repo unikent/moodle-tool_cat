@@ -36,4 +36,30 @@ if ($hassiteconfig) {
         get_string('recyclebin', 'tool_cat'),
         new \moodle_url("/admin/tool/cat/recyclebin.php")
     ));
+
+    $settings = new admin_settingpage('tool_cat', get_string('pluginname', 'tool_cat'));
+    $ADMIN->add('tools', $settings);
+
+    $settings->add(new admin_setting_configcheckbox(
+        'tool_cat/enablerecyclebin',
+        get_string('enablerecyclebin', 'tool_cat'),
+        '',
+        0
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'tool_cat/recyclebinid',
+        get_string('recyclebinid', 'tool_cat'),
+        '',
+        0,
+        PARAM_INT
+    ));
+
+    $settings->add(new admin_setting_configtext(
+        'tool_cat/recyclebinexp',
+        get_string('recyclebinexp', 'tool_cat'),
+        '',
+        1209600,
+        PARAM_INT
+    ));
 }

@@ -41,7 +41,7 @@ if ($action == 'delay') {
     $id = required_param('id', PARAM_INT);
 
     // Delay it.
-    \tool_cat\core::delay($id);
+    \tool_cat\recyclebin::delay($id);
 
     // Let the user know.
     echo $OUTPUT->notification(get_string('delay_success', 'tool_cat'));

@@ -41,7 +41,7 @@ class recyclebin extends \core\task\scheduled_task
         global $DB;
 
         // Don't run if we are disabled.
-        if (!get_config("tool_cat", "enable")) {
+        if (!get_config("tool_cat", "enablerecyclebin")) {
             return;
         }
 
@@ -49,18 +49,18 @@ class recyclebin extends \core\task\scheduled_task
         $sql = "SELECT * FROM {tool_cat_recyclebin} WHERE expiration_time < :time AND status = :status";
         $expirations = $DB->get_records_sql($sql, array(
             'time' => time(),
-            'status' => \tool_cat\core::STATUS_SCHEDULED
+            'status' => \tool_cat\recyclebin::STATUS_SCHEDULED
         ));
 
         // Grab the removed category.
-        $category = \tool_cat\core::get_category();
+        $category = \tool_cat\recyclebin::get_category();
 
         // Foreach course in the category.
         foreach ($expirations as $expiration) {
             echo "Deleting course {$expiration->courseid}....\n";
 
             // Set it to status 2 (error) so we don't keep re-trying this if it fails badly.
-            $expiration->status = \tool_cat\core::STATUS_ERROR;
+            $expiration->status = \tool_cat\recyclebin::STATUS_ERROR;
             $DB->update_record('tool_cat_recyclebin', $expiration);
 
             // Grab the course.
@@ -79,20 +79,20 @@ class recyclebin extends \core\task\scheduled_task
                 // Attempt to delete the course.
                 delete_course($course);
 
-                $expiration->status = \tool_cat\core::STATUS_COMPLETED;
+                $expiration->status = \tool_cat\recyclebin::STATUS_COMPLETED;
             } catch (\Exception $e) {
-                $expiration->status = \tool_cat\core::STATUS_ERROR;
+                $expiration->status = \tool_cat\recyclebin::STATUS_ERROR;
                 debugging($e->getMessage());
             }
 
             // Does the course exist?
             // If it does, it didn't work.
             if ($DB->record_exists('course', array('id' => $expiration->courseid))) {
-                $expiration->status = \tool_cat\core::STATUS_ERROR;
+                $expiration->status = \tool_cat\recyclebin::STATUS_ERROR;
             }
 
             // Raise an event.
-            if ($expiration->status = \tool_cat\core::STATUS_COMPLETED) {
+            if ($expiration->status = \tool_cat\recyclebin::STATUS_COMPLETED) {
                 $event = \tool_cat\event\recyclebin_purged::create(array(
                     'objectid' => $expiration->courseid,
                     'context' => $coursectx,

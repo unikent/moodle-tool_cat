@@ -32,10 +32,10 @@ class tool_cat_tests extends \advanced_testcase
         $this->resetAfterTest();
 
         // Enable the plugin for testing.
-        set_config("enable", true, "tool_cat");
+        set_config("enablerecyclebin", true, "tool_cat");
 
         // First we want to create a new category.
-        $category = \tool_cat\core::get_category();
+        $category = \tool_cat\recyclebin::get_category();
 
         // Now create some courses.
         $c1 = $this->getDataGenerator()->create_course();
@@ -83,11 +83,11 @@ class tool_cat_tests extends \advanced_testcase
         $this->resetAfterTest();
 
         // Enable the plugin for testing.
-        set_config("enable", true, "tool_cat");
-        set_config("period", 1, "tool_cat");
+        set_config("enablerecyclebin", true, "tool_cat");
+        set_config("recyclebinexp", 1, "tool_cat");
 
         // First we want to create a new category.
-        $category = \tool_cat\core::get_category();
+        $category = \tool_cat\recyclebin::get_category();
 
         // Now create some courses.
         $c1 = $this->getDataGenerator()->create_course();
@@ -129,10 +129,10 @@ class tool_cat_tests extends \advanced_testcase
         $this->resetAfterTest();
 
         // Enable the plugin for testing.
-        set_config("enable", true, "tool_cat");
+        set_config("enablerecyclebin", true, "tool_cat");
 
         // First we want to create a new category.
-        $category = \tool_cat\core::get_category();
+        $category = \tool_cat\recyclebin::get_category();
 
         // Get some roles.
         $studentrole = $DB->get_record('role', array('shortname' => 'student'));
@@ -164,8 +164,8 @@ class tool_cat_tests extends \advanced_testcase
     public function test_get_category() {
         $this->resetAfterTest();
 
-        $category = \tool_cat\core::get_category();
-        $category2 = \tool_cat\core::get_category();
+        $category = \tool_cat\recyclebin::get_category();
+        $category2 = \tool_cat\recyclebin::get_category();
 
         $this->assertEquals($category->id, $category2->id);
     }
