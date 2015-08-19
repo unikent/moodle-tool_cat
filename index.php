@@ -33,4 +33,9 @@ $PAGE->set_url('/admin/tool/cat/recyclebin.php');
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'tool_cat'));
 
+echo $OUTPUT->box("Add a rule for courses within a category. This will be applied to current and future courses.");
+
+$form = new \tool_cat\form\category_rules();
+$form->display();
+
 echo $OUTPUT->footer();
