@@ -40,7 +40,8 @@ class append_to extends base
      * Apply the rule.
      */
     public function apply() {
-        // TODO.
+        $courses = $this->get_courses();
+        $this->target->append_to($courses);
     }
 
     /**

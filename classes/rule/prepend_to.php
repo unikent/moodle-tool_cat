@@ -40,7 +40,8 @@ class prepend_to extends base
      * Apply the rule.
      */
     public function apply() {
-        // TODO.
+        $courses = $this->get_courses();
+        $this->target->prepend_to($courses);
     }
 
     /**

@@ -54,13 +54,6 @@ class section extends base
     }
 
     /**
-     * Apply the prepend rule.
-     */
-    public function prepend_to($courses) {
-        // TODO.
-    }
-
-    /**
      * Apply the delete rule.
      */
     public function delete($courses) {
@@ -71,6 +64,13 @@ class section extends base
      * Apply the empty content rule.
      */
     public function empty_content($courses) {
+        // TODO.
+    }
+
+    /**
+     * Apply the prepend rule.
+     */
+    public function prepend_to($courses) {
         // TODO.
     }
 }

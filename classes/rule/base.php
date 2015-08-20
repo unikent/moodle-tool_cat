@@ -37,7 +37,6 @@ abstract class base
 {
     private $categoyid;
     protected $target;
-    protected $datatype;
 
     /**
      * Create a new rule object from record.
@@ -69,7 +68,7 @@ abstract class base
             }
 
             $datatype = "\\tool_cat\\datatype\\" . $record->datatype;
-            $obj->datatype = new $datatype($record->data);
+            $obj->target->set_datatype(new $datatype($record->data));
         }
 
         return $obj;

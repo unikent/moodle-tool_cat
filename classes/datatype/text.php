@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Category admin tool text data type.
+ * Optionally rendered by the Mustache library.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent

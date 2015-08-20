@@ -50,6 +50,14 @@ class block_region extends base
      * Apply the append rule.
      */
     public function append_to($courses) {
+        $datatype = $this->get_datatype();
+        // TODO.
+    }
+
+    /**
+     * Delete all blocks in this region.
+     */
+    public function empty_content($courses) {
         // TODO.
     }
 
@@ -57,13 +65,7 @@ class block_region extends base
      * Apply the prepend rule.
      */
     public function prepend_to($courses) {
-        // TODO.
-    }
-
-    /**
-     * Apply the empty content rule.
-     */
-    public function empty_content($courses) {
+        $datatype = $this->get_datatype();
         // TODO.
     }
 }

@@ -40,7 +40,8 @@ class empty_content extends base
      * Apply the rule.
      */
     public function apply() {
-        // TODO.
+        $courses = $this->get_courses();
+        $this->target->empty_content($courses);
     }
 
     /**

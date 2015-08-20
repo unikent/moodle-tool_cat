@@ -36,6 +36,7 @@ defined('MOODLE_INTERNAL') || die();
 abstract class base
 {
     protected $identifier;
+    protected $datatype;
 
     /**
      * Constructor.
@@ -60,6 +61,24 @@ abstract class base
      */
     public function get_identifier() {
         return $this->identifier;
+    }
+
+    /**
+     * Set our target datatype.
+     *
+     * @param int $datatype Target datatype.
+     */
+    public function set_datatype($datatype) {
+        $this->datatype = $datatype;
+    }
+
+    /**
+     * Return the datatype of the target.
+     *
+     * @return int The datatype of the target.
+     */
+    public function get_datatype() {
+        return $this->datatype;
     }
 
     /**
