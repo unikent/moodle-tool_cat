@@ -51,7 +51,7 @@ class delete extends base
      */
     public function get_supported_targets() {
         return array(
-            'block', 'section'
+            'block', 'section', 'course'
         );
     }
 }

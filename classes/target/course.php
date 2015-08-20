@@ -29,13 +29,13 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . "/course/lib.php");
 
 /**
- * Category admin tool section target.
+ * Category admin tool course target.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class section extends base
+class course extends base
 {
     /**
      * Return a list of datatypes this target supports.
@@ -44,72 +44,64 @@ class section extends base
      */
     public function get_supported_datatypes() {
         return array(
-            'activity', 'text'
+            'section'
         );
     }
 
     /**
      * Create a section.
      */
-    public static function create_section($course, $section) {
-        global $DB;
+    private function create_section($course, $section, $prepend = false) {
+        $modinfo = get_fast_modinfo($course);
+        $sections = $modinfo->get_section_info_all();
 
-        $section = (object)$section;
-        $section->id = $DB->insert_record('course_sections', $section);
+        $sectionnumber = 0;
+        foreach ($sections as $section) {
+            if ($section->section > $sectionnumber) {
+                $sectionnumber = $section->section + 1;
+            }
+        }
 
-        rebuild_course_cache($course, true);
+        section::create_section($course, array(
+            'section' => $sectionnumber,
+            'name' => $section->name,
+            'visible' => $section->visible,
+            'summary' => $section->summary,
+            'summaryformat' => $section->summaryformat,
+            'availability' => $section->availability
+        ));
+
+        if ($prepend) {
+            move_section_to($course, $sectionnumber, 0);
+        }
     }
 
     /**
-     * Apply the append rule.
+     * Append a section.
      */
     public function append_to($courses) {
-        $sectionident = $this->get_identifier();
-        // TODO.
+        $section = $this->datatype->get_section();
+        foreach ($courses as $course) {
+            $this->create_section($course, $section);
+        }
     }
 
     /**
-     * Delete a section.
+     * Delete a course.
      */
     public function delete($courses) {
-        $sectionident = $this->get_identifier();
-
-        // We have a section number, delete that section.
         foreach ($courses as $course) {
-            $modinfo = get_fast_modinfo($course);
-            $section = $modinfo->get_section_info($sectionident);
-            course_delete_section($course, $section);
+            delete_course($course, false);
         }
     }
 
     /**
-     * Empty out this section.
-     */
-    public function empty_content($courses) {
-        $sectionident = $this->get_identifier();
-
-        // We have a section number, delete that section.
-        foreach ($courses as $course) {
-            $modinfo = get_fast_modinfo($course);
-            $section = $modinfo->get_section_info($sectionident);
-            course_delete_section($course, $section);
-
-            static::create_section($course, array(
-                'section' => $section->section,
-                'name' => $section->name,
-                'visible' => $section->visible,
-                'summary' => $section->summary,
-                'summaryformat' => $section->summaryformat,
-                'availability' => $section->availability
-            ));
-        }
-    }
-
-    /**
-     * Apply the prepend rule.
+     * Prepend a section.
      */
     public function prepend_to($courses) {
-        $sectionident = $this->get_identifier();
-        // TODO.
+        $section = $this->datatype->get_section();
+        foreach ($courses as $course) {
+            $this->create_section($course, $section, true);
+        }
     }
 }

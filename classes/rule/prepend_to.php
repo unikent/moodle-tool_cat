@@ -51,7 +51,7 @@ class prepend_to extends base
      */
     public function get_supported_targets() {
         return array(
-            'block_region', 'section'
+            'block_region', 'section', 'course'
         );
     }
 }
