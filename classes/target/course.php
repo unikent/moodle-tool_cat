@@ -80,7 +80,7 @@ class course extends base
      * Append a section.
      */
     public function append_to($courses) {
-        $section = $this->datatype->get_section();
+        $section = $this->datatype->get_data();
         foreach ($courses as $course) {
             $this->create_section($course, $section);
         }
