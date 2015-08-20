@@ -35,4 +35,37 @@ defined('MOODLE_INTERNAL') || die();
  */
 abstract class base
 {
+    protected $identifier;
+
+    /**
+     * Set our target identifier.
+     *
+     * @param int $identifier Target identifier.
+     */
+    public function set_identifier($identifier) {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * Return the identifier of the target.
+     *
+     * @return int The identifier of the target.
+     */
+    public function get_identifier() {
+        return $this->identifier;
+    }
+
+    /**
+     * Return a list of rules this target supports.
+     *
+     * @return array An array of valid rules.
+     */
+    public abstract function get_supported_rules();
+
+    /**
+     * Return a list of datatypes this target supports.
+     *
+     * @return array An array of valid datatypes.
+     */
+    public abstract function get_supported_datatypes();
 }

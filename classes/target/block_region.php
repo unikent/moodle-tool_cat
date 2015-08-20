@@ -35,4 +35,25 @@ defined('MOODLE_INTERNAL') || die();
  */
 class block_region extends base
 {
+    /**
+     * Return a list of rules this target supports.
+     *
+     * @return array An array of valid rules.
+     */
+    public function get_supported_rules() {
+        return array(
+            'append_to', 'prepend_to'
+        );
+    }
+
+    /**
+     * Return a list of datatypes this target supports.
+     *
+     * @return array An array of valid datatypes.
+     */
+    public function get_supported_datatypes() {
+        return array(
+            'block'
+        );
+    }
 }

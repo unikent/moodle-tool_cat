@@ -45,7 +45,7 @@ function xmldb_tool_cat_upgrade($oldversion) {
         $table->add_field('order', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, null);
         $table->add_field('rule', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
         $table->add_field('target', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('targetid', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('targetid', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
         $table->add_field('datatype', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
         $table->add_field('data', XMLDB_TYPE_TEXT, null, null, null, null, null);
 

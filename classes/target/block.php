@@ -27,13 +27,13 @@ namespace tool_cat;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Category admin tool section target.
+ * Category admin tool block_region target.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class section extends base
+class block extends base
 {
     /**
      * Return a list of rules this target supports.
@@ -42,7 +42,7 @@ class section extends base
      */
     public function get_supported_rules() {
         return array(
-            'append_to', 'prepend_to', 'delete'
+            'delete'
         );
     }
 
@@ -53,7 +53,7 @@ class section extends base
      */
     public function get_supported_datatypes() {
         return array(
-            'activity', 'text'
+            'block'
         );
     }
 }
