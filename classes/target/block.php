@@ -54,11 +54,8 @@ class block extends base
 
         require_once($CFG->libdir . "/blocklib.php");
 
-        $block = $this->get_identifier();
-
-        // Our target is the name of a block.
         // We now want to delete all blocks with that name.
-        $instances = $this->get_instances($courses, $block);
+        $instances = $this->get_instances($courses);
         foreach ($instances as $instance) {
             blocks_delete_instance($instance);
         }
@@ -67,11 +64,14 @@ class block extends base
     /**
      * Return all instances of a block for the given courses.
      */
-    private function get_instances($courses, $block) {
+    private function get_instances($courses) {
         global $DB;
 
-        $instances = array();
+        // Our target is the name of a block.
+        $block = $this->get_identifier();
 
+        // Build instance list.
+        $instances = array();
         foreach ($courses as $course) {
             $context = \context_course::instance($course->id);
             $courseinstances = $DB->get_records('block_instances', array(
