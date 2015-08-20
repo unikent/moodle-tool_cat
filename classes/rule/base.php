@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class rule
+abstract class base
 {
     private $categoyid;
     protected $target;
@@ -43,20 +43,32 @@ abstract class rule
      * Create a new rule object from record.
      */
     public static function from_record($record) {
-        $ruletype = preg_match('/[A-Za-z_]/', $record->rule);
+        $record = (object)$record;
 
+        // Sanity checks.
+        if (!preg_match('/^([A-Za-z_]*)$/', $record->rule)) {
+            throw new \moodle_exception("Invalid rule.");
+        }
+
+        if (!preg_match('/^([A-Za-z_]*)$/', $record->target)) {
+            throw new \moodle_exception("Invalid target.");
+        }
+
+        $ruletype = "\\tool_cat\\rule\\" . $record->rule;
         $obj = new $ruletype();
         $obj->categoryid = $record->categoryid;
 
         // Add a target.
-        $target = preg_match('/[A-Za-z_]/', $record->target);
-        $target = "\\tool_cat\\target\\" . preg_match('/[A-Za-z_]/', $record->target);
+        $target = "\\tool_cat\\target\\" . $record->target;
         $obj->target = new $target($record->targetid);
 
         // Add a datatype to the rule if we have one.
         if (!empty($record->datatype)) {
-            $datatype = preg_match('/[A-Za-z_]/', $record->datatype);
-            $datatype = "\\tool_cat\\datatype\\" . preg_match('/[A-Za-z_]/', $record->datatype);
+            if (!preg_match('/^([A-Za-z_]*)$/', $record->datatype)) {
+                throw new \moodle_exception("Invalid datatype.");
+            }
+
+            $datatype = "\\tool_cat\\datatype\\" . $record->datatype;
             $obj->datatype = new $datatype($record->data);
         }
 
@@ -73,7 +85,7 @@ abstract class rule
 
         require_once($CFG->libdir. '/coursecatlib.php');
 
-        $coursecat = coursecat::get($this->categoryid);
+        $coursecat = \coursecat::get($this->categoryid);
 
         return $coursecat->get_courses(array(
             'recursive' => true

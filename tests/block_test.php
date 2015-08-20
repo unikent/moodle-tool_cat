@@ -46,20 +46,24 @@ class tool_cat_block_tests extends \advanced_testcase
 
         $context = context_course::instance($this->course->id);
 
+        $before = $DB->count_records('block_instances', array(
+            'parentcontextid' => $context->id
+        ));
+
         // Add a block.
         $block = $generator->create_block('online_users', array(
             'parentcontextid' => $context->id
         ));
 
         // Ensure the block has been created.
-        $this->assertEquals(1, $DB->count_records('block_instances', array(
+        $this->assertEquals($before + 1, $DB->count_records('block_instances', array(
             'parentcontextid' => $context->id
         )));
 
         // Apply a rule to delete the block.
-        $rule = \tool_cat\rules\base::from_record(array(
+        $rule = \tool_cat\rule\base::from_record(array(
             'id' => 1,
-            'category' => $this->course->category,
+            'categoryid' => $this->course->category,
             'order' => 1,
             'rule' => 'delete',
             'target' => 'block',
@@ -70,7 +74,7 @@ class tool_cat_block_tests extends \advanced_testcase
         $rule->apply();
 
         // Ensure the block has been deleted.
-        $this->assertEquals(0, $DB->count_records('block_instances', array(
+        $this->assertEquals($before, $DB->count_records('block_instances', array(
             'parentcontextid' => $context->id
         )));
     }
