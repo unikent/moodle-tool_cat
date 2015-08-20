@@ -74,20 +74,19 @@ class block_region extends base
             $currentblocks = $blockmanager->get_blocks_for_region($region);
             foreach ($currentblocks as $block) {
                 if ($prepend) {
-                    // Find the last position.
-                    if ($block->instance->weight >= $weight) {
-                        $weight = $block->instance->weight + 1;
-                    }
-                } else {
                     // Find the first position.
                     if ($block->instance->weight <= $weight) {
-                        $weight = $block->instance->weight - 1;
+                        $weight = $block->instance->weight;
                     }
 
                     // Move this one up.
                     $blockmanager->reposition_block($block->instance->id, $region, $block->instance->weight + 1);
+                } else {
+                    // Find the last position.
+                    if ($block->instance->weight >= $weight) {
+                        $weight = $block->instance->weight;
+                    }
                 }
-
             }
 
             // Add the block.
