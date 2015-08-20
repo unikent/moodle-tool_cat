@@ -14,25 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Category admin tool datatypes.
- *
- * @package    tool_cat
- * @copyright  2015 University of Kent
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-namespace tool_cat\datatypes;
-
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Category admin tool block data type.
- *
- * @package    tool_cat
- * @copyright  2015 University of Kent
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Tests the category manager
  */
-class block extends base
+class tool_cat_block_tests extends \advanced_testcase
 {
+    /**
+     * Test the cron.
+     */
+    public function test_block_delete() {
+        // Generate a course.
+        // Add some blocks.
+
+        $rule = \tool_cat\rules\base::from_record(array(
+            'id' => 1,
+            'category' => $course->category,
+            'order' => 1,
+            'rule' => 'delete',
+            'target' => 'block',
+            'targetid' => 'html',
+            'datatype' => '',
+            'data' => ''
+        ));
+        $rule->apply();
+
+        // Ensure the block has been deleted.
+    }
 }

@@ -22,17 +22,17 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\datatypes;
+namespace tool_cat\datatype;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Category admin tool activity data type.
+ * Category admin tool data type.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class activity extends base
+abstract class base
 {
 }
