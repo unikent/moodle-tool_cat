@@ -47,6 +47,17 @@ class block_region extends base
     }
 
     /**
+     * Returns the block manager for a given course.
+     */
+    private function get_block_manager($course) {
+        $page = new \moodle_page();
+        $page->set_context(\context_course::instance($course->id));
+        $page->set_pagetype('course-view-*');
+
+        return new \block_manager($page);
+    }
+
+    /**
      * Apply the append rule.
      */
     public function append_to($courses) {
@@ -58,7 +69,23 @@ class block_region extends base
      * Delete all blocks in this region.
      */
     public function empty_content($courses) {
-        // TODO.
+        global $CFG;
+
+        require_once($CFG->libdir . "/blocklib.php");
+
+        // Our target is the name of a block region.
+        $region = $this->get_identifier();
+
+        // For each course, delete all blocks.
+        foreach ($courses as $course) {
+            $blockmanager = $this->get_block_manager($course);
+            if ($blockmanager->is_known_region($region)) {
+                $instances = $blockmanager->get_blocks_for_region($region);
+                foreach ($instances as $instance) {
+                    blocks_delete_instance($instance);
+                }
+            }
+        }
     }
 
     /**
