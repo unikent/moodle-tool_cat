@@ -32,12 +32,11 @@ class tool_cat_block_tests extends \advanced_testcase
         $this->setAdminUser();
 
         // Create course and wiki.
-        $generator = $this->getDataGenerator();
-        $this->course = $generator->create_course();
+        $this->course = $this->getDataGenerator()->create_course();
     }
 
     /**
-     * Test the cron.
+     * Test the block delete rule.
      */
     public function test_block_delete() {
         global $DB;
