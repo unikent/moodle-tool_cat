@@ -27,7 +27,7 @@ namespace tool_cat;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Category admin tool block_region target.
+ * Category admin tool block target.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
@@ -44,5 +44,42 @@ class block extends base
         return array(
             'block'
         );
+    }
+
+    /**
+     * Delete method.
+     *
+     * @param array $courses All courses we should be effecting.
+     */
+    public function delete($courses) {
+        $block = $this->get_target();
+
+        // Our target is the name of a block.
+        // We now want to delete all blocks with that name.
+        $instances = $this->get_instances($courses, $block);
+        foreach ($instances as $instance) {
+            blocks_delete_instance($instance);
+        }
+    }
+
+    /**
+     * Return all instances of a block for the given courses.
+     */
+    private function get_instances($courses, $block) {
+        global $DB;
+
+        $instances = array();
+
+        foreach ($courses as $course) {
+            $context = \context_course::instance($course->id);
+            $courseinstances = $DB->get_records('block_instances', array(
+                'blockname' => $block,
+                'parentcontextid' => $context->id
+            ));
+
+            $instances = array_merge($courseinstances, $instances);
+        }
+
+        return $instances;
     }
 }
