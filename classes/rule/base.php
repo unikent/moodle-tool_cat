@@ -48,10 +48,12 @@ abstract class rule
         $obj = new $ruletype();
         $obj->categoryid = $record->categoryid;
 
+        // Add a target.
         $target = preg_match('/[A-Za-z_]/', $record->target);
         $target = "\\tool_cat\\target\\" . preg_match('/[A-Za-z_]/', $record->target);
         $obj->target = new $target($record->targetid);
 
+        // Add a datatype to the rule if we have one.
         if (!empty($record->datatype)) {
             $datatype = preg_match('/[A-Za-z_]/', $record->datatype);
             $datatype = "\\tool_cat\\datatype\\" . preg_match('/[A-Za-z_]/', $record->datatype);

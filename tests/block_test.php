@@ -21,25 +21,57 @@ defined('MOODLE_INTERNAL') || die();
  */
 class tool_cat_block_tests extends \advanced_testcase
 {
+    /** @var stdClass Keeps course object */
+    private $course;
+
+    /**
+     * Setup test data.
+     */
+    public function setUp() {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        // Create course and wiki.
+        $generator = $this->getDataGenerator();
+        $this->course = $generator->create_course();
+    }
+
     /**
      * Test the cron.
      */
     public function test_block_delete() {
-        // Generate a course.
-        // Add some blocks.
+        global $DB;
 
+        $generator = $this->getDataGenerator();
+
+        $context = context_course::instance($this->course->id);
+
+        // Add a block.
+        $block = $generator->create_block('online_users', array(
+            'parentcontextid' => $context->id
+        ));
+
+        // Ensure the block has been created.
+        $this->assertEquals(1, $DB->count_records('block_instances', array(
+            'parentcontextid' => $context->id
+        )));
+
+        // Apply a rule to delete the block.
         $rule = \tool_cat\rules\base::from_record(array(
             'id' => 1,
-            'category' => $course->category,
+            'category' => $this->course->category,
             'order' => 1,
             'rule' => 'delete',
             'target' => 'block',
-            'targetid' => 'html',
+            'targetid' => 'online_users',
             'datatype' => '',
             'data' => ''
         ));
         $rule->apply();
 
         // Ensure the block has been deleted.
+        $this->assertEquals(0, $DB->count_records('block_instances', array(
+            'parentcontextid' => $context->id
+        )));
     }
 }
