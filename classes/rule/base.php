@@ -80,15 +80,22 @@ abstract class base
      * @return array A list of courses.
      */
     public function get_courses() {
-        global $CFG;
+        global $CFG, $DB;
 
         require_once($CFG->libdir. '/coursecatlib.php');
 
         $coursecat = \coursecat::get($this->categoryid);
-
-        return $coursecat->get_courses(array(
-            'recursive' => true
+        $courselist = $coursecat->get_courses(array(
+            'recursive' => true,
+            'idonly' => true
         ));
+
+        $courses = array();
+        foreach ($courselist as $courseitem) {
+            $courses[] = $DB->get_record('course', array('id' => $courseitem));
+        }
+
+        return $courses;
     }
 
     /**

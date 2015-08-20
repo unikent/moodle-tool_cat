@@ -143,7 +143,7 @@ class tool_cat_block_tests extends \advanced_testcase
             'blockname' => 'html'
         ));
 
-        $this->assertLessThan($htmlweight, $feedbackweight);
+        $this->assertLessThan($feedbackweight, $htmlweight);
 
         // Ensure the block has been created.
         $this->assertEquals($before + 2, $DB->count_records('block_instances', array(
