@@ -32,7 +32,7 @@ require_once("$CFG->libdir/coursecatlib.php");
  * Category admin tool recyclebin.
  *
  * @package    tool_cat
- * @copyright  2014 University of Kent
+ * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class recyclebin
