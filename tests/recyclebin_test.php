@@ -19,7 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Tests the category manager
  */
-class tool_cat_tests extends \advanced_testcase
+class tool_cat_recyclebin_tests extends \advanced_testcase
 {
     /**
      * Create a course, move it to the deleted category and see what happens.

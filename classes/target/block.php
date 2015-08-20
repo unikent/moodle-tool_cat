@@ -41,9 +41,7 @@ class block extends base
      * @return array An array of valid datatypes.
      */
     public function get_supported_datatypes() {
-        return array(
-            'block'
-        );
+        return array();
     }
 
     /**
@@ -52,7 +50,11 @@ class block extends base
      * @param array $courses All courses we should be effecting.
      */
     public function delete($courses) {
-        $block = $this->get_target();
+        global $CFG;
+
+        require_once($CFG->libdir . "/blocklib.php");
+
+        $block = $this->get_identifier();
 
         // Our target is the name of a block.
         // We now want to delete all blocks with that name.

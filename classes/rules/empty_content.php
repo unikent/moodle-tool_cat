@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\rules;
+namespace tool_cat\rule;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -36,6 +36,13 @@ defined('MOODLE_INTERNAL') || die();
  */
 class empty_content extends base
 {
+    /**
+     * Apply the rule.
+     */
+    public function apply() {
+        // TODO.
+    }
+
     /**
      * Return a list of targets this rule supports.
      *

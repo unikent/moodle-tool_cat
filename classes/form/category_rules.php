@@ -39,7 +39,9 @@ class category_rules extends \moodleform
      * Form definition
      */
     public function definition() {
-        global $PAGE;
+        global $CFG, $PAGE;
+
+        require_once($CFG->libdir. '/coursecatlib.php');
 
         $PAGE->requires->js_call_amd('tool_cat/form', 'init', array());
 
@@ -47,7 +49,7 @@ class category_rules extends \moodleform
 
         // Select a category.
         $mform->addElement('header', 'info', 'Category');
-        $categories = $this->get_categories();
+        $categories = \coursecat::make_categories_list('tool/cat:manage');
         $mform->addElement('select', 'category', 'Category', array_merge(array('0' => 'Please select a category'), $categories));
 
         $mform->registerNoSubmitButton('updaterules');
@@ -65,39 +67,5 @@ class category_rules extends \moodleform
         // TODO.
 
         $this->add_action_buttons(true);
-    }
-
-    /**
-     * Return all categories we are enrolled in.
-     */
-    public function get_categories() {
-        global $DB;
-
-        $contextpreload = \context_helper::get_preload_record_columns_sql('x');
-
-        $categories = array();
-        $rs = $DB->get_recordset_sql("
-            SELECT cc.id, cc.name, $contextpreload
-            FROM {course_categories} cc
-            INNER JOIN {context} x
-                ON (
-                    cc.id=x.instanceid
-                    AND x.contextlevel=:ctxlevel
-                )
-            ", array('ctxlevel' => \CONTEXT_COURSECAT)
-        );
-
-        // Check capability for each category in turn.
-        foreach ($rs as $category) {
-            \context_helper::preload_from_record($category);
-            $context = \context_coursecat::instance($category->id);
-            if (has_capability('tool/cat:manage', $context)) {
-                $categories[$category->id] = $category->name;
-            }
-        }
-
-        $rs->close();
-
-        return $categories;
     }
 }

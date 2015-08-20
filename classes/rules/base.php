@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\rules;
+namespace tool_cat\rule;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -35,6 +35,51 @@ defined('MOODLE_INTERNAL') || die();
  */
 abstract class rule
 {
+    private $categoyid;
+    protected $target;
+    protected $datatype;
+
+    /**
+     * Create a new rule object from record.
+     */
+    public static function from_record($record) {
+        $ruletype = preg_match('/[A-Za-z_]/', $record->rule);
+
+        $target = preg_match('/[A-Za-z_]/', $record->target);
+        $target = "\\tool_cat\\target\\" . preg_match('/[A-Za-z_]/', $record->target);
+
+        $datatype = preg_match('/[A-Za-z_]/', $record->datatype);
+        $datatype = "\\tool_cat\\datatype\\" . preg_match('/[A-Za-z_]/', $record->datatype);
+
+        $obj = new $ruletype();
+        $obj->categoryid = $record->categoryid;
+        $obj->target = new $target($record->targetid);
+        $obj->datatype = new $datatype($record->data);
+
+        return $obj;
+    }
+
+    /**
+     * Return all courses this rule applies to.
+     *
+     * @return array A list of courses.
+     */
+    public function get_courses() {
+        global $CFG;
+
+        require_once($CFG->libdir. '/coursecatlib.php');
+
+        $coursecat = coursecat::get($this->categoryid);
+
+        return $coursecat->get_courses(array(
+            'recursive' => true
+        ));
+    }
+
+    /**
+     * Apply the rule.
+     */
+    public abstract function apply();
 
     /**
      * Return a list of targets this rule supports.
