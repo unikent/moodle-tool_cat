@@ -45,4 +45,25 @@ class block_region extends base
             'block'
         );
     }
+
+    /**
+     * Apply the append rule.
+     */
+    public function append_to($courses) {
+        // TODO.
+    }
+
+    /**
+     * Apply the prepend rule.
+     */
+    public function prepend_to($courses) {
+        // TODO.
+    }
+
+    /**
+     * Apply the empty content rule.
+     */
+    public function empty_content($courses) {
+        // TODO.
+    }
 }

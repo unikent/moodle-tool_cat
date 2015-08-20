@@ -45,4 +45,32 @@ class section extends base
             'activity', 'text'
         );
     }
+
+    /**
+     * Apply the append rule.
+     */
+    public function append_to($courses) {
+        // TODO.
+    }
+
+    /**
+     * Apply the prepend rule.
+     */
+    public function prepend_to($courses) {
+        // TODO.
+    }
+
+    /**
+     * Apply the delete rule.
+     */
+    public function delete($courses) {
+        // TODO.
+    }
+
+    /**
+     * Apply the empty content rule.
+     */
+    public function empty_content($courses) {
+        // TODO.
+    }
 }
