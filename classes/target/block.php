@@ -36,17 +36,6 @@ defined('MOODLE_INTERNAL') || die();
 class block extends base
 {
     /**
-     * Return a list of rules this target supports.
-     *
-     * @return array An array of valid rules.
-     */
-    public function get_supported_rules() {
-        return array(
-            'delete'
-        );
-    }
-
-    /**
      * Return a list of datatypes this target supports.
      *
      * @return array An array of valid datatypes.

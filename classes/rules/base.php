@@ -35,4 +35,11 @@ defined('MOODLE_INTERNAL') || die();
  */
 abstract class rule
 {
+
+    /**
+     * Return a list of targets this rule supports.
+     *
+     * @return array An array of valid targets.
+     */
+    public abstract function get_supported_targets();
 }

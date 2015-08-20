@@ -15,50 +15,35 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Category admin tool.
+ * Category admin tool rules.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat;
+namespace tool_cat\rules;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Category admin tool target.
+ * Category admin tool empty_content rule.
+ * Deletes all content from a target.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class base
+class empty_content extends base
 {
-    protected $identifier;
-
     /**
-     * Set our target identifier.
+     * Return a list of targets this rule supports.
      *
-     * @param int $identifier Target identifier.
+     * @return array An array of valid targets.
      */
-    public function set_identifier($identifier) {
-        $this->identifier = $identifier;
+    public function get_supported_targets() {
+        return array(
+            'section', 'block_region'
+        );
     }
-
-    /**
-     * Return the identifier of the target.
-     *
-     * @return int The identifier of the target.
-     */
-    public function get_identifier() {
-        return $this->identifier;
-    }
-
-    /**
-     * Return a list of datatypes this target supports.
-     *
-     * @return array An array of valid datatypes.
-     */
-    public abstract function get_supported_datatypes();
 }

@@ -36,4 +36,14 @@ defined('MOODLE_INTERNAL') || die();
  */
 class prepend_to extends base
 {
+    /**
+     * Return a list of targets this rule supports.
+     *
+     * @return array An array of valid targets.
+     */
+    public function get_supported_targets() {
+        return array(
+            'block_region', 'section'
+        );
+    }
 }
