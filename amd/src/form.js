@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -14,22 +13,22 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Version information
- *
+/*
  * @package    tool_cat
- * @copyright  2015 University of Kent
+ * @copyright  2015 Skylar Kelty <S.Kelty@kent.ac.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'tool_cat';
-$plugin->version   = 2015081901;
-$plugin->requires  = 2014051200;
-$plugin->maturity = MATURITY_RC;
-$plugin->release = '1.0 (Build: 2015081900)';
-
-$plugin->dependencies = array(
-    'local_notifications' => 2015062500
-);
+ /**
+  * @module tool_cat/form
+  */
+define(['jquery'], function($) {
+    return {
+        init: function(callback) {
+			$("#id_updaterules").hide();
+			$("#id_category").on('change', function() {
+				$("#id_updaterules").click();
+			});
+        }
+    };
+});

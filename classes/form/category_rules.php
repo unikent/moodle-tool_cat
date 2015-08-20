@@ -39,12 +39,30 @@ class category_rules extends \moodleform
      * Form definition
      */
     public function definition() {
+        global $PAGE;
+
+        $PAGE->requires->js_call_amd('tool_cat/form', 'init', array());
+
         $mform =& $this->_form;
 
         // Select a category.
+        $mform->addElement('header', 'info', 'Category');
         $categories = $this->get_categories();
-        $mform->addElement('select', 'category', 'Category', $categories);
+        $mform->addElement('select', 'category', 'Category', array_merge(array('0' => 'Please select a category'), $categories));
 
+        $mform->registerNoSubmitButton('updaterules');
+        $mform->addElement('submit', 'updaterules', 'Update Rules', array('class' => 'hidden'));
+
+        $mform->addElement('header', 'rules', 'Rules');
+
+        // Do we have a category? If so, populate existing rules.
+        // TODO.
+
+        // Print a blank rule-add row.
+        // TODO.
+
+        // Print an "add another rule" link.
+        // TODO.
 
         $this->add_action_buttons(true);
     }
@@ -58,9 +76,16 @@ class category_rules extends \moodleform
         $contextpreload = \context_helper::get_preload_record_columns_sql('x');
 
         $categories = array();
-        $rs = $DB->get_recordset_sql("SELECT cc.id, cc.name, $contextpreload
-                                        FROM {course_categories} cc
-                                        JOIN {context} x ON (cc.id=x.instanceid AND x.contextlevel=".CONTEXT_COURSECAT.")");
+        $rs = $DB->get_recordset_sql("
+            SELECT cc.id, cc.name, $contextpreload
+            FROM {course_categories} cc
+            INNER JOIN {context} x
+                ON (
+                    cc.id=x.instanceid
+                    AND x.contextlevel=:ctxlevel
+                )
+            ", array('ctxlevel' => \CONTEXT_COURSECAT)
+        );
 
         // Check capability for each category in turn.
         foreach ($rs as $category) {
