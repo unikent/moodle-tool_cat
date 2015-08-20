@@ -35,4 +35,30 @@ defined('MOODLE_INTERNAL') || die();
  */
 abstract class base
 {
+    private $data;
+
+    /**
+     * Constructor.
+     */
+    public function __construct($data) {
+        $this->set_data($data);
+    }
+
+    /**
+     * Set our datatype data.
+     *
+     * @param int $data datatype data.
+     */
+    public function set_data($data) {
+        $this->data = $data;
+    }
+
+    /**
+     * Return the data of the datatype.
+     *
+     * @return int The data of the datatype.
+     */
+    public function get_data() {
+        return $this->data;
+    }
 }

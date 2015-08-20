@@ -45,16 +45,18 @@ abstract class rule
     public static function from_record($record) {
         $ruletype = preg_match('/[A-Za-z_]/', $record->rule);
 
-        $target = preg_match('/[A-Za-z_]/', $record->target);
-        $target = "\\tool_cat\\target\\" . preg_match('/[A-Za-z_]/', $record->target);
-
-        $datatype = preg_match('/[A-Za-z_]/', $record->datatype);
-        $datatype = "\\tool_cat\\datatype\\" . preg_match('/[A-Za-z_]/', $record->datatype);
-
         $obj = new $ruletype();
         $obj->categoryid = $record->categoryid;
+
+        $target = preg_match('/[A-Za-z_]/', $record->target);
+        $target = "\\tool_cat\\target\\" . preg_match('/[A-Za-z_]/', $record->target);
         $obj->target = new $target($record->targetid);
-        $obj->datatype = new $datatype($record->data);
+
+        if (!empty($record->datatype)) {
+            $datatype = preg_match('/[A-Za-z_]/', $record->datatype);
+            $datatype = "\\tool_cat\\datatype\\" . preg_match('/[A-Za-z_]/', $record->datatype);
+            $obj->datatype = new $datatype($record->data);
+        }
 
         return $obj;
     }

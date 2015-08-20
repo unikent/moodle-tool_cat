@@ -41,6 +41,7 @@ class delete extends base
      */
     public function apply() {
         $courses = $this->get_courses();
+        $this->target->delete($courses);
     }
 
     /**

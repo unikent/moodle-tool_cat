@@ -38,6 +38,13 @@ abstract class base
     protected $identifier;
 
     /**
+     * Constructor.
+     */
+    public function __construct($identifier) {
+        $this->set_identifier($identifier);
+    }
+
+    /**
      * Set our target identifier.
      *
      * @param int $identifier Target identifier.
