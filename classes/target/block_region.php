@@ -26,6 +26,8 @@ namespace tool_cat\target;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->libdir . "/blocklib.php");
+
 /**
  * Category admin tool block_region target.
  *
@@ -58,32 +60,63 @@ class block_region extends base
     }
 
     /**
+     * Adds a block to the given region for all courses.
+     */
+    private function add_block($courses, $region, $datatype, $prepend = false) {
+        foreach ($courses as $course) {
+            $blockmanager = $this->get_block_manager($course);
+            if (!$blockmanager->is_known_region($region)) {
+                $blockmanager->add_region($region);
+            }
+
+            $weight = 0;
+
+            // Move everything out the way, or find the new weight.
+            $currentblocks = $blockmanager->get_blocks_for_region($region);
+            foreach ($currentblocks as $instance) {
+                if ($prepend) {
+                    // Find the last position.
+                    $weight = $instance->weight + 1;
+                    continue;
+                }
+
+                // Move this one up.
+                $blockmanager->reposition_block($instance->id, $region, $instance->weight + 1);
+            }
+
+            // Add the block.
+            $blockmanager->add_block($datatype->get_data(), $region, $weight, false);
+        }
+    }
+
+    /**
      * Apply the append rule.
      */
     public function append_to($courses) {
+        $region = $this->get_identifier();
         $datatype = $this->get_datatype();
-        // TODO.
+
+        // For each course, append the block.
+        $this->add_blocks($courses, $region, $datatype);
     }
 
     /**
      * Delete all blocks in this region.
      */
     public function empty_content($courses) {
-        global $CFG;
-
-        require_once($CFG->libdir . "/blocklib.php");
-
         // Our target is the name of a block region.
         $region = $this->get_identifier();
 
         // For each course, delete all blocks.
         foreach ($courses as $course) {
             $blockmanager = $this->get_block_manager($course);
-            if ($blockmanager->is_known_region($region)) {
-                $instances = $blockmanager->get_blocks_for_region($region);
-                foreach ($instances as $instance) {
-                    blocks_delete_instance($instance);
-                }
+            if (!$blockmanager->is_known_region($region)) {
+                continue;
+            }
+
+            $instances = $blockmanager->get_blocks_for_region($region);
+            foreach ($instances as $instance) {
+                blocks_delete_instance($instance);
             }
         }
     }
@@ -92,7 +125,10 @@ class block_region extends base
      * Apply the prepend rule.
      */
     public function prepend_to($courses) {
+        $region = $this->get_identifier();
         $datatype = $this->get_datatype();
-        // TODO.
+
+        // For each course, prepend the block.
+        $this->add_blocks($courses, $region, $datatype, true);
     }
 }
