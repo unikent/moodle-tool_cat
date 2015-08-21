@@ -26,6 +26,10 @@ namespace tool_cat\datatype;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot . '/course/lib.php');
+require_once($CFG->dirroot . '/mod/aspirelists/lib.php');
+require_once($CFG->dirroot . '/mod/forum/lib.php');
+
 /**
  * Category admin tool activity data type.
  *
@@ -47,13 +51,104 @@ class activity extends base
     }
 
     /**
+     * Create a course module object.
+     */
+    private function create_cm($course, $section, $module, $instance) {
+        // Create a module container.
+        $cm = new \stdClass();
+        $cm->course     = $course->id;
+        $cm->module     = $module->id;
+        $cm->instance   = $instance->id;
+        $cm->section    = $section->id;
+        $cm->visible    = 1;
+
+        // Create the module.
+        $cm->id = add_course_module($cm);
+
+        return $cm;
+    }
+
+    /**
+     * Create a forum object.
+     */
+    private function get_forum($course, $name, $intro) {
+        global $DB;
+
+        // Create forum object.
+        $instance = $this->get_data();
+        $instance->course = $course->id;
+        $instance->type = 'general';
+        $instance->name = $name;
+        $instance->intro = $intro;
+        $instance->timemodified = time();
+        $instance->id = $DB->insert_record("forum", $instance);
+
+        return $instance;
+    }
+
+    /**
+     * Create an aspirelists object.
+     */
+    private function get_aspirelists($course, $name) {
+        return aspirelists_add_instance((object)array(
+            'course' => $course->id,
+            'name' => $name,
+            'intro' => '',
+            'introformat' => 1,
+            'category' => 'all',
+            'timemodified' => time()
+        ), null);
+    }
+
+    /**
+     * Create everything and return the cm but don't add it to the section.
+     */
+    private function get_cm($course, $section) {
+        global $DB;
+
+        $data = (object)$this->get_data();
+
+        // Get the module.
+        $module = $DB->get_record('modules', array(
+            'name' => $data->type
+        ), '*', \MUST_EXIST);
+
+        // Create our instance.
+        $instance = null;
+        switch ($data->type) {
+            case 'forum':
+                $instance = $this->get_forum($course, $data->name, $data->intro);
+            break;
+
+            case 'aspirelists':
+                $instance = $this->get_aspirelists($course, $data->name);
+            break;
+
+            default:
+            throw new \moodle_exception('Invalid activity type.');
+        }
+
+        // Create the cm.
+        return $this->create_cm($course, $section, $module, $instance);
+    }
+
+    /**
      * Append an activity to the given course/section.
      *
      * @param  stdClass $course        The course to apply to.
      * @param  int      $sectionident  The section number to apply to (not ID).
      */
     public function append_to_section($course, $sectionident) {
-        // TODO.
+        global $DB;
+
+        // Find the section.
+        $section = $DB->get_record('course_section', array(
+            'course' => $course->id,
+            'section' => $sectionident
+        ));
+
+        $cm = $this->get_cm($course, $section);
+        course_add_cm_to_section($course->id, $cm->id, $section->section);
     }
 
     /**
@@ -63,6 +158,22 @@ class activity extends base
      * @param  int      $sectionident  The section number to apply to (not ID).
      */
     public function prepend_to_section($course, $sectionident) {
-        // TODO.
+        global $DB;
+
+        // Find the section.
+        $section = $DB->get_record('course_section', array(
+            'course' => $course->id,
+            'section' => $sectionident
+        ));
+
+        // Find the first element in the section.
+        $pos = null;
+        $seq = explode(',', $section->sequence);
+        if (!empty($sql)) {
+            $pos = reset($seq);
+        }
+
+        $cm = $this->get_cm($course, $section);
+        course_add_cm_to_section($course->id, $cm->id, $section->section, $pos);
     }
 }
