@@ -51,6 +51,36 @@ class tool_cat_course_tests extends \advanced_testcase
     /**
      * Test the course append rule.
      */
+    public function test_course_append_news() {
+        global $DB;
+
+        $this->assertEmpty($DB->get_field('course_sections', 'sequence', array(
+            'course' => $this->course->id,
+            'section' => 0
+        )));
+
+        // Apply a rule to delete the section.
+        $rule = \tool_cat\rule\base::from_record(array(
+            'id' => 1,
+            'order' => 1,
+            'rule' => 'append_to',
+            'target' => 'course',
+            'targetid' => $this->course->id,
+            'datatype' => 'news',
+            'data' => serialize('')
+        ));
+        $rule->apply(array($this->course));
+
+        // Ensure the forum has been created.
+        $this->assertNotEmpty($DB->get_field('course_sections', 'sequence', array(
+            'course' => $this->course->id,
+            'section' => 0
+        )));
+    }
+
+    /**
+     * Test the course append rule.
+     */
     public function test_course_append() {
         global $DB;
 

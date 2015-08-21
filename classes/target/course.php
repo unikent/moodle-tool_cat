@@ -44,7 +44,7 @@ class course extends base
      */
     public function get_supported_datatypes() {
         return array(
-            'section'
+            'section', 'news'
         );
     }
 
@@ -70,8 +70,17 @@ class course extends base
      * Append a section.
      */
     public function append_to($courses) {
-        $section = (object)$this->datatype->get_data();
+        // Special case for news.
+        if (get_class($this->datatype) == 'tool_cat\\datatype\\news') {
+            foreach ($courses as $course) {
+                $this->datatype->add_to_course($course);
+            }
 
+            return;
+        }
+
+        // Not news! Add a section.
+        $section = (object)$this->datatype->get_data();
         foreach ($courses as $course) {
             $this->create_section($course, $section);
         }
