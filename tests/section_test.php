@@ -46,7 +46,7 @@ class tool_cat_section_tests extends \advanced_testcase
             'course' => $this->course->id
         ));
 
-        $this->assertGreaterThan(4, $before);
+        $this->assertEquals(10, $before);
 
         // Apply a rule to delete the section.
         $rule = \tool_cat\rule\base::from_record(array(

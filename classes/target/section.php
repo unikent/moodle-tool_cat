@@ -65,19 +65,39 @@ class section extends base
      */
     public function append_to($courses) {
         $sectionident = $this->get_identifier();
-        // TODO.
+
+        foreach ($courses as $course) {
+            $this->datatype->append_to_section($course, $sectionident);
+        }
     }
 
     /**
      * Delete a section.
      */
     public function delete($courses) {
+        global $DB;
+
+        // Get the section identifier.
         $sectionident = $this->get_identifier();
+        if ($sectionident == 0) {
+            throw new \moodle_exception("Cannot delete section 0.");
+        }
 
         // We have a section number, delete that section.
         foreach ($courses as $course) {
+            // Get the last section id.
+            $lastid = $DB->get_field('course_sections', 'MAX(section)', array(
+                'course' => $course->id
+            ));
+
+            // Move this to be the last section.
+            move_section_to($course, $sectionident, $lastid + 1, true);
+
+            // Get section info, the number of sections won't have changed so we are now $lastid.
             $modinfo = get_fast_modinfo($course);
-            $section = $modinfo->get_section_info($sectionident);
+            $section = $modinfo->get_section_info($lastid);
+
+            // Delete it.
             course_delete_section($course, $section);
         }
     }
@@ -110,6 +130,9 @@ class section extends base
      */
     public function prepend_to($courses) {
         $sectionident = $this->get_identifier();
-        // TODO.
+
+        foreach ($courses as $course) {
+            $this->datatype->prepend_to_section($course, $sectionident);
+        }
     }
 }

@@ -35,4 +35,23 @@ defined('MOODLE_INTERNAL') || die();
  */
 class activity extends base
 {
+    /**
+     * Append an activity to the given course/section.
+     *
+     * @param  stdClass $course        The course to apply to.
+     * @param  int      $sectionident  The section number to apply to (not ID).
+     */
+    public function append_to_section($course, $sectionident) {
+        // TODO.
+    }
+
+    /**
+     * Prepend an activity to the given course/section.
+     *
+     * @param  stdClass $course        The course to apply to.
+     * @param  int      $sectionident  The section number to apply to (not ID).
+     */
+    public function prepend_to_section($course, $sectionident) {
+        // TODO.
+    }
 }

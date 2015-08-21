@@ -36,4 +36,36 @@ defined('MOODLE_INTERNAL') || die();
  */
 class text extends base
 {
+    /**
+     * Render a mustache template.
+     *
+     * @param  string   $text     The text to render.
+     * @param  stdClass $context  Mustache variables.
+     * @return string             The rendered text.
+     */
+    private function render_template($text, $context) {
+        // TODO.
+
+        return $text;
+    }
+
+    /**
+     * Append this text to the given course/section.
+     *
+     * @param  stdClass $course        The course to apply to.
+     * @param  int      $sectionident  The section number to apply to (not ID).
+     */
+    public function append_to_section($course, $sectionident) {
+        // TODO.
+    }
+
+    /**
+     * Prepend this text to the given course/section.
+     *
+     * @param  stdClass $course        The course to apply to.
+     * @param  int      $sectionident  The section number to apply to (not ID).
+     */
+    public function prepend_to_section($course, $sectionident) {
+        // TODO.
+    }
 }
