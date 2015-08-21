@@ -26,6 +26,7 @@ namespace tool_cat\activity;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->libdir  . '/resourcelib.php');
 require_once($CFG->dirroot . '/mod/url/lib.php');
 
 /**
@@ -49,8 +50,9 @@ class url extends base
         $instance = new \stdClass();
         $instance->course       = $course->id;
         $instance->name         = $data->name;
-        $instance->intro        = $data->intro;
+        $instance->intro        = isset($data->intro) ? $data->intro : null;
         $instance->introformat  = \FORMAT_HTML;
+        $instance->display      = \RESOURCELIB_DISPLAY_AUTO;
         $instance->externalurl  = $data->url;
 
         $instance->id = url_add_instance($instance, null);

@@ -283,6 +283,65 @@ class tool_cat_section_tests extends \advanced_testcase
     }
 
     /**
+     * Test the section append rule on the url activity.
+     */
+    public function test_section_url() {
+        global $DB;
+
+        $this->assertEmpty($DB->get_field('course_sections', 'sequence', array(
+            'course' => $this->course->id,
+            'section' => 1
+        )));
+
+        // Apply a rule to append to the section.
+        $rule = \tool_cat\rule\base::from_record(array(
+            'id' => 1,
+            'order' => 1,
+            'rule' => 'append_to',
+            'target' => 'section',
+            'targetid' => '1',
+            'datatype' => 'activity',
+            'data' => serialize(array(
+                'type' => 'url',
+                'name' => 'URL',
+                'url' => 'http://www.google.com'
+            ))
+        ));
+        $rule->apply(array($this->course));
+
+        // Apply a rule to prepend to the section.
+        $rule = \tool_cat\rule\base::from_record(array(
+            'id' => 1,
+            'order' => 1,
+            'rule' => 'prepend_to',
+            'target' => 'section',
+            'targetid' => '1',
+            'datatype' => 'activity',
+            'data' => serialize(array(
+                'type' => 'url',
+                'name' => 'Main URL',
+                'url' => 'http://www.google.com'
+            ))
+        ));
+        $rule->apply(array($this->course));
+
+        $this->assertNotEmpty($DB->get_field('course_sections', 'sequence', array(
+            'course' => $this->course->id,
+            'section' => 1
+        )));
+
+        // Get modinfo.
+        $modinfo = get_fast_modinfo($this->course);
+        $section = $modinfo->get_section_info(1);
+        $seq = explode(',', $section->sequence);
+
+        // Make sure seq[0] name is the prepended one.
+        $cm = $modinfo->cms[$seq[0]];
+
+        $this->assertEquals('Main URL', $cm->name);
+    }
+
+    /**
      * Test the section delete rule.
      */
     public function test_section_delete() {
