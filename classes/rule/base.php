@@ -90,9 +90,23 @@ abstract class base
             'idonly' => true
         ));
 
-        $courses = array();
-        foreach ($courselist as $courseitem) {
-            $courses[] = $DB->get_record('course', array('id' => $courseitem));
+        // Generate the SQL.
+        list($sql, $params) = $DB->get_in_or_equal($courselist);
+        $ctxlevel = \CONTEXT_COURSE;
+        $preload = \context_helper::get_preload_record_columns_sql('ctx');
+
+        $sql = <<<SQL
+            SELECT c.*, $preload
+            FROM {course} c
+            INNER JOIN {context} ctx
+                ON ctx.instanceid = c.id AND ctx.contextlevel = $ctxlevel
+            WHERE c.id $sql
+SQL;
+
+        // Get the courses and preload contexts.
+        $courses = $DB->get_records_sql($sql, $params);
+        foreach ($courses as $course) {
+            \context_helper::preload_from_record($course);
         }
 
         return $courses;
