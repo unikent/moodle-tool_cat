@@ -57,7 +57,7 @@ class tool_cat_section_tests extends \advanced_testcase
             'target' => 'section',
             'targetid' => '3',
             'datatype' => '',
-            'data' => ''
+            'data' => serialize('')
         ));
         $rule->apply();
 

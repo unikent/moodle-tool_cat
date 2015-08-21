@@ -55,9 +55,11 @@ class section extends base
         global $DB;
 
         $section = (object)$section;
-        $section->id = $DB->insert_record('course_sections', $section);
+        $section->course = $course->id;
 
-        rebuild_course_cache($course, true);
+        $DB->insert_record('course_sections', $section);
+
+        rebuild_course_cache($course->id, true);
     }
 
     /**

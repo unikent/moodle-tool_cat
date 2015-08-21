@@ -74,7 +74,7 @@ class tool_cat_block_tests extends \advanced_testcase
             'target' => 'block_region',
             'targetid' => \BLOCK_POS_RIGHT,
             'datatype' => '',
-            'data' => ''
+            'data' => serialize('')
         ));
         $rule->apply();
 
@@ -111,7 +111,7 @@ class tool_cat_block_tests extends \advanced_testcase
             'target' => 'block_region',
             'targetid' => \BLOCK_POS_RIGHT,
             'datatype' => 'block',
-            'data' => 'feedback'
+            'data' => serialize('feedback')
         ));
         $rule->apply();
 
@@ -124,7 +124,7 @@ class tool_cat_block_tests extends \advanced_testcase
             'target' => 'block_region',
             'targetid' => \BLOCK_POS_RIGHT,
             'datatype' => 'block',
-            'data' => 'html'
+            'data' => serialize('html')
         ));
         $rule->apply();
 

@@ -68,7 +68,7 @@ class tool_cat_block_tests extends \advanced_testcase
             'target' => 'block',
             'targetid' => 'online_users',
             'datatype' => '',
-            'data' => ''
+            'data' => serialize('')
         ));
         $rule->apply();
 

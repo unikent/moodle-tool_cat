@@ -52,27 +52,17 @@ class course extends base
      * Create a section.
      */
     private function create_section($course, $section, $prepend = false) {
-        $modinfo = get_fast_modinfo($course);
-        $sections = $modinfo->get_section_info_all();
+        global $DB;
 
-        $sectionnumber = 0;
-        foreach ($sections as $section) {
-            if ($section->section > $sectionnumber) {
-                $sectionnumber = $section->section + 1;
-            }
-        }
-
-        section::create_section($course, array(
-            'section' => $sectionnumber,
-            'name' => $section->name,
-            'visible' => $section->visible,
-            'summary' => $section->summary,
-            'summaryformat' => $section->summaryformat,
-            'availability' => $section->availability
+        $maxid = $DB->get_field('course_sections', 'MAX(section)', array(
+            'course' => $course->id
         ));
 
+        $section->section = $maxid + 1;
+        section::create_section($course, $section);
+
         if ($prepend) {
-            move_section_to($course, $sectionnumber, 0);
+            move_section_to($course, $section->section, 0);
         }
     }
 
@@ -80,7 +70,8 @@ class course extends base
      * Append a section.
      */
     public function append_to($courses) {
-        $section = $this->datatype->get_data();
+        $section = (object)$this->datatype->get_data();
+
         foreach ($courses as $course) {
             $this->create_section($course, $section);
         }
@@ -99,7 +90,8 @@ class course extends base
      * Prepend a section.
      */
     public function prepend_to($courses) {
-        $section = $this->datatype->get_section();
+        $section = (object)$this->datatype->get_data();
+
         foreach ($courses as $course) {
             $this->create_section($course, $section, true);
         }
