@@ -75,7 +75,7 @@ class activity extends base
         global $DB;
 
         // Create forum object.
-        $instance = $this->get_data();
+        $instance = new \stdClass();
         $instance->course = $course->id;
         $instance->type = 'general';
         $instance->name = $name;
@@ -142,7 +142,7 @@ class activity extends base
         global $DB;
 
         // Find the section.
-        $section = $DB->get_record('course_section', array(
+        $section = $DB->get_record('course_sections', array(
             'course' => $course->id,
             'section' => $sectionident
         ));
@@ -161,7 +161,7 @@ class activity extends base
         global $DB;
 
         // Find the section.
-        $section = $DB->get_record('course_section', array(
+        $section = $DB->get_record('course_sections', array(
             'course' => $course->id,
             'section' => $sectionident
         ));
@@ -169,7 +169,7 @@ class activity extends base
         // Find the first element in the section.
         $pos = null;
         $seq = explode(',', $section->sequence);
-        if (!empty($sql)) {
+        if (!empty($seq)) {
             $pos = reset($seq);
         }
 
