@@ -27,8 +27,6 @@ namespace tool_cat\datatype;
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/lib.php');
-require_once($CFG->dirroot . '/mod/aspirelists/lib.php');
-require_once($CFG->dirroot . '/mod/forum/lib.php');
 
 /**
  * Category admin tool activity data type.
@@ -46,7 +44,7 @@ class activity extends base
      */
     public function get_supported_activities() {
         return array(
-            'aspirelists', 'forum'
+            'aspirelists', 'forum', 'url'
         );
     }
 
@@ -74,49 +72,6 @@ class activity extends base
     }
 
     /**
-     * Create a forum object.
-     *
-     * @param  stdClass $course  The course to apply to.
-     * @param  string   $name    The name of the forum.
-     * @param  string   $intro   The intro of the forum.
-     */
-    private function get_forum($course, $name, $intro) {
-        global $DB;
-
-        // Create forum object.
-        $instance = new \stdClass();
-        $instance->course = $course->id;
-        $instance->type = 'general';
-        $instance->name = $name;
-        $instance->intro = $intro;
-        $instance->timemodified = time();
-        $instance->id = $DB->insert_record("forum", $instance);
-
-        return $instance;
-    }
-
-    /**
-     * Create an aspirelists object.
-     *
-     * @param  stdClass $course   The course to apply to.
-     * @param  string   $name     The name of the list.
-     */
-    private function get_aspirelists($course, $name) {
-        // Create aspirelists object.
-        $instance = new \stdClass();
-        $instance->course = $course->id;
-        $instance->name = $name;
-        $instance->intro = '';
-        $instance->introformat = 1;
-        $instance->category = 'all';
-        $instance->timemodified = time();
-
-        $instance->id = aspirelists_add_instance($instance, null);
-
-        return $instance;
-    }
-
-    /**
      * Create everything and return the cm but don't add it to the section.
      *
      * @param  stdClass $course   The course to apply to.
@@ -133,19 +88,8 @@ class activity extends base
         ), '*', \MUST_EXIST);
 
         // Create our instance.
-        $instance = null;
-        switch ($data->type) {
-            case 'forum':
-                $instance = $this->get_forum($course, $data->name, $data->intro);
-            break;
-
-            case 'aspirelists':
-                $instance = $this->get_aspirelists($course, $data->name);
-            break;
-
-            default:
-            throw new \moodle_exception('Invalid activity type.');
-        }
+        $activity = \tool_cat\activity\base::create_activity($data->type, serialize($data));
+        $instance = $activity->get_instance($course);
 
         // Create the cm.
         return $this->create_cm($course, $section, $module, $instance);
