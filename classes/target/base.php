@@ -46,6 +46,19 @@ abstract class base
     }
 
     /**
+     * Returns a target object, given a name.
+     */
+    public static function create_target($name, $identifier = '') {
+        // Sanity check.
+        if (!preg_match('/^([A-Za-z_]*)$/', $name)) {
+            throw new \moodle_exception("Invalid target.");
+        }
+
+        $target = "\\tool_cat\\target\\" . $name;
+        return new $target($identifier);
+    }
+
+    /**
      * Set our target identifier.
      *
      * @param int $identifier Target identifier.

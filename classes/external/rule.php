@@ -64,7 +64,12 @@ class rule extends external_api
      * @throws \invalid_parameter_exception
      */
     public static function get_rules() {
-        // TODO
+        return array(
+            'append_to',
+            'delete',
+            'empty_content',
+            'prepend_to'
+        );
     }
 
     /**
@@ -73,7 +78,7 @@ class rule extends external_api
      * @return external_description
      */
     public static function get_rules_returns() {
-        return new external_multiple_structure(new external_value(PARAM_RAW, 'A list of valid rules.'));
+        return new external_multiple_structure(new external_value(PARAM_ALPHANUMEXT, 'A list of valid rules.'));
     }
 
     /**
@@ -108,7 +113,15 @@ class rule extends external_api
      * @throws \invalid_parameter_exception
      */
     public static function get_category_rules($category) {
-        // TODO
+        global $DB;
+
+        $params = self::validate_parameters(self::get_category_rules_parameters(), array(
+            'category' => $category
+        ));
+
+        return $DB->get_records('tool_cat_rules', array(
+            'categoryid' => $params['category']
+        ));
     }
 
     /**
@@ -117,7 +130,16 @@ class rule extends external_api
      * @return external_description
      */
     public static function get_category_rules_returns() {
-        return new external_multiple_structure(new external_value(PARAM_RAW, 'A list of existing rules for the category.'));
+        return new external_multiple_structure(new external_single_structure(array(
+            new external_value(PARAM_INT,         'ID'),
+            new external_value(PARAM_INT,         'Category'),
+            new external_value(PARAM_INT,         'Order'),
+            new external_value(PARAM_ALPHANUMEXT, 'Rule type'),
+            new external_value(PARAM_ALPHANUMEXT, 'Target type'),
+            new external_value(PARAM_RAW,         'Target identifier'),
+            new external_value(PARAM_ALPHANUMEXT, 'Data type'),
+            new external_value(PARAM_RAW,         'Data')
+        )));
     }
 
     /**
@@ -128,7 +150,7 @@ class rule extends external_api
     public static function get_targets_parameters() {
         return new external_function_parameters(array(
             'rule' => new external_value(
-                PARAM_RAW,
+                PARAM_ALPHANUMEXT,
                 'The rule classname to get valid targets for.',
                 VALUE_REQUIRED
             )
@@ -152,7 +174,12 @@ class rule extends external_api
      * @throws \invalid_parameter_exception
      */
     public static function get_targets($rule) {
-        // TODO
+        $params = self::validate_parameters(self::get_category_rules_parameters(), array(
+            'rule' => $rule
+        ));
+
+        $obj = \tool_cat\rule\base::create_rule($params['rule']);
+        return $obj->get_supported_targets();
     }
 
     /**
@@ -161,7 +188,7 @@ class rule extends external_api
      * @return external_description
      */
     public static function get_targets_returns() {
-        return new external_multiple_structure(new external_value(PARAM_RAW, 'A list of valid targets for a given rule.'));
+        return new external_multiple_structure(new external_value(PARAM_ALPHANUMEXT, 'A list of valid targets for a given rule.'));
     }
 
     /**
@@ -171,9 +198,9 @@ class rule extends external_api
      */
     public static function get_datatypes_parameters() {
         return new external_function_parameters(array(
-            'rule' => new external_value(
-                PARAM_RAW,
-                'The rule classname to get valid datatypes for.',
+            'target' => new external_value(
+                PARAM_ALPHANUMEXT,
+                'The target classname to get valid datatypes for.',
                 VALUE_REQUIRED
             )
         ));
@@ -189,14 +216,19 @@ class rule extends external_api
     }
 
     /**
-     * Returns a list of valid data types for a given rule.
+     * Returns a list of valid data types for a given target.
      *
-     * @param $rule
+     * @param $target
      * @return array [string]
      * @throws \invalid_parameter_exception
      */
-    public static function get_datatypes($rule) {
-        // TODO
+    public static function get_datatypes($target) {
+        $params = self::validate_parameters(self::get_category_rules_parameters(), array(
+            'target' => $target
+        ));
+
+        $obj = \tool_cat\target\base::create_target($params['target']);
+        return $obj->get_supported_datatypes();
     }
 
     /**
@@ -205,6 +237,6 @@ class rule extends external_api
      * @return external_description
      */
     public static function get_datatypes_returns() {
-        return new external_multiple_structure(new external_value(PARAM_RAW, 'A list of valid data types for a given rule.'));
+        return new external_multiple_structure(new external_value(PARAM_ALPHANUMEXT, 'A list of valid data types for a given target.'));
     }
 }

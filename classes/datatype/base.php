@@ -45,6 +45,19 @@ abstract class base
     }
 
     /**
+     * Return a datatype object, given a name.
+     */
+    public static function create_datatype($name, $data = '') {
+        // Sanity check.
+        if (!preg_match('/^([A-Za-z_]*)$/', $name)) {
+            throw new \moodle_exception("Invalid datatype.");
+        }
+
+        $datatype = "\\tool_cat\\datatype\\" . $name;
+        return new $datatype($data);
+    }
+
+    /**
      * Set our datatype data.
      *
      * @param int $data datatype data.

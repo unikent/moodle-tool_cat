@@ -38,35 +38,31 @@ abstract class base
     protected $target;
 
     /**
+     * Return a rule object, given a name.
+     */
+    public static function create_rule($name) {
+        // Sanity check.
+        if (!preg_match('/^([A-Za-z_]*)$/', $name)) {
+            throw new \moodle_exception("Invalid rule.");
+        }
+
+        $ruletype = "\\tool_cat\\rule\\" . $name;
+        return new $ruletype();
+    }
+
+    /**
      * Create a new rule object from record.
      */
     public static function from_record($record) {
         $record = (object)$record;
 
-        // Sanity checks.
-        if (!preg_match('/^([A-Za-z_]*)$/', $record->rule)) {
-            throw new \moodle_exception("Invalid rule.");
-        }
-
-        if (!preg_match('/^([A-Za-z_]*)$/', $record->target)) {
-            throw new \moodle_exception("Invalid target.");
-        }
-
-        $ruletype = "\\tool_cat\\rule\\" . $record->rule;
-        $obj = new $ruletype();
-
-        // Add a target.
-        $target = "\\tool_cat\\target\\" . $record->target;
-        $obj->target = new $target($record->targetid);
+        $obj = static::create_rule($record->rule);
+        $obj->target = \tool_cat\target\base::create_target($record->target, $record->targetid);
 
         // Add a datatype to the rule if we have one.
         if (!empty($record->datatype)) {
-            if (!preg_match('/^([A-Za-z_]*)$/', $record->datatype)) {
-                throw new \moodle_exception("Invalid datatype.");
-            }
-
-            $datatype = "\\tool_cat\\datatype\\" . $record->datatype;
-            $obj->target->set_datatype(new $datatype($record->data));
+            $datatype = \tool_cat\datatype\base::create_datatype($record->datatype, $record->data);
+            $obj->target->set_datatype($datatype);
         }
 
         return $obj;
