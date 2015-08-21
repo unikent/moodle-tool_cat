@@ -90,14 +90,18 @@ class activity extends base
      * Create an aspirelists object.
      */
     private function get_aspirelists($course, $name) {
-        return aspirelists_add_instance((object)array(
-            'course' => $course->id,
-            'name' => $name,
-            'intro' => '',
-            'introformat' => 1,
-            'category' => 'all',
-            'timemodified' => time()
-        ), null);
+        // Create aspirelists object.
+        $instance = new \stdClass();
+        $instance->course = $course->id;
+        $instance->name = $name;
+        $instance->intro = '';
+        $instance->introformat = 1;
+        $instance->category = 'all';
+        $instance->timemodified = time();
+
+        $instance->id = aspirelists_add_instance($instance, null);
+
+        return $instance;
     }
 
     /**
