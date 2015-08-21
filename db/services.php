@@ -28,7 +28,8 @@ $services = array(
             'tool_cat_get_rules',
             'tool_cat_get_category_rules',
             'tool_cat_get_targets',
-            'tool_cat_get_datatypes'
+            'tool_cat_get_datatypes',
+            'tool_cat_get_activities'
         ),
         'requiredcapability' => 'tool/cat:manage',
         'restrictedusers' => 0,
@@ -59,6 +60,12 @@ $functions = array(
         'classname'   => 'tool_cat\external\rule',
         'methodname'  => 'get_datatypes',
         'description' => 'Get datatypes.',
+        'type'        => 'read'
+    ),
+    'tool_cat_get_activities' => array(
+        'classname'   => 'tool_cat\external\rule',
+        'methodname'  => 'get_activities',
+        'description' => 'Get activities.',
         'type'        => 'read'
     )
 );

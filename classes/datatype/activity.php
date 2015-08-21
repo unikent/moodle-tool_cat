@@ -36,6 +36,17 @@ defined('MOODLE_INTERNAL') || die();
 class activity extends base
 {
     /**
+     * Return a list of datatypes this target supports.
+     *
+     * @return array An array of valid datatypes.
+     */
+    public function get_supported_activities() {
+        return array(
+            'aspirelists', 'forum'
+        );
+    }
+
+    /**
      * Append an activity to the given course/section.
      *
      * @param  stdClass $course        The course to apply to.

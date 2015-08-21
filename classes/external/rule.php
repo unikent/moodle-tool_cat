@@ -174,7 +174,7 @@ class rule extends external_api
      * @throws \invalid_parameter_exception
      */
     public static function get_targets($rule) {
-        $params = self::validate_parameters(self::get_category_rules_parameters(), array(
+        $params = self::validate_parameters(self::get_targets_parameters(), array(
             'rule' => $rule
         ));
 
@@ -223,7 +223,7 @@ class rule extends external_api
      * @throws \invalid_parameter_exception
      */
     public static function get_datatypes($target) {
-        $params = self::validate_parameters(self::get_category_rules_parameters(), array(
+        $params = self::validate_parameters(self::get_datatypes_parameters(), array(
             'target' => $target
         ));
 
@@ -238,5 +238,44 @@ class rule extends external_api
      */
     public static function get_datatypes_returns() {
         return new external_multiple_structure(new external_value(PARAM_ALPHANUMEXT, 'A list of valid data types for a given target.'));
+    }
+
+    /**
+     * Returns description of method parameters.
+     *
+     * @return external_function_parameters
+     */
+    public static function get_activities_parameters() {
+        return new external_function_parameters(array());
+    }
+
+    /**
+     * Expose to AJAX.
+     *
+     * @return boolean
+     */
+    public static function get_activities_is_allowed_from_ajax() {
+        return true;
+    }
+
+    /**
+     * Returns a list of valid activities for a the activity target.
+     *
+     * @param $target
+     * @return array [string]
+     * @throws \invalid_parameter_exception
+     */
+    public static function get_activities($target) {
+        $obj = \tool_cat\datatype\base::create_target('activity');
+        return $obj->get_supported_activities();
+    }
+
+    /**
+     * Returns description of get_activities() result value.
+     *
+     * @return external_description
+     */
+    public static function get_activities_returns() {
+        return new external_multiple_structure(new external_value(PARAM_ALPHANUMEXT, 'A list of valid activities for a given data type.'));
     }
 }
