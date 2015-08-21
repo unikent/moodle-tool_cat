@@ -34,37 +34,20 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class text extends base
+class template extends text
 {
     /**
-     * Get the section text for a course.
+     * Render a mustache template.
      *
-     * @param  stdClass $course        The course to apply to.
-     * @param  int      $sectionident  The section number to apply to (not ID).
-     * @return string                  The current section text.
+     * @param  string   $text     The text to render.
+     * @param  stdClass $context  Mustache variables.
+     * @return string             The rendered text.
      */
-    public function get_section_text($course, $sectionident) {
-        global $DB;
+    private function render_template($text, $context) {
+        global $PAGE;
 
-        return $DB->get_field('course_sections', 'summary', array(
-            'course' => $course->id,
-            'section' => $sectionident
-        ));
-    }
-    /**
-     * Get the section text for a course.
-     *
-     * @param  stdClass $course        The course to apply to.
-     * @param  int      $sectionident  The section number to apply to (not ID).
-     * @param  string   $text          The new section text.
-     */
-    public function set_section_text($course, $sectionident, $text) {
-        global $DB;
-
-        $DB->set_field('course_sections', 'summary', $text, array(
-            'course' => $course->id,
-            'section' => $sectionident
-        ));
+        $renderer = $PAGE->get_renderer('tool_cat');
+        return $renderer->render_mustache_string($text, $context);
     }
 
     /**
@@ -74,8 +57,10 @@ class text extends base
      * @param  int      $sectionident  The section number to apply to (not ID).
      */
     public function append_to_section($course, $sectionident) {
+        $data = $this->get_data();
+
         $text = $this->get_section_text($course, $sectionident);
-        $text .= $this->get_data();
+        $text .= $this->render_template($data, $course);
         $this->set_section_text($course, $sectionident, $text);
     }
 
@@ -86,7 +71,9 @@ class text extends base
      * @param  int      $sectionident  The section number to apply to (not ID).
      */
     public function prepend_to_section($course, $sectionident) {
-        $text = $this->get_data();
+        $data = $this->get_data();
+
+        $text = $this->render_template($data, $course);
         $text .= $this->get_section_text($course, $sectionident);
         $this->set_section_text($course, $sectionident, $text);
     }

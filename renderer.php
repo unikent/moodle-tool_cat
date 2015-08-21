@@ -15,32 +15,30 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Category admin tool index.
+ * Output rendering of category admin tool.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__) . '/../../../config.php');
-require_once($CFG->libdir . '/adminlib.php');
+defined('MOODLE_INTERNAL') || die();
 
-admin_externalpage_setup('categoryadmintool');
-
-$PAGE->set_context(\context_system::instance());
-$PAGE->set_url('/admin/tool/cat/recyclebin.php');
-
-echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('pluginname', 'tool_cat'));
-
-echo $OUTPUT->box("Add a rule for courses within a category. This will be applied to current and future courses.");
-
-$renderer = $PAGE->get_renderer('tool_cat');
-echo $renderer->render_mustache_string('{{test}}', array(
-    'test' => 'This is a test'
-));
-
-$form = new \tool_cat\form\category_rules();
-$form->display();
-
-echo $OUTPUT->footer();
+/**
+ * Rendering methods for the cat tool pages.
+ */
+class tool_cat_renderer extends plugin_renderer_base
+{
+    /**
+     * Render a mustache template.
+     *
+     * @param  string   $text     The text to render.
+     * @param  stdClass $context  Mustache variables.
+     * @return string             The rendered text.
+     */
+    public function render_mustache_string($text, $context) {
+        $mustache = $this->get_mustache();
+        $template = $mustache->loadLambda($text);
+        return $template->render($context);
+    }
+}

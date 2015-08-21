@@ -44,7 +44,7 @@ class section extends base
      */
     public function get_supported_datatypes() {
         return array(
-            'activity', 'text'
+            'activity', 'text', 'template'
         );
     }
 
