@@ -52,6 +52,11 @@ class activity extends base
 
     /**
      * Create a course module object.
+     *
+     * @param  stdClass $course     The course to apply to.
+     * @param  stdClass $section    The section to apply to.
+     * @param  stdClass $module     The module to apply to.
+     * @param  stdClass $instance   The instance to apply to.
      */
     private function create_cm($course, $section, $module, $instance) {
         // Create a module container.
@@ -70,6 +75,10 @@ class activity extends base
 
     /**
      * Create a forum object.
+     *
+     * @param  stdClass $course  The course to apply to.
+     * @param  string   $name    The name of the forum.
+     * @param  string   $intro   The intro of the forum.
      */
     private function get_forum($course, $name, $intro) {
         global $DB;
@@ -88,6 +97,9 @@ class activity extends base
 
     /**
      * Create an aspirelists object.
+     *
+     * @param  stdClass $course   The course to apply to.
+     * @param  string   $name     The name of the list.
      */
     private function get_aspirelists($course, $name) {
         // Create aspirelists object.
@@ -106,6 +118,9 @@ class activity extends base
 
     /**
      * Create everything and return the cm but don't add it to the section.
+     *
+     * @param  stdClass $course   The course to apply to.
+     * @param  stdClass $section  The section to apply to.
      */
     private function get_cm($course, $section) {
         global $DB;
