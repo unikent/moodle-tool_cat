@@ -68,7 +68,6 @@ class tool_cat_block_tests extends \advanced_testcase
         // Apply a rule to delete the block.
         $rule = \tool_cat\rule\base::from_record(array(
             'id' => 1,
-            'categoryid' => $this->course->category,
             'order' => 1,
             'rule' => 'empty_content',
             'target' => 'block_region',
@@ -76,7 +75,7 @@ class tool_cat_block_tests extends \advanced_testcase
             'datatype' => '',
             'data' => serialize('')
         ));
-        $rule->apply();
+        $rule->apply(array($this->course));
 
         // Ensure the block has been deleted.
         $this->assertEquals(0, $DB->count_records('block_instances', array(
@@ -105,7 +104,6 @@ class tool_cat_block_tests extends \advanced_testcase
         // Apply a rule to append a block.
         $rule = \tool_cat\rule\base::from_record(array(
             'id' => 1,
-            'categoryid' => $this->course->category,
             'order' => 1,
             'rule' => 'append_to',
             'target' => 'block_region',
@@ -113,12 +111,11 @@ class tool_cat_block_tests extends \advanced_testcase
             'datatype' => 'block',
             'data' => serialize('feedback')
         ));
-        $rule->apply();
+        $rule->apply(array($this->course));
 
         // Apply a rule to prepend a block.
         $rule = \tool_cat\rule\base::from_record(array(
             'id' => 1,
-            'categoryid' => $this->course->category,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'block_region',
@@ -126,7 +123,7 @@ class tool_cat_block_tests extends \advanced_testcase
             'datatype' => 'block',
             'data' => serialize('html')
         ));
-        $rule->apply();
+        $rule->apply(array($this->course));
 
         // Ensure the html block has a lower weight than the feedback block.
         $feedbackweight = (int)$DB->get_field('block_instances', 'defaultweight', array(

@@ -62,7 +62,6 @@ class tool_cat_block_tests extends \advanced_testcase
         // Apply a rule to delete the block.
         $rule = \tool_cat\rule\base::from_record(array(
             'id' => 1,
-            'categoryid' => $this->course->category,
             'order' => 1,
             'rule' => 'delete',
             'target' => 'block',
@@ -70,7 +69,7 @@ class tool_cat_block_tests extends \advanced_testcase
             'datatype' => '',
             'data' => serialize('')
         ));
-        $rule->apply();
+        $rule->apply(array($this->course));
 
         // Ensure the block has been deleted.
         $this->assertEquals($before, $DB->count_records('block_instances', array(

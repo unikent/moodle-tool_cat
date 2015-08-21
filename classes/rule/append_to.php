@@ -49,9 +49,10 @@ class append_to extends base
 
     /**
      * Apply the rule.
+     *
+     * @param array $courses An array of courses to apply to rule to.
      */
-    public function apply() {
-        $courses = $this->get_courses();
+    public function apply($courses) {
         $this->target->append_to($courses);
     }
 }

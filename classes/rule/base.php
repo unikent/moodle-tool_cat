@@ -35,7 +35,6 @@ defined('MOODLE_INTERNAL') || die();
  */
 abstract class base
 {
-    private $categoyid;
     protected $target;
 
     /**
@@ -55,7 +54,6 @@ abstract class base
 
         $ruletype = "\\tool_cat\\rule\\" . $record->rule;
         $obj = new $ruletype();
-        $obj->categoryid = $record->categoryid;
 
         // Add a target.
         $target = "\\tool_cat\\target\\" . $record->target;
@@ -75,44 +73,6 @@ abstract class base
     }
 
     /**
-     * Return all courses this rule applies to.
-     *
-     * @return array A list of courses.
-     */
-    public function get_courses() {
-        global $CFG, $DB;
-
-        require_once($CFG->libdir. '/coursecatlib.php');
-
-        $coursecat = \coursecat::get($this->categoryid);
-        $courselist = $coursecat->get_courses(array(
-            'recursive' => true,
-            'idonly' => true
-        ));
-
-        // Generate the SQL.
-        list($sql, $params) = $DB->get_in_or_equal($courselist);
-        $ctxlevel = \CONTEXT_COURSE;
-        $preload = \context_helper::get_preload_record_columns_sql('ctx');
-
-        $sql = <<<SQL
-            SELECT c.*, $preload
-            FROM {course} c
-            INNER JOIN {context} ctx
-                ON ctx.instanceid = c.id AND ctx.contextlevel = $ctxlevel
-            WHERE c.id $sql
-SQL;
-
-        // Get the courses and preload contexts.
-        $courses = $DB->get_records_sql($sql, $params);
-        foreach ($courses as $course) {
-            \context_helper::preload_from_record($course);
-        }
-
-        return $courses;
-    }
-
-    /**
      * Return a list of targets this rule supports.
      *
      * @return array An array of valid targets.
@@ -121,6 +81,8 @@ SQL;
 
     /**
      * Apply the rule.
+     *
+     * @param array $courses An array of courses to apply to rule to.
      */
-    public abstract function apply();
+    public abstract function apply($courses);
 }

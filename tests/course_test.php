@@ -63,7 +63,6 @@ class tool_cat_course_tests extends \advanced_testcase
         // Apply a rule to delete the section.
         $rule = \tool_cat\rule\base::from_record(array(
             'id' => 1,
-            'categoryid' => $this->course->category,
             'order' => 1,
             'rule' => 'append_to',
             'target' => 'course',
@@ -71,7 +70,7 @@ class tool_cat_course_tests extends \advanced_testcase
             'datatype' => 'section',
             'data' => serialize($this->generate_sectiondata())
         ));
-        $rule->apply();
+        $rule->apply(array($this->course));
 
         // Ensure the section has been created.
         $this->assertEquals($before + 1, $DB->count_records('course_sections', array(
@@ -94,7 +93,6 @@ class tool_cat_course_tests extends \advanced_testcase
         // Apply a rule to delete the section.
         $rule = \tool_cat\rule\base::from_record(array(
             'id' => 1,
-            'categoryid' => $this->course->category,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'course',
@@ -102,7 +100,7 @@ class tool_cat_course_tests extends \advanced_testcase
             'datatype' => 'section',
             'data' => serialize($this->generate_sectiondata())
         ));
-        $rule->apply();
+        $rule->apply(array($this->course));
 
         // Ensure the section has been created.
         $this->assertEquals($before + 1, $DB->count_records('course_sections', array(
