@@ -37,6 +37,70 @@ class tool_cat_section_tests extends \advanced_testcase
     }
 
     /**
+     * Test the section append rule.
+     */
+    public function test_section_append_text() {
+        global $DB;
+
+        $original = 'TEST';
+        $sectiontext = "I've seen westerns, I know how to speak cowboy.";
+
+        $DB->set_field('course_sections', 'summary', $original, array(
+            'course' => $this->course->id,
+            'section' => 1
+        ));
+
+        // Apply a rule to delete the section.
+        $rule = \tool_cat\rule\base::from_record(array(
+            'id' => 1,
+            'order' => 1,
+            'rule' => 'append_to',
+            'target' => 'section',
+            'targetid' => '1',
+            'datatype' => 'text',
+            'data' => serialize($sectiontext)
+        ));
+        $rule->apply(array($this->course));
+
+        $this->assertEquals($original . $sectiontext, $DB->get_field('course_sections', 'summary', array(
+            'course' => $this->course->id,
+            'section' => 1
+        )));
+    }
+
+    /**
+     * Test the section append rule.
+     */
+    public function test_section_prepend_text() {
+        global $DB;
+
+        $original = 'TEST';
+        $sectiontext = "Proper dumplings should not bounce.";
+
+        $DB->set_field('course_sections', 'summary', $original, array(
+            'course' => $this->course->id,
+            'section' => 1
+        ));
+
+        // Apply a rule to delete the section.
+        $rule = \tool_cat\rule\base::from_record(array(
+            'id' => 1,
+            'order' => 1,
+            'rule' => 'prepend_to',
+            'target' => 'section',
+            'targetid' => '1',
+            'datatype' => 'text',
+            'data' => serialize($sectiontext)
+        ));
+        $rule->apply(array($this->course));
+
+        $this->assertEquals($sectiontext . $original, $DB->get_field('course_sections', 'summary', array(
+            'course' => $this->course->id,
+            'section' => 1
+        )));
+    }
+
+    /**
      * Test the section delete rule.
      */
     public function test_section_delete() {
