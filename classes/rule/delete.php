@@ -37,14 +37,6 @@ defined('MOODLE_INTERNAL') || die();
 class delete extends base
 {
     /**
-     * Apply the rule.
-     */
-    public function apply() {
-        $courses = $this->get_courses();
-        $this->target->delete($courses);
-    }
-
-    /**
      * Return a list of targets this rule supports.
      *
      * @return array An array of valid targets.
@@ -53,5 +45,13 @@ class delete extends base
         return array(
             'block', 'section', 'course'
         );
+    }
+
+    /**
+     * Apply the rule.
+     */
+    public function apply() {
+        $courses = $this->get_courses();
+        $this->target->delete($courses);
     }
 }

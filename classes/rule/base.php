@@ -99,14 +99,14 @@ abstract class base
     }
 
     /**
-     * Apply the rule.
-     */
-    public abstract function apply();
-
-    /**
      * Return a list of targets this rule supports.
      *
      * @return array An array of valid targets.
      */
     public abstract function get_supported_targets();
+
+    /**
+     * Apply the rule.
+     */
+    public abstract function apply();
 }

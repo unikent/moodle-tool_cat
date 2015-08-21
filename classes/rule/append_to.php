@@ -37,14 +37,6 @@ defined('MOODLE_INTERNAL') || die();
 class append_to extends base
 {
     /**
-     * Apply the rule.
-     */
-    public function apply() {
-        $courses = $this->get_courses();
-        $this->target->append_to($courses);
-    }
-
-    /**
      * Return a list of targets this rule supports.
      *
      * @return array An array of valid targets.
@@ -53,5 +45,13 @@ class append_to extends base
         return array(
             'block_region', 'section', 'course'
         );
+    }
+
+    /**
+     * Apply the rule.
+     */
+    public function apply() {
+        $courses = $this->get_courses();
+        $this->target->append_to($courses);
     }
 }

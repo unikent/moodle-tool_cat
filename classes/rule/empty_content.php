@@ -37,14 +37,6 @@ defined('MOODLE_INTERNAL') || die();
 class empty_content extends base
 {
     /**
-     * Apply the rule.
-     */
-    public function apply() {
-        $courses = $this->get_courses();
-        $this->target->empty_content($courses);
-    }
-
-    /**
      * Return a list of targets this rule supports.
      *
      * @return array An array of valid targets.
@@ -53,5 +45,13 @@ class empty_content extends base
         return array(
             'section', 'block_region'
         );
+    }
+
+    /**
+     * Apply the rule.
+     */
+    public function apply() {
+        $courses = $this->get_courses();
+        $this->target->empty_content($courses);
     }
 }
