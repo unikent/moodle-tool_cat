@@ -101,6 +101,72 @@ class tool_cat_section_tests extends \advanced_testcase
     }
 
     /**
+     * Test the section append rule.
+     */
+    public function test_section_append_template() {
+        global $DB;
+
+        $original = 'TEST';
+        $sectiontext = "{{shortname}} is about maths.";
+        $expected = $this->course->shortname . ' is about maths.';
+
+        $DB->set_field('course_sections', 'summary', $original, array(
+            'course' => $this->course->id,
+            'section' => 1
+        ));
+
+        // Apply a rule to delete the section.
+        $rule = \tool_cat\rule\base::from_record(array(
+            'id' => 1,
+            'order' => 1,
+            'rule' => 'append_to',
+            'target' => 'section',
+            'targetid' => '1',
+            'datatype' => 'template',
+            'data' => serialize($sectiontext)
+        ));
+        $rule->apply(array($this->course));
+
+        $this->assertEquals($original . $expected, $DB->get_field('course_sections', 'summary', array(
+            'course' => $this->course->id,
+            'section' => 1
+        )));
+    }
+
+    /**
+     * Test the section append rule.
+     */
+    public function test_section_prepend_template() {
+        global $DB;
+
+        $original = 'TEST';
+        $sectiontext = "{{shortname}} is about maths.";
+        $expected = $this->course->shortname . ' is about maths.';
+
+        $DB->set_field('course_sections', 'summary', $original, array(
+            'course' => $this->course->id,
+            'section' => 1
+        ));
+
+        // Apply a rule to delete the section.
+        $rule = \tool_cat\rule\base::from_record(array(
+            'id' => 1,
+            'order' => 1,
+            'rule' => 'prepend_to',
+            'target' => 'section',
+            'targetid' => '1',
+            'datatype' => 'template',
+            'data' => serialize($sectiontext)
+        ));
+        $rule->apply(array($this->course));
+
+        $this->assertEquals($expected . $original, $DB->get_field('course_sections', 'summary', array(
+            'course' => $this->course->id,
+            'section' => 1
+        )));
+    }
+
+    /**
      * Test the section delete rule.
      */
     public function test_section_delete() {
