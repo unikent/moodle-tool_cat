@@ -43,6 +43,18 @@ class url extends base
      * @param stdClass $course The course to apply to.
      */
     public function get_instance($course) {
-        // TODO.
+        $data = (object)$this->get_data();
+
+        // Create aspirelists object.
+        $instance = new \stdClass();
+        $instance->course       = $course->id;
+        $instance->name         = $data->name;
+        $instance->intro        = $data->intro;
+        $instance->introformat  = \FORMAT_HTML;
+        $instance->externalurl  = $data->url;
+
+        $instance->id = url_add_instance($instance, null);
+
+        return $instance;
     }
 }
