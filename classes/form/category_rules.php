@@ -53,13 +53,18 @@ class category_rules extends \moodleform
 
         // Select a category.
         $mform->addElement('header', 'info', 'Category');
-        $categories = \coursecat::make_categories_list('tool/cat:manage');
-        $mform->addElement('select', 'category', 'Category', array_merge(array('0' => 'Please select a category'), $categories));
-
-        $category = optional_param('category', false, PARAM_INT);
+        $catlist = \coursecat::make_categories_list('tool/cat:manage');
+        $categories = array(0 => 'Please select a category');
+        foreach ($catlist as $k => $v) {
+            $categories[$k] = $v;
+        }
+        $mform->addElement('select', 'category', 'Category', $categories);
 
         // Do we have a category?
+        $category = optional_param('category', false, PARAM_INT);
         if (!empty($category)) {
+            $mform->setDefault('category', $category);
+
             // Populate existing rules.
             $this->add_rule_fieldsets($category);
 
@@ -83,7 +88,9 @@ class category_rules extends \moodleform
         foreach ($rules as $rule) {
             $rule = \tool_cat\rule\base::from_record($rule);
 
-            $mform->addElement('header', 'rule' . $rule->id, 'Rule ' . $rule->id);
+            $mform->addElement('header', "rule_{$rule->id}", 'Rule ' . $rule->id);
+            $mform->addElement('hidden', "rule_{$rule->id}_id", $rule->id);
+            $mform->setType("rule_{$rule->id}_id", PARAM_INT);
             // TODO.
         }
     }

@@ -28,14 +28,33 @@ require_once($CFG->libdir . '/adminlib.php');
 admin_externalpage_setup('categoryadmintool');
 
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_url('/admin/tool/cat/recyclebin.php');
+$PAGE->set_url('/admin/tool/cat/index.php');
+
+$form = new \tool_cat\form\category_rules();
+
+if (($data = $form->get_data())) {
+    // Grab new rules.
+    $rule = new \stdClass();
+    $rule->categoryid = $data->category;
+    $rule->seq = $DB->get_field('tool_cat_rules', 'MAX(seq)', (array)$rule);
+    $rule->seq = isset($rule->seq) ? $rule->seq + 1 : 0;
+    $rule->rule = $data->rule;
+    $rule->target = $data->target;
+    $rule->targetid = $data->targetid;
+    $rule->datatype = $data->datatype;
+    $rule->data = array_diff((array)$data, (array)$rule);
+    unset($rule->data['submitbutton']);
+    $rule->data = serialize($rule->data);
+
+    $DB->insert_record('tool_cat_rules', $rule);
+    redirect(new \moodle_url($PAGE->url, array('category' => $data->category)));
+}
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'tool_cat'));
 
 echo $OUTPUT->box("Add a rule for courses within a category. This will be applied to current and future courses.");
 
-$form = new \tool_cat\form\category_rules();
 $form->display();
 
 echo $OUTPUT->footer();
