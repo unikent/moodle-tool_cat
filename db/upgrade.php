@@ -42,7 +42,7 @@ function xmldb_tool_cat_upgrade($oldversion) {
         // Adding fields to table tool_cat_rules.
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
         $table->add_field('categoryid', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, null);
-        $table->add_field('order', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('seq', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, null);
         $table->add_field('rule', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
         $table->add_field('target', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
         $table->add_field('targetid', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
@@ -51,7 +51,7 @@ function xmldb_tool_cat_upgrade($oldversion) {
 
         // Adding keys to table tool_cat_rules.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-        $table->add_key('u_catid_order', XMLDB_KEY_UNIQUE, array('categoryid', 'order'));
+        $table->add_key('u_catid_order', XMLDB_KEY_UNIQUE, array('categoryid', 'seq'));
 
         // Conditionally launch create table for tool_cat_rules.
         if (!$dbman->table_exists($table)) {
