@@ -33,6 +33,17 @@ $PAGE->set_url('/admin/tool/cat/index.php');
 $form = new \tool_cat\form\category_rules();
 
 if (($data = $form->get_data())) {
+    $rules = $form->get_rules($data);
+    foreach ($rules as $rule) {
+        if (isset($rule->id)) {
+            $DB->update_record('tool_cat_rules', $rule);
+        } else {
+            $DB->insert_record('tool_cat_rules', $rule);
+        }
+
+        redirect(new \moodle_url($PAGE->url, array('category' => $data->category)));
+    }
+
     // Grab new rules.
     $rule = new \stdClass();
     $rule->categoryid = $data->category;

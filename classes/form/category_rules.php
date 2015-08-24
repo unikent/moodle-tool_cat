@@ -69,7 +69,8 @@ class category_rules extends \moodleform
             $this->add_rule_fieldsets($category);
 
             // Print a blank rule-add row.
-            $this->add_blank_rule();
+            $mform->addElement('header', 'rules', 'Add a new rule');
+            $this->add_rule_fieldset();
         }
 
         $this->add_action_buttons(true, 'Save rules');
@@ -86,29 +87,27 @@ class category_rules extends \moodleform
         $rules = \tool_cat\external\rule::get_category_rules($category);
 
         foreach ($rules as $rule) {
-            $rule = \tool_cat\rule\base::from_record($rule);
-
             $mform->addElement('header', "rule_{$rule->id}", 'Rule ' . $rule->id);
             $mform->addElement('hidden', "rule_{$rule->id}_id", $rule->id);
             $mform->setType("rule_{$rule->id}_id", PARAM_INT);
-            // TODO.
+
+            $this->add_rule_fieldset($rule);
         }
     }
 
     /**
-     * Add a blank fieldset.
+     * Add a rule fieldset.
      * This might also be a rule in-progress.
      */
-    private function add_blank_rule() {
+    private function add_rule_fieldset($obj = null) {
         $mform =& $this->_form;
 
-        $mform->addElement('header', 'rules', 'Add a new rule');
-
         // Where are we?
-        $rule = optional_param('rule', '', PARAM_ALPHANUMEXT);
-        $target = optional_param('target', '', PARAM_ALPHANUMEXT);
-        $datatype = optional_param('datatype', '', PARAM_ALPHANUMEXT);
-        $activity = optional_param('activity', '', PARAM_ALPHANUMEXT);
+        $data = isset($obj) ? unserialize($obj->data) : null;
+        $rule = isset($obj) ? $obj->rule : optional_param('rule', '', PARAM_ALPHANUMEXT);
+        $target = isset($obj) ? $obj->target : optional_param('target', '', PARAM_ALPHANUMEXT);
+        $datatype = isset($obj) ? $obj->datatype : optional_param('datatype', '', PARAM_ALPHANUMEXT);
+        $activity = is_array($data) && isset($data['activity']) ? $data['activity'] : optional_param('activity', '', PARAM_ALPHANUMEXT);
 
         // Add a selection box for the rule.
         $validrules = \tool_cat\external\rule::get_rules();
@@ -155,6 +154,10 @@ class category_rules extends \moodleform
                 foreach ($validfields as $name => $type) {
                     $mform->addElement('text', $name, ucwords($name));
                     $mform->setType($name, $type);
+
+                    if (isset($obj) && isset($data[$name])) {
+                        $mform->setDefault($name, $data[$name]);
+                    }
                 }
             break;
 
@@ -166,6 +169,11 @@ class category_rules extends \moodleform
                     \BLOCK_POS_LEFT => 'Left',
                     \BLOCK_POS_RIGHT => 'Right'
                 ));
+
+                if (isset($obj)) {
+                    $mform->setDefault('block', $data['block']);
+                    $mform->setDefault('blockpos', $data['blockpos']);
+                }
             break;
 
             case 'section':
@@ -174,17 +182,47 @@ class category_rules extends \moodleform
 
                 $mform->addElement('textarea', 'summary', 'Section summary');
                 $mform->setType('summary', PARAM_TEXT);
+
+                if (isset($obj)) {
+                    $mform->setDefault('title', $data['title']);
+                    $mform->setDefault('summary', $data['summary']);
+                }
             break;
 
             case 'text':
             case 'template':
                 $mform->addElement('textarea', 'data', 'Data');
                 $mform->setType('data', PARAM_TEXT);
+
+                if (isset($obj)) {
+                    $mform->setDefault('data', $data);
+                }
             break;
 
             default:
                 // All done!
             break;
         }
+
+        if (isset($obj)) {
+            $mform->setDefault('rule', $obj->rule);
+            $mform->setDefault('target', $obj->target);
+            $mform->setDefault('targetid', $obj->targetid);
+            $mform->setDefault('datatype', $obj->datatype);
+        }
+    }
+
+    /**
+     * Returns rule data.
+     */
+    public function get_rules() {
+        // TODO.
+    }
+
+    /**
+     * Returns the data for the selected rule.
+     */
+    private function get_rule_data($rulenum) {
+        // TODO.
     }
 }
