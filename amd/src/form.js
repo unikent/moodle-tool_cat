@@ -25,10 +25,10 @@
 define(['jquery'], function($) {
     return {
         init: function(callback) {
-			$("#id_updaterules").hide();
-			$("#id_category").on('change', function() {
-				$("#id_updaterules").click();
-			});
+            $("#fitem_id_updateform").hide();
+            $("#id_category, #id_rule, #id_target").on('change', function() {
+                $("#id_updateform").click();
+            });
         }
     };
 });

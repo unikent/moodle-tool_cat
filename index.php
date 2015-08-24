@@ -35,11 +35,6 @@ echo $OUTPUT->heading(get_string('pluginname', 'tool_cat'));
 
 echo $OUTPUT->box("Add a rule for courses within a category. This will be applied to current and future courses.");
 
-$renderer = $PAGE->get_renderer('tool_cat');
-echo $renderer->render_mustache_string('{{test}}', array(
-    'test' => 'This is a test'
-));
-
 $form = new \tool_cat\form\category_rules();
 $form->display();
 

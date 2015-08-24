@@ -39,6 +39,19 @@ require_once($CFG->dirroot . '/mod/url/lib.php');
 class url extends base
 {
     /**
+     * Return a list of fields this datatype requires.
+     *
+     * @return array An array of valid fields.
+     */
+    public function get_supported_fields() {
+        return array(
+            'name' => PARAM_TEXT,
+            'intro' => PARAM_TEXT,
+            'url' => PARAM_URL
+        );
+    }
+
+    /**
      * Create a URL object.
      *
      * @param stdClass $course The course to apply to.

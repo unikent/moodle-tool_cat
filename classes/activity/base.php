@@ -45,6 +45,18 @@ abstract class base
     }
 
     /**
+     * Return a list of fields this datatype requires.
+     *
+     * @return array An array of valid fields.
+     */
+    public function get_supported_fields() {
+        return array(
+            'name' => PARAM_TEXT,
+            'intro' => PARAM_TEXT
+        );
+    }
+
+    /**
      * Return a activity object, given a name.
      */
     public static function create_activity($name, $data = '') {

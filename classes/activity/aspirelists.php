@@ -49,7 +49,7 @@ class aspirelists extends base
         $instance = new \stdClass();
         $instance->course       = $course->id;
         $instance->name         = $data->name;
-        $instance->intro        = '';
+        $instance->intro        = isset($data->intro) ? $data->intro : null;
         $instance->introformat  = 1;
         $instance->category     = 'all';
         $instance->timemodified = time();

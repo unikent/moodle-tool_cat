@@ -50,7 +50,7 @@ class forum extends base
         $instance->course       = $course->id;
         $instance->type         = 'general';
         $instance->name         = $data->name;
-        $instance->intro        = $data->intro;
+        $instance->intro        = isset($data->intro) ? $data->intro : null;
         $instance->timemodified = time();
 
         $instance->id = $DB->insert_record("forum", $instance);
