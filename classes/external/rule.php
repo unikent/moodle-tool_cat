@@ -320,7 +320,7 @@ class rule extends external_api
     public static function get_blocks() {
         global $DB;
 
-        $keys = $DB->get_field('block', 'name');
+        $keys = $DB->get_fieldset_select('block', 'name', null);
         $values = array_map(function($str) {
             return get_string('pluginname', "block_{$str}");
         }, $keys);
