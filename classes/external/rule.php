@@ -236,7 +236,8 @@ class rule extends external_api
         ));
 
         $obj = \tool_cat\target\base::create_target($params['target']);
-        return $obj->get_supported_datatypes();
+        $keys = $obj->get_supported_datatypes();
+        return array_combine($keys, array_map('ucwords', $keys));
     }
 
     /**
@@ -273,8 +274,14 @@ class rule extends external_api
      * @throws \invalid_parameter_exception
      */
     public static function get_activities() {
-        $obj = \tool_cat\datatype\base::create_target('activity');
-        return $obj->get_supported_activities();
+        $obj = \tool_cat\datatype\base::create_datatype('activity');
+
+        $keys = $obj->get_supported_activities();
+        $values = array_map(function($str) {
+            return get_string('pluginname', "mod_{$str}");
+        }, $keys);
+
+        return array_combine($keys, $values);
     }
 
     /**
@@ -316,7 +323,7 @@ class rule extends external_api
         $keys = $DB->get_field('block', 'name');
         $values = array_map(function($str) {
             return get_string('pluginname', "block_{$str}");
-        }, $values);
+        }, $keys);
 
         return array_combine($keys, $values);
     }

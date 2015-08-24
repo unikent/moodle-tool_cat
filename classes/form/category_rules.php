@@ -67,7 +67,7 @@ class category_rules extends \moodleform
             $this->add_blank_rule();
         }
 
-        $this->add_action_buttons(true, 'Add rule');
+        $this->add_action_buttons(true, 'Save rules');
     }
 
     /**
@@ -101,6 +101,7 @@ class category_rules extends \moodleform
         $rule = optional_param('rule', '', PARAM_ALPHANUMEXT);
         $target = optional_param('target', '', PARAM_ALPHANUMEXT);
         $datatype = optional_param('datatype', '', PARAM_ALPHANUMEXT);
+        $activity = optional_param('activity', '', PARAM_ALPHANUMEXT);
 
         // Add a selection box for the rule.
         $validrules = \tool_cat\external\rule::get_rules();
@@ -135,12 +136,29 @@ class category_rules extends \moodleform
         switch ($datatype) {
             case 'activity':
                 $validactivities = \tool_cat\external\rule::get_activities();
-                $mform->addElement('select', 'activity', 'Activity', array_merge(array(0 => 'Select a activity'), $validactivities));
-            // TODO - select activity, name.
+                $mform->addElement('select', 'activity', 'Activity', array_merge(array(0 => 'Select an activity'), $validactivities));
+
+                // Do we have an activity submitted?
+                if (empty($activity)) {
+                    return;
+                }
+
+                // Add fields.
+                $validfields = \tool_cat\external\rule::get_activity_fields($activity);
+                foreach ($validfields as $name => $type) {
+                    $mform->addElement('text', $name, ucwords($name));
+                    $mform->setType($name, $type);
+                }
             break;
 
             case 'block':
-            // TODO - list of blocks to add, position.
+                $validblocks = \tool_cat\external\rule::get_blocks();
+                $mform->addElement('select', 'block', 'Block', array_merge(array(0 => 'Select a block'), $validblocks));
+
+                $mform->addElement('select', 'blockpos', 'Block Position', array(
+                    \BLOCK_POS_LEFT => 'Left',
+                    \BLOCK_POS_RIGHT => 'Right'
+                ));
             break;
 
             case 'section':

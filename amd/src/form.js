@@ -26,7 +26,7 @@ define(['jquery'], function($) {
     return {
         init: function(callback) {
             $("#fitem_id_updateform").hide();
-            $("#id_category, #id_rule, #id_target").on('change', function() {
+            $("#id_category, #id_rule, #id_target, #id_datatype, #id_activity").on('change', function() {
                 $("#id_updateform").click();
             });
         }
