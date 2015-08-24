@@ -29,7 +29,9 @@ $services = array(
             'tool_cat_get_category_rules',
             'tool_cat_get_targets',
             'tool_cat_get_datatypes',
-            'tool_cat_get_activities'
+            'tool_cat_get_activities',
+            'tool_cat_get_blocks',
+            'tool_cat_get_activity_fields'
         ),
         'requiredcapability' => 'tool/cat:manage',
         'restrictedusers' => 0,
@@ -66,6 +68,18 @@ $functions = array(
         'classname'   => 'tool_cat\external\rule',
         'methodname'  => 'get_activities',
         'description' => 'Get activities.',
+        'type'        => 'read'
+    ),
+    'tool_cat_get_blocks' => array(
+        'classname'   => 'tool_cat\external\rule',
+        'methodname'  => 'get_blocks',
+        'description' => 'Get blocks.',
+        'type'        => 'read'
+    ),
+    'tool_cat_get_activity_fields' => array(
+        'classname'   => 'tool_cat\external\rule',
+        'methodname'  => 'get_activity_fields',
+        'description' => 'Get activity fields.',
         'type'        => 'read'
     )
 );

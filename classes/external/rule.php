@@ -65,10 +65,10 @@ class rule extends external_api
      */
     public static function get_rules() {
         return array(
-            'append_to',
-            'delete',
-            'empty_content',
-            'prepend_to'
+            'append_to' => 'Append to',
+            'prepend_to' => 'Prepend to',
+            'empty_content' => 'Empty content',
+            'delete' => 'Delete'
         );
     }
 
@@ -179,7 +179,15 @@ class rule extends external_api
         ));
 
         $obj = \tool_cat\rule\base::create_rule($params['rule']);
-        return $obj->get_supported_targets();
+        $keys = $obj->get_supported_targets();
+
+        // Prettify.
+        $values = array_map(function($str) {
+            $str = str_replace('_', ' ', $str);
+            return ucwords($str);
+        }, $keys);
+
+        return array_combine($keys, $values);
     }
 
     /**
@@ -259,13 +267,12 @@ class rule extends external_api
     }
 
     /**
-     * Returns a list of valid activities for a the activity target.
+     * Returns a list of valid activities for the activity.
      *
-     * @param $target
      * @return array [string]
      * @throws \invalid_parameter_exception
      */
-    public static function get_activities($target) {
+    public static function get_activities() {
         $obj = \tool_cat\datatype\base::create_target('activity');
         return $obj->get_supported_activities();
     }
@@ -278,4 +285,98 @@ class rule extends external_api
     public static function get_activities_returns() {
         return new external_multiple_structure(new external_value(PARAM_ALPHANUMEXT, 'A list of valid activities for a given data type.'));
     }
+
+    /**
+     * Returns description of method parameters.
+     *
+     * @return external_function_parameters
+     */
+    public static function get_blocks_parameters() {
+        return new external_function_parameters(array());
+    }
+
+    /**
+     * Expose to AJAX.
+     *
+     * @return boolean
+     */
+    public static function get_blocks_is_allowed_from_ajax() {
+        return true;
+    }
+
+    /**
+     * Returns a list of valid activities for the activity.
+     *
+     * @return array [string]
+     * @throws \invalid_parameter_exception
+     */
+    public static function get_blocks() {
+        global $DB;
+
+        $keys = $DB->get_field('block', 'name');
+        $values = array_map(function($str) {
+            return get_string('pluginname', "block_{$str}");
+        }, $values);
+
+        return array_combine($keys, $values);
+    }
+
+    /**
+     * Returns description of get_blocks() result value.
+     *
+     * @return external_description
+     */
+    public static function get_blocks_returns() {
+        return new external_multiple_structure(new external_value(PARAM_ALPHANUMEXT, 'A list of blocks.'));
+    }
+
+    /**
+     * Returns description of method parameters.
+     *
+     * @return external_function_parameters
+     */
+    public static function get_activity_fields_parameters() {
+        return new external_function_parameters(array(
+            'activity' => new external_value(
+                PARAM_ALPHANUMEXT,
+                'The target activity to get valid fields for.',
+                VALUE_REQUIRED
+            )
+        ));
+    }
+
+    /**
+     * Expose to AJAX.
+     *
+     * @return boolean
+     */
+    public static function get_activity_fields_is_allowed_from_ajax() {
+        return true;
+    }
+
+    /**
+     * Returns a list of valid activities for the activity.
+     *
+     * @param $activity
+     * @return array [string]
+     * @throws \invalid_parameter_exception
+     */
+    public static function get_activity_fields($activity) {
+        $params = self::validate_parameters(self::get_activity_fields_parameters(), array(
+            'activity' => $activity
+        ));
+
+        $obj = \tool_cat\activity\base::create_activity($params['activity']);
+        return $obj->get_supported_fields();
+    }
+
+    /**
+     * Returns description of get_activity_fields() result value.
+     *
+     * @return external_description
+     */
+    public static function get_activity_fields_returns() {
+        return new external_multiple_structure(new external_value(PARAM_ALPHANUMEXT, 'A list of valid fields for a given activity.'));
+    }
 }
+
