@@ -15,21 +15,47 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * Category admin tool rules.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_cat\rule;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'tool_cat';
-$plugin->version   = 2015082401;
-$plugin->requires  = 2014051200;
-$plugin->maturity = MATURITY_RC;
-$plugin->release = '1.0 (Build: 2015082401)';
+/**
+ * Category admin tool append rule.
+ * Appends data to a target.
+ *
+ * @package    tool_cat
+ * @copyright  2015 University of Kent
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class append_to extends base
+{
+    /**
+     * Return a list of targets this rule supports.
+     *
+     * @return array An array of valid targets.
+     */
+    public function get_supported_targets() {
+        return array(
+            'block_region', 'section', 'course'
+        );
+    }
 
-$plugin->dependencies = array(
-    'local_notifications' => 2015062500
-);
+    /**
+     * Apply the rule.
+     *
+     * @param array $courses An array of courses to apply to rule to.
+     * @return array An array of courses we applied ourselves to.
+     */
+    protected function _apply($courses) {
+        $this->target->append_to($courses);
+
+        return $courses;
+    }
+}

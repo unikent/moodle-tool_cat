@@ -28,9 +28,36 @@ require_once($CFG->libdir . '/adminlib.php');
 admin_externalpage_setup('categoryadmintool');
 
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_url('/admin/tool/cat/recyclebin.php');
+$PAGE->set_url('/admin/tool/cat/index.php');
+
+$form = new \tool_cat\form\category_rules();
+
+if (($data = $form->get_data())) {
+    $rules = $form->get_rules($data);
+    foreach ($rules as $rule) {
+        $rule->data = serialize($rule->data);
+
+        if (isset($rule->id)) {
+            $DB->update_record('tool_cat_rules', $rule);
+        } else {
+            $seq = $DB->get_field('tool_cat_rules', 'MAX(seq)', array(
+                'categoryid' => $rule->categoryid
+            ));
+
+            $rule->seq = isset($seq) ? $seq + 1 : 0;
+
+            $DB->insert_record('tool_cat_rules', $rule);
+        }
+    }
+
+    redirect(new \moodle_url($PAGE->url, array('categoryid' => $data->categoryid)));
+}
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'tool_cat'));
+
+echo $OUTPUT->box("Add a rule for courses within a category. This will be applied to current and future courses.");
+
+$form->display();
 
 echo $OUTPUT->footer();

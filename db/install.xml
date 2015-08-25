@@ -1,21 +1,51 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<XMLDB xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PATH="admin/tool/cat/db" VERSION="20140206" COMMENT="XMLDB file for category admin tool" xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
-	<TABLES>
-		<TABLE NAME="tool_cat_recyclebin" COMMENT="Expiration date store for the category manager">
-			<FIELDS>
-				<FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-				<FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-				<FIELD NAME="deleted_date" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false"/>
-				<FIELD NAME="expiration_time" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false"/>
-				<FIELD NAME="status" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
-			</FIELDS>
-			<KEYS>
-				<KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-			</KEYS>
-			<INDEXES>
-				<INDEX NAME="expiration_index" UNIQUE="false" FIELDS="expiration_time"/>
-				<INDEX NAME="status_index" UNIQUE="false" FIELDS="status"/>
-			</INDEXES>
-		</TABLE>
-	</TABLES>
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="admin/tool/cat/db" VERSION="20150825" COMMENT="XMLDB file for category admin tool"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="tool_cat_recyclebin" COMMENT="Expiration date store for the category manager">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="deleted_date" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="expiration_time" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="status" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="expiration_index" UNIQUE="false" FIELDS="expiration_time"/>
+        <INDEX NAME="status_index" UNIQUE="false" FIELDS="status"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="tool_cat_rules" COMMENT="Category rules table">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="categoryid" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="seq" TYPE="int" LENGTH="4" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="rule" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="target" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="targetid" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="datatype" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="data" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="u_catid_order" TYPE="unique" FIELDS="categoryid, seq"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="tool_cat_applications" COMMENT="Tracks application of rules to courses">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="ruleid" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="u_cid_rid" TYPE="unique" FIELDS="courseid, ruleid"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
 </XMLDB>

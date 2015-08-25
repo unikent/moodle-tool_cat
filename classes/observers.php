@@ -36,6 +36,23 @@ defined('MOODLE_INTERNAL') || die();
 class observers
 {
     /**
+     * Course created event.
+     */
+    public static function course_created(\core\event\course_created $event) {
+        global $DB;
+
+        $course = $DB->get_record('course', array(
+            'id' => $event->objectid
+        ));
+
+        $category = new \tool_cat\category($course->category);
+        $rules = $category->get_rules();
+        foreach ($rules as $rule) {
+            $rule->apply(array($course));
+        }
+    }
+
+    /**
      * Triggered when 'course_updated' event is triggered.
      * Adds a course expiration date if the course has moved category.
      *
@@ -52,7 +69,7 @@ class observers
 
         // Grab the course.
         $course = $DB->get_record('course', array(
-            "id" => $event->objectid
+            'id' => $event->objectid
         ));
         $context = \context_course::instance($course->id);
 

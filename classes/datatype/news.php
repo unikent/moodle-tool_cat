@@ -15,21 +15,36 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * Category admin tool datatypes.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_cat\datatype;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'tool_cat';
-$plugin->version   = 2015082401;
-$plugin->requires  = 2014051200;
-$plugin->maturity = MATURITY_RC;
-$plugin->release = '1.0 (Build: 2015082401)';
+require_once($CFG->dirroot . '/course/lib.php');
+require_once($CFG->dirroot . '/mod/aspirelists/lib.php');
+require_once($CFG->dirroot . '/mod/forum/lib.php');
 
-$plugin->dependencies = array(
-    'local_notifications' => 2015062500
-);
+/**
+ * Category admin tool news data type.
+ *
+ * @package    tool_cat
+ * @copyright  2015 University of Kent
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class news extends base
+{
+    /**
+     * Append a news activity to the given course.
+     *
+     * @param  stdClass $course        The course to apply to.
+     */
+    public function add_to_course($course) {
+        forum_get_course_forum($course->id, 'news');
+    }
+}

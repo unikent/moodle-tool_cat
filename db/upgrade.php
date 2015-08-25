@@ -33,5 +33,56 @@ defined('MOODLE_INTERNAL') || die;
 function xmldb_tool_cat_upgrade($oldversion) {
     global $CFG, $DB;
 
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2015081901) {
+        // Define table tool_cat_rules to be created.
+        $table = new xmldb_table('tool_cat_rules');
+
+        // Adding fields to table tool_cat_rules.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('categoryid', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('seq', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('rule', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('target', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('targetid', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('datatype', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('data', XMLDB_TYPE_TEXT, null, null, null, null, null);
+
+        // Adding keys to table tool_cat_rules.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('u_catid_order', XMLDB_KEY_UNIQUE, array('categoryid', 'seq'));
+
+        // Conditionally launch create table for tool_cat_rules.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Cat savepoint reached.
+        upgrade_plugin_savepoint(true, 2015081901, 'tool', 'cat');
+    }
+
+    if ($oldversion < 2015082401) {
+        // Define table tool_cat_applications to be created.
+        $table = new xmldb_table('tool_cat_applications');
+
+        // Adding fields to table tool_cat_applications.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('courseid', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('ruleid', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table tool_cat_applications.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('u_cid_rid', XMLDB_KEY_UNIQUE, array('courseid', 'ruleid'));
+
+        // Conditionally launch create table for tool_cat_applications.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Cat savepoint reached.
+        upgrade_plugin_savepoint(true, 2015082401, 'tool', 'cat');
+    }
+
     return true;
 }
