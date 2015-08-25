@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="admin/tool/cat/db" VERSION="20150820" COMMENT="XMLDB file for category admin tool"
+<XMLDB PATH="admin/tool/cat/db" VERSION="20150825" COMMENT="XMLDB file for category admin tool"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
 >
@@ -34,6 +34,17 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="u_catid_order" TYPE="unique" FIELDS="categoryid, seq"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="tool_cat_applications" COMMENT="Tracks application of rules to courses">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="ruleid" TYPE="int" LENGTH="11" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="u_cid_rid" TYPE="unique" FIELDS="courseid, ruleid"/>
       </KEYS>
     </TABLE>
   </TABLES>

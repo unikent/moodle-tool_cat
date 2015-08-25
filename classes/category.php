@@ -92,6 +92,55 @@ SQL;
     }
 
     /**
+     * Returns all known category rules to this category.
+     * This includes parent categories.
+     */
+    public function get_rules() {
+        global $DB;
+
+        $coursecat = \coursecat::get($this->id);
+        $parents = $coursecat->get_parents();
+        $categories = array_merge($parents, array($this->id));
+
+        list($sql, $params) = $DB->get_in_or_equal($categories);
+        $rules = $DB->get_records_select('tool_cat_rules', 'categoryid ' . $sql, $params);
+
+        // Sort.
+        // Parent categories first, then by seq.
+        $ret = array();
+        foreach ($categories as $category) {
+            $buffer = array();
+            foreach ($rules as $rule) {
+                if ($rule->categoryid != $category) {
+                    continue;
+                }
+
+                $buffer[$rule->seq] = $rule;
+            }
+
+            // Add the buffer in.
+            ksort($buffer);
+            foreach ($buffer as $rule) {
+                $ret[] = $rule;
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
+     * Apply all known category rules to this category.
+     */
+    public function apply_rules() {
+        $courses = $this->get_courses();
+
+        $rules = $this->get_rules();
+        foreach ($rules as $rule) {
+            $rule->apply($courses);
+        }
+    }
+
+    /**
      * Apply a rule to this category.
      *
      * @param rule\base $rule The rule to apply.

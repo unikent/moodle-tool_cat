@@ -15,44 +15,57 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Category admin tool rules.
+ * Category admin tool.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\rule;
-
-defined('MOODLE_INTERNAL') || die();
+namespace tool_cat\event;
 
 /**
- * Category admin tool append rule.
- * Appends data to a target.
+ * Rule applied event.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class append_to extends base
+class rule_applied extends \core\event\base
 {
     /**
-     * Return a list of targets this rule supports.
-     *
-     * @return array An array of valid targets.
+     * Init method.
      */
-    public function get_supported_targets() {
-        return array(
-            'block_region', 'section', 'course'
-        );
+    protected function init() {
+        $this->data['objecttable'] = 'course';
+        $this->data['crud'] = 'u';
+        $this->data['edulevel'] = self::LEVEL_TEACHING;
     }
 
     /**
-     * Apply the rule.
+     * Returns localised general event name.
      *
-     * @param array $courses An array of courses to apply to rule to.
+     * @return string
      */
-    protected function _apply($courses) {
-        $this->target->append_to($courses);
+    public static function get_name() {
+        return "Rule applied";
+    }
+
+    /**
+     * Returns description of what happened.
+     *
+     * @return string
+     */
+    public function get_description() {
+        return 'Category manager applied rule ' . s($this->objectid) . ' to course ' . s($this->courseid) . '.';
+    }
+
+    /**
+     * Returns relevant URL.
+     *
+     * @return \moodle_url
+     */
+    public function get_url() {
+        return new \moodle_url('/course/view.php', array('id' => $this->courseid));
     }
 }

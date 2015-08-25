@@ -15,44 +15,28 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Category admin tool rules.
+ * Category admin CLI tool.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\rule;
+define('CLI_SCRIPT', true);
 
-defined('MOODLE_INTERNAL') || die();
+require_once(dirname(__FILE__) . '/../../../../config.php');
+require_once($CFG->libdir . '/clilib.php');
 
-/**
- * Category admin tool append rule.
- * Appends data to a target.
- *
- * @package    tool_cat
- * @copyright  2015 University of Kent
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class append_to extends base
-{
-    /**
-     * Return a list of targets this rule supports.
-     *
-     * @return array An array of valid targets.
-     */
-    public function get_supported_targets() {
-        return array(
-            'block_region', 'section', 'course'
-        );
-    }
+list($options, $unrecognized) = cli_get_params(
+    array(
+        'category' => 0,
+    )
+);
 
-    /**
-     * Apply the rule.
-     *
-     * @param array $courses An array of courses to apply to rule to.
-     */
-    protected function _apply($courses) {
-        $this->target->append_to($courses);
-    }
+if (empty($options['category'])) {
+    print_error("You must specify a category with --category.");
+    exit(0);
 }
+
+$category = new \tool_cat\category($options['category']);
+$category->apply_rules();

@@ -62,5 +62,27 @@ function xmldb_tool_cat_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2015081901, 'tool', 'cat');
     }
 
+    if ($oldversion < 2015082401) {
+        // Define table tool_cat_applications to be created.
+        $table = new xmldb_table('tool_cat_applications');
+
+        // Adding fields to table tool_cat_applications.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('courseid', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('ruleid', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table tool_cat_applications.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('u_cid_rid', XMLDB_KEY_UNIQUE, array('courseid', 'ruleid'));
+
+        // Conditionally launch create table for tool_cat_applications.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Cat savepoint reached.
+        upgrade_plugin_savepoint(true, 2015082401, 'tool', 'cat');
+    }
+
     return true;
 }

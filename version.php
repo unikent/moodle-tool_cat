@@ -25,10 +25,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'tool_cat';
-$plugin->version   = 2015082400;
+$plugin->version   = 2015082401;
 $plugin->requires  = 2014051200;
 $plugin->maturity = MATURITY_RC;
-$plugin->release = '1.0 (Build: 2015082400)';
+$plugin->release = '1.0 (Build: 2015082401)';
 
 $plugin->dependencies = array(
     'local_notifications' => 2015062500

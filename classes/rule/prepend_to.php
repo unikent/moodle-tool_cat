@@ -52,7 +52,7 @@ class prepend_to extends base
      *
      * @param array $courses An array of courses to apply to rule to.
      */
-    public function apply($courses) {
+    protected function _apply($courses) {
         $this->target->prepend_to($courses);
     }
 }

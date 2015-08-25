@@ -70,6 +70,26 @@ abstract class base
     }
 
     /**
+     * Apply the rule.
+     *
+     * @param array $courses An array of courses to apply to rule to.
+     */
+    public function apply($courses) {
+        // TODO - return boolean and event only for those it worked on.
+        $this->_apply($courses);
+
+        foreach ($courses as $course) {
+            // Trigger a rule applied event.
+            $event = \tool_cat\event\rule_applied::create(array(
+                'objectid' => $this->id,
+                'courseid' => $course->id,
+                'context' => context_course::instance($course->id)
+            ));
+            $event->trigger();
+        }
+    }
+
+    /**
      * Return a list of targets this rule supports.
      *
      * @return array An array of valid targets.
@@ -81,5 +101,5 @@ abstract class base
      *
      * @param array $courses An array of courses to apply to rule to.
      */
-    public abstract function apply($courses);
+    protected abstract function _apply($courses);
 }
