@@ -186,6 +186,8 @@ class category_rules extends \moodleform
                     return;
                 }
 
+                $mform->setDefault($id . 'activity', $activity);
+
                 // Add fields.
                 $validfields = \tool_cat\external\rule::get_activity_fields($activity);
                 foreach ($validfields as $name => $type) {
