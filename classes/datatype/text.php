@@ -74,8 +74,11 @@ class text extends base
      * @param  int      $sectionident  The section number to apply to (not ID).
      */
     public function append_to_section($course, $sectionident) {
+        $data = $this->get_data();
+
         $text = $this->get_section_text($course, $sectionident);
-        $text .= $this->get_data();
+        $text .= $data->text;
+
         $this->set_section_text($course, $sectionident, $text);
     }
 
@@ -86,8 +89,11 @@ class text extends base
      * @param  int      $sectionident  The section number to apply to (not ID).
      */
     public function prepend_to_section($course, $sectionident) {
-        $text = $this->get_data();
+        $data = $this->get_data();
+
+        $text = $data->text;
         $text .= $this->get_section_text($course, $sectionident);
+
         $this->set_section_text($course, $sectionident, $text);
     }
 }

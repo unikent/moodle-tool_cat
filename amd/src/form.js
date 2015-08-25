@@ -39,7 +39,7 @@ define(['jquery'], function($) {
                 $("#id_activity").val("");
             });
 
-            $("#id_category, #id_rule, #id_target, #id_datatype, #id_activity").on('change', function() {
+            $("#id_categoryid, #id_rule, #id_target, #id_datatype, #id_activity").on('change', function() {
                 $("#id_updateform").click();
             });
         }

@@ -58,12 +58,12 @@ class category_rules extends \moodleform
         foreach ($catlist as $k => $v) {
             $categories[$k] = $v;
         }
-        $mform->addElement('select', 'category', 'Category', $categories);
+        $mform->addElement('select', 'categoryid', 'Category', $categories);
 
         // Do we have a category?
-        $category = optional_param('category', false, PARAM_INT);
+        $category = optional_param('categoryid', false, PARAM_INT);
         if (!empty($category)) {
-            $mform->setDefault('category', $category);
+            $mform->setDefault('categoryid', $category);
 
             // Populate existing rules.
             $this->add_rule_fieldsets($category);
@@ -118,7 +118,7 @@ class category_rules extends \moodleform
         $defaultdatatype = isset($obj) ? $obj->datatype : '';
         $datatype = optional_param($id . 'datatype', $defaultdatatype, PARAM_ALPHANUMEXT);
 
-        $defaultactivity = is_array($data) && isset($data['activity']) ? $data['activity'] : '';
+        $defaultactivity = is_array($data) && isset($data->activity) ? $data->activity : '';
         $activity = optional_param($id . 'activity', $defaultactivity, PARAM_ALPHANUMEXT);
 
         // Add a selection box for the rule.
@@ -167,8 +167,8 @@ class category_rules extends \moodleform
                     $mform->addElement('text', $id . $name, ucwords($name));
                     $mform->setType($id . $name, $type);
 
-                    if (isset($obj) && isset($data[$name])) {
-                        $mform->setDefault($id . $name, $data[$name]);
+                    if (isset($obj) && isset($data->$name)) {
+                        $mform->setDefault($id . $name, $data->$name);
                     }
                 }
             break;
@@ -183,8 +183,8 @@ class category_rules extends \moodleform
                 ));
 
                 if (isset($obj)) {
-                    $mform->setDefault($id . 'block', $data['block']);
-                    $mform->setDefault($id . 'blockpos', $data['blockpos']);
+                    $mform->setDefault($id . 'block', $data->block);
+                    $mform->setDefault($id . 'blockpos', $data->blockpos);
                 }
             break;
 
@@ -196,18 +196,18 @@ class category_rules extends \moodleform
                 $mform->setType($id . 'summary', PARAM_TEXT);
 
                 if (isset($obj)) {
-                    $mform->setDefault($id . 'title', $data['title']);
-                    $mform->setDefault($id . 'summary', $data['summary']);
+                    $mform->setDefault($id . 'title', $data->title);
+                    $mform->setDefault($id . 'summary', $data->summary);
                 }
             break;
 
             case 'text':
             case 'template':
-                $mform->addElement('textarea', $id . 'data', 'Data');
-                $mform->setType($id . 'data', PARAM_TEXT);
+                $mform->addElement('textarea', $id . 'text', 'Data');
+                $mform->setType($id . 'text', PARAM_TEXT);
 
                 if (isset($obj)) {
-                    $mform->setDefault($id . 'data', $data);
+                    $mform->setDefault($id . 'text', $data->text);
                 }
             break;
 
@@ -230,24 +230,37 @@ class category_rules extends \moodleform
      * @param array $data Form data.
      */
     public function get_rules($data) {
-        $rules = array();
+        static $rulefields = array(
+            'categoryid',
+            'rule',
+            'target',
+            'targetid',
+            'datatype'
+        );
 
+        $rules = array();
         foreach ((array)$data as $k => $v) {
+            if (substr_count($k, '_') != 2) {
+                continue;
+            }
+
+            // Break up the key.
             list($rule, $id, $name) = explode('_', $k);
             if (!isset($rules[$id])) {
                 $rules[$id] = array();
+                $rules[$id]->data = new \stdClass();
             }
 
-            $rules[$id][$name] = $v;
+            // Is this a standard field?
+            if (in_array($name, $rulefields)) {
+                // Yep, just add it.
+                $rules[$id][$name] = $v;
+            } else {
+                // Nope? Data field then.
+                $rules[$id]->data->$name = $v;
+            }
         }
 
         return $rules;
-    }
-
-    /**
-     * Returns the data for the selected rule.
-     */
-    private function get_rule_data($rulenum) {
-        // TODO.
     }
 }

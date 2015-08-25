@@ -38,27 +38,16 @@ if (($data = $form->get_data())) {
         if (isset($rule->id)) {
             $DB->update_record('tool_cat_rules', $rule);
         } else {
+            $rule->seq = $DB->get_field('tool_cat_rules', 'MAX(seq)', (array)$rule);
+            $rule->seq = isset($rule->seq) ? $rule->seq + 1 : 0;
+
+            $rule->data = serialize($rule->data);
+
             $DB->insert_record('tool_cat_rules', $rule);
         }
 
-        redirect(new \moodle_url($PAGE->url, array('category' => $data->category)));
+        redirect(new \moodle_url($PAGE->url, array('categoryid' => $data->categoryid)));
     }
-
-    // Grab new rules.
-    $rule = new \stdClass();
-    $rule->categoryid = $data->category;
-    $rule->seq = $DB->get_field('tool_cat_rules', 'MAX(seq)', (array)$rule);
-    $rule->seq = isset($rule->seq) ? $rule->seq + 1 : 0;
-    $rule->rule = $data->rule;
-    $rule->target = $data->target;
-    $rule->targetid = $data->targetid;
-    $rule->datatype = $data->datatype;
-    $rule->data = array_diff((array)$data, (array)$rule);
-    unset($rule->data['submitbutton']);
-    $rule->data = serialize($rule->data);
-
-    $DB->insert_record('tool_cat_rules', $rule);
-    redirect(new \moodle_url($PAGE->url, array('category' => $data->category)));
 }
 
 echo $OUTPUT->header();

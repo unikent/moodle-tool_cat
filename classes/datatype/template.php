@@ -60,7 +60,7 @@ class template extends text
         $data = $this->get_data();
 
         $text = $this->get_section_text($course, $sectionident);
-        $text .= $this->render_template($data, $course);
+        $text .= $this->render_template($data->text, $course);
         $this->set_section_text($course, $sectionident, $text);
     }
 
@@ -73,7 +73,7 @@ class template extends text
     public function prepend_to_section($course, $sectionident) {
         $data = $this->get_data();
 
-        $text = $this->render_template($data, $course);
+        $text = $this->render_template($data->text, $course);
         $text .= $this->get_section_text($course, $sectionident);
         $this->set_section_text($course, $sectionident, $text);
     }
