@@ -195,7 +195,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to prepend to the section.
         $rule = \tool_cat\rule\base::from_record(array(
-            'id' => 1,
+            'id' => 2,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'section',
@@ -253,7 +253,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to prepend to the section.
         $rule = \tool_cat\rule\base::from_record(array(
-            'id' => 1,
+            'id' => 2,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'section',
@@ -311,7 +311,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to prepend to the section.
         $rule = \tool_cat\rule\base::from_record(array(
-            'id' => 1,
+            'id' => 2,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'section',

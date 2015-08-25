@@ -82,16 +82,14 @@ abstract class base
             'ruleid' => $this->id
         ));
 
-        $todos = array();
-        foreach ($courses as $course) {
-            if (!in_array($course->id, $intersect)) {
-                $todos[] = $course;
+        foreach ($courses as $k => $course) {
+            if (in_array($course->id, $intersect)) {
+                unset($courses[$k]);
             }
         }
-        unset($intersect);
 
-        $done = $this->_apply($todos);
-        unset($todos);
+        $done = $this->_apply($courses);
+        unset($intersect);
 
         $appliedbuffer = array();
 

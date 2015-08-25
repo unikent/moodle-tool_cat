@@ -115,7 +115,7 @@ class tool_cat_block_tests extends \advanced_testcase
 
         // Apply a rule to prepend a block.
         $rule = \tool_cat\rule\base::from_record(array(
-            'id' => 1,
+            'id' => 2,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'block_region',
