@@ -69,7 +69,8 @@ class category_rules extends \moodleform
             $this->add_rule_fieldsets($category);
 
             // Print a blank rule-add row.
-            $mform->addElement('header', 'rules', 'Add a new rule');
+            $mform->addElement('header', 'rule_new', 'Add a new rule');
+            $mform->setExpanded('rule_new');
             $this->add_rule_fieldset();
         }
 
@@ -118,7 +119,7 @@ class category_rules extends \moodleform
         $defaultdatatype = isset($obj) ? $obj->datatype : '';
         $datatype = optional_param($id . 'datatype', $defaultdatatype, PARAM_ALPHANUMEXT);
 
-        $defaultactivity = is_array($data) && isset($data->activity) ? $data->activity : '';
+        $defaultactivity = isset($data->activity) ? $data->activity : '';
         $activity = optional_param($id . 'activity', $defaultactivity, PARAM_ALPHANUMEXT);
 
         // Add a selection box for the rule.
@@ -160,6 +161,14 @@ class category_rules extends \moodleform
         // Do we have a datatype?
         if (empty($datatype)) {
             return;
+        }
+
+        // Set defaults.
+        if (isset($obj)) {
+            $mform->setDefault($id . 'rule', $obj->rule);
+            $mform->setDefault($id . 'target', $obj->target);
+            $mform->setDefault($id . 'targetid', $obj->targetid);
+            $mform->setDefault($id . 'datatype', $obj->datatype);
         }
 
         // We might need extra information.
@@ -233,13 +242,6 @@ class category_rules extends \moodleform
                 // All done!
             break;
         }
-
-        if (isset($obj)) {
-            $mform->setDefault($id . 'rule', $obj->rule);
-            $mform->setDefault($id . 'target', $obj->target);
-            $mform->setDefault($id . 'targetid', $obj->targetid);
-            $mform->setDefault($id . 'datatype', $obj->datatype);
-        }
     }
 
     /**
@@ -268,6 +270,10 @@ class category_rules extends \moodleform
                 $rules[$id] = new \stdClass();
                 $rules[$id]->categoryid = $data->categoryid;
                 $rules[$id]->data = new \stdClass();
+
+                if ($id != 'new') {
+                    $rules[$id]->id = $id;
+                }
             }
 
             // Is this a standard field?
@@ -278,6 +284,11 @@ class category_rules extends \moodleform
                 // Nope? Data field then.
                 $rules[$id]->data->$name = $v;
             }
+        }
+
+        // Check 'new' is complete.
+        if (empty($rules['new']->rule) || empty($rules['new']->target)) {
+            unset($rules['new']);
         }
 
         return $rules;

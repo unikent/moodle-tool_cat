@@ -35,6 +35,8 @@ $form = new \tool_cat\form\category_rules();
 if (($data = $form->get_data())) {
     $rules = $form->get_rules($data);
     foreach ($rules as $rule) {
+        $rule->data = serialize($rule->data);
+
         if (isset($rule->id)) {
             $DB->update_record('tool_cat_rules', $rule);
         } else {
@@ -43,13 +45,12 @@ if (($data = $form->get_data())) {
             ));
 
             $rule->seq = isset($seq) ? $seq + 1 : 0;
-            $rule->data = serialize($rule->data);
 
             $DB->insert_record('tool_cat_rules', $rule);
         }
-
-        redirect(new \moodle_url($PAGE->url, array('categoryid' => $data->categoryid)));
     }
+
+    redirect(new \moodle_url($PAGE->url, array('categoryid' => $data->categoryid)));
 }
 
 echo $OUTPUT->header();
