@@ -88,7 +88,7 @@ class category_rules extends \moodleform
         $rules = \tool_cat\external\rule::get_category_rules($category);
 
         foreach ($rules as $rule) {
-            $mform->addElement('header', "rule_{$rule->id}", 'Rule ' . $rule->id);
+            $mform->addElement('header', "rule_{$rule->id}", 'Rule ' . ($rule->seq + 1));
             $mform->addElement('hidden', "rule_{$rule->id}_id", $rule->id);
             $mform->setType("rule_{$rule->id}_id", PARAM_INT);
 
