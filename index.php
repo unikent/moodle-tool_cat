@@ -38,9 +38,11 @@ if (($data = $form->get_data())) {
         if (isset($rule->id)) {
             $DB->update_record('tool_cat_rules', $rule);
         } else {
-            $rule->seq = $DB->get_field('tool_cat_rules', 'MAX(seq)', (array)$rule);
-            $rule->seq = isset($rule->seq) ? $rule->seq + 1 : 0;
+            $seq = $DB->get_field('tool_cat_rules', 'MAX(seq)', array(
+                'categoryid' => $rule->categoryid
+            ));
 
+            $rule->seq = isset($seq) ? $seq + 1 : 0;
             $rule->data = serialize($rule->data);
 
             $DB->insert_record('tool_cat_rules', $rule);

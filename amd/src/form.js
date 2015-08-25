@@ -27,19 +27,19 @@ define(['jquery'], function($) {
         init: function(callback) {
             $("#fitem_id_updateform").hide();
 
-            $("#id_rule").on('change', function() {
-                $("#id_datatype, #id_target").val("");
+            $(".rule-select").on('change', function() {
+                $(".datatype-select, .target-select").val("");
             });
 
-            $("#id_target").on('change', function() {
-                $("#id_datatype").val("");
+            $(".target-select").on('change', function() {
+                $(".datatype-select").val("");
             });
 
-            $("#id_datatype").on('change', function() {
-                $("#id_activity").val("");
+            $(".datatype-select").on('change', function() {
+                $(".activity-select").val("");
             });
 
-            $("#id_categoryid, #id_rule, #id_target, #id_datatype, #id_activity").on('change', function() {
+            $("#id_categoryid, .rule-select, .target-select, .datatype-select, .activity-select").on('change', function() {
                 $("#id_updateform").click();
             });
         }

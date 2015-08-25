@@ -123,7 +123,11 @@ class category_rules extends \moodleform
 
         // Add a selection box for the rule.
         $validrules = \tool_cat\external\rule::get_rules();
-        $mform->addElement('select', $id . 'rule', 'Rule', array_merge(array(0 => 'Select a rule'), $validrules));
+        $mform->addElement('select', $id . 'rule', 'Rule', array_merge(array(
+            0 => 'Select a rule'
+        ), $validrules), array(
+            'class' => 'rule-select'
+        ));
 
         // Do we have a rule?
         if (empty($rule)) {
@@ -132,7 +136,11 @@ class category_rules extends \moodleform
 
         // We have a rule!
         $validtargets = \tool_cat\external\rule::get_targets($rule);
-        $mform->addElement('select', $id . 'target', 'Target', array_merge(array(0 => 'Select a target'), $validtargets));
+        $mform->addElement('select', $id . 'target', 'Target', array_merge(array(
+            0 => 'Select a target'
+        ), $validtargets), array(
+            'class' => 'target-select'
+        ));
         $mform->addElement('text', $id . 'targetid', 'Target Identifier');
         $mform->setType($id . 'targetid', PARAM_TEXT);
 
@@ -143,7 +151,11 @@ class category_rules extends \moodleform
 
         // We have a target!
         $validdatatypes = \tool_cat\external\rule::get_datatypes($target);
-        $mform->addElement('select', $id . 'datatype', 'Data type', array_merge(array(0 => 'Select a data type'), $validdatatypes));
+        $mform->addElement('select', $id . 'datatype', 'Data type', array_merge(array(
+            0 => 'Select a data type'
+        ), $validdatatypes), array(
+            'class' => 'datatype-select'
+        ));
 
         // Do we have a datatype?
         if (empty($datatype)) {
@@ -154,7 +166,11 @@ class category_rules extends \moodleform
         switch ($datatype) {
             case 'activity':
                 $validactivities = \tool_cat\external\rule::get_activities();
-                $mform->addElement('select', $id . 'activity', 'Activity', array_merge(array(0 => 'Select an activity'), $validactivities));
+                $mform->addElement('select', $id . 'activity', 'Activity', array_merge(array(
+                    0 => 'Select an activity'
+                ), $validactivities), array(
+                    'class' => 'activity-select'
+                ));
 
                 // Do we have an activity submitted?
                 if (empty($activity)) {
@@ -175,7 +191,9 @@ class category_rules extends \moodleform
 
             case 'block':
                 $validblocks = \tool_cat\external\rule::get_blocks();
-                $mform->addElement('select', $id . 'block', 'Block', array_merge(array(0 => 'Select a block'), $validblocks));
+                $mform->addElement('select', $id . 'block', 'Block', array_merge(array(
+                    0 => 'Select a block'
+                ), $validblocks));
 
                 $mform->addElement('select', $id . 'blockpos', 'Block Position', array(
                     \BLOCK_POS_LEFT => 'Left',
@@ -183,8 +201,8 @@ class category_rules extends \moodleform
                 ));
 
                 if (isset($obj)) {
-                    $mform->setDefault($id . 'block', $data->block);
-                    $mform->setDefault($id . 'blockpos', $data->blockpos);
+                    $mform->setDefault($id . 'block', isset($data->block) ? $data->block : '');
+                    $mform->setDefault($id . 'blockpos', isset($data->blockpos) ? $data->blockpos : '');
                 }
             break;
 
@@ -196,8 +214,8 @@ class category_rules extends \moodleform
                 $mform->setType($id . 'summary', PARAM_TEXT);
 
                 if (isset($obj)) {
-                    $mform->setDefault($id . 'title', $data->title);
-                    $mform->setDefault($id . 'summary', $data->summary);
+                    $mform->setDefault($id . 'title', isset($data->title) ? $data->title : '');
+                    $mform->setDefault($id . 'summary', isset($data->summary) ? $data->summary : '');
                 }
             break;
 
@@ -206,7 +224,7 @@ class category_rules extends \moodleform
                 $mform->addElement('textarea', $id . 'text', 'Data');
                 $mform->setType($id . 'text', PARAM_TEXT);
 
-                if (isset($obj)) {
+                if (isset($obj) && isset($data->text)) {
                     $mform->setDefault($id . 'text', $data->text);
                 }
             break;
@@ -247,14 +265,15 @@ class category_rules extends \moodleform
             // Break up the key.
             list($rule, $id, $name) = explode('_', $k);
             if (!isset($rules[$id])) {
-                $rules[$id] = array();
+                $rules[$id] = new \stdClass();
+                $rules[$id]->categoryid = $data->categoryid;
                 $rules[$id]->data = new \stdClass();
             }
 
             // Is this a standard field?
             if (in_array($name, $rulefields)) {
                 // Yep, just add it.
-                $rules[$id][$name] = $v;
+                $rules[$id]->$name = $v;
             } else {
                 // Nope? Data field then.
                 $rules[$id]->data->$name = $v;
