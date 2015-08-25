@@ -38,7 +38,7 @@ require_once("$CFG->libdir/coursecatlib.php");
 class category
 {
     private $id;
-    private $courses = array();
+    private $courses = null;
 
     /**
      * Constructor.
@@ -121,7 +121,7 @@ SQL;
             // Add the buffer in.
             ksort($buffer);
             foreach ($buffer as $rule) {
-                $ret[] = $rule;
+                $ret[] = \tool_cat\rule\base::from_record($rule);
             }
         }
 

@@ -83,9 +83,11 @@ abstract class base
             $event = \tool_cat\event\rule_applied::create(array(
                 'objectid' => $this->id,
                 'courseid' => $course->id,
-                'context' => context_course::instance($course->id)
+                'context' => \context_course::instance($course->id)
             ));
             $event->trigger();
+
+            // TODO - store in applied table.
         }
     }
 

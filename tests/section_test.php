@@ -58,7 +58,7 @@ class tool_cat_section_tests extends \advanced_testcase
             'target' => 'section',
             'targetid' => '1',
             'datatype' => 'text',
-            'data' => serialize($sectiontext)
+            'data' => serialize((object)array('text' => $sectiontext))
         ));
         $rule->apply(array($this->course));
 
@@ -90,7 +90,7 @@ class tool_cat_section_tests extends \advanced_testcase
             'target' => 'section',
             'targetid' => '1',
             'datatype' => 'text',
-            'data' => serialize($sectiontext)
+            'data' => serialize((object)array('text' => $sectiontext))
         ));
         $rule->apply(array($this->course));
 
@@ -123,7 +123,7 @@ class tool_cat_section_tests extends \advanced_testcase
             'target' => 'section',
             'targetid' => '1',
             'datatype' => 'template',
-            'data' => serialize($sectiontext)
+            'data' => serialize((object)array('text' => $sectiontext))
         ));
         $rule->apply(array($this->course));
 
@@ -156,7 +156,7 @@ class tool_cat_section_tests extends \advanced_testcase
             'target' => 'section',
             'targetid' => '1',
             'datatype' => 'template',
-            'data' => serialize($sectiontext)
+            'data' => serialize((object)array('text' => $sectiontext))
         ));
         $rule->apply(array($this->course));
 
