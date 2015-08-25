@@ -84,11 +84,11 @@ class activity extends base
 
         // Get the module.
         $module = $DB->get_record('modules', array(
-            'name' => $data->type
+            'name' => $data->activity
         ), '*', \MUST_EXIST);
 
         // Create our instance.
-        $activity = \tool_cat\activity\base::create_activity($data->type, serialize($data));
+        $activity = \tool_cat\activity\base::create_activity($data->activity, serialize($data));
         $instance = $activity->get_instance($course);
 
         // Create the cm.

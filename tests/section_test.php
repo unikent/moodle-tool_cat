@@ -186,7 +186,7 @@ class tool_cat_section_tests extends \advanced_testcase
             'targetid' => '1',
             'datatype' => 'activity',
             'data' => serialize(array(
-                'type' => 'forum',
+                'activity' => 'forum',
                 'name' => 'Test forum',
                 'intro' => 'This is a test forum'
             ))
@@ -202,7 +202,7 @@ class tool_cat_section_tests extends \advanced_testcase
             'targetid' => '1',
             'datatype' => 'activity',
             'data' => serialize(array(
-                'type' => 'forum',
+                'activity' => 'forum',
                 'name' => 'First forum',
                 'intro' => 'This is the most important forum'
             ))
@@ -245,7 +245,7 @@ class tool_cat_section_tests extends \advanced_testcase
             'targetid' => '1',
             'datatype' => 'activity',
             'data' => serialize(array(
-                'type' => 'aspirelists',
+                'activity' => 'aspirelists',
                 'name' => 'Reading List'
             ))
         ));
@@ -260,7 +260,7 @@ class tool_cat_section_tests extends \advanced_testcase
             'targetid' => '1',
             'datatype' => 'activity',
             'data' => serialize(array(
-                'type' => 'aspirelists',
+                'activity' => 'aspirelists',
                 'name' => 'Top 10 Reading Lists 2015'
             ))
         ));
@@ -302,7 +302,7 @@ class tool_cat_section_tests extends \advanced_testcase
             'targetid' => '1',
             'datatype' => 'activity',
             'data' => serialize(array(
-                'type' => 'url',
+                'activity' => 'url',
                 'name' => 'URL',
                 'url' => 'http://www.google.com'
             ))
@@ -318,7 +318,7 @@ class tool_cat_section_tests extends \advanced_testcase
             'targetid' => '1',
             'datatype' => 'activity',
             'data' => serialize(array(
-                'type' => 'url',
+                'activity' => 'url',
                 'name' => 'Main URL',
                 'url' => 'http://www.google.com'
             ))
