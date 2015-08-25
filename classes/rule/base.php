@@ -75,10 +75,28 @@ abstract class base
      * @param array $courses An array of courses to apply to rule to.
      */
     public function apply($courses) {
-        // TODO - return boolean and event only for those it worked on.
-        $this->_apply($courses);
+        global $DB;
 
+        // Remove all courses that have already applied this rule.
+        $intersect = $DB->get_fieldset_select('tool_cat_applications', 'courseid', 'ruleid=:ruleid', array(
+            'ruleid' => $this->id
+        ));
+
+        $todos = array();
         foreach ($courses as $course) {
+            if (!in_array($course->id, $intersect)) {
+                $todos[] = $course;
+            }
+        }
+        unset($intersect);
+
+        $done = $this->_apply($todos);
+        unset($todos);
+
+        $appliedbuffer = array();
+
+        // Trigger events.
+        foreach ($done as $course) {
             // Trigger a rule applied event.
             $event = \tool_cat\event\rule_applied::create(array(
                 'objectid' => $this->id,
@@ -87,8 +105,14 @@ abstract class base
             ));
             $event->trigger();
 
-            // TODO - store in applied table.
+            $appliedbuffer[] = array(
+                'courseid' => $course->id,
+                'ruleid' => $this->id
+            );
         }
+        unset($done);
+
+        $DB->insert_records('tool_cat_applications', $appliedbuffer);
     }
 
     /**
@@ -102,6 +126,7 @@ abstract class base
      * Apply the rule.
      *
      * @param array $courses An array of courses to apply to rule to.
+     * @return array An array of courses we applied ourselves to.
      */
     protected abstract function _apply($courses);
 }
