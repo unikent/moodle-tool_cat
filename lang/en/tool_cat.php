@@ -27,27 +27,6 @@ $string['plugindesc'] = 'The category admin tool allows mass-administration of c
 
 $string['cat:manage'] = 'Mass-manage courses within a category';
 
-$string['recyclebintaskname'] = 'Category recycle bin purge';
-$string['managername'] = 'Category manager';
-$string['recyclebin'] = 'Category recyclebin';
-
-$string['enablerecyclebin'] = 'Enable the category manager';
-$string['recyclebinid'] = 'The ID of the removed category';
-$string['recyclebinexp'] = 'Number of seconds between delete and purge';
-
-$string['course'] = 'Course';
-$string['date_deleted'] = 'Date Deleted';
-$string['date_scheduled'] = 'Purge Due Date';
-$string['status'] = 'Status';
-
-$string['status_0'] = 'Scheduled';
-$string['status_1'] = 'Purged';
-$string['status_2'] = 'Errored';
-
-$string['delay'] = 'Delay';
-$string['delay_success'] = 'Course purge has been delayed by 2 weeks.';
-$string['action'] = 'Action';
-
 $string['subplugintype_catactivity'] = 'Category admin tool activity';
 $string['subplugintype_catactivity_plural'] = 'Category admin tool activities';
 
