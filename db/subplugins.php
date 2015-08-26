@@ -15,21 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * Category admin tool.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'tool_cat';
-$plugin->version   = 2015082500;
-$plugin->requires  = 2014051200;
-$plugin->maturity = MATURITY_RC;
-$plugin->release = '1.0 (Build: 2015082500)';
-
-$plugin->dependencies = array(
-    'local_notifications' => 2015062500
+$subplugins = array(
+    'catactivity' => 'admin/tool/cat/activity',
+    'catdatatype' => 'admin/tool/cat/datatype',
+    'catrule' => 'admin/tool/cat/rule',
+    'cattarget' => 'admin/tool/cat/target'
 );

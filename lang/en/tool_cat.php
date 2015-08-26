@@ -47,3 +47,15 @@ $string['status_2'] = 'Errored';
 $string['delay'] = 'Delay';
 $string['delay_success'] = 'Course purge has been delayed by 2 weeks.';
 $string['action'] = 'Action';
+
+$string['subplugintype_catactivity'] = 'Category admin tool activity';
+$string['subplugintype_catactivity_plural'] = 'Category admin tool activities';
+
+$string['subplugintype_catdatatype'] = 'Category admin tool data type';
+$string['subplugintype_catdatatype_plural'] = 'Category admin tool data types';
+
+$string['subplugintype_catrule'] = 'Category admin tool rule';
+$string['subplugintype_catrule_plural'] = 'Category admin tool rules';
+
+$string['subplugintype_cattarget'] = 'Category admin tool target';
+$string['subplugintype_cattarget_plural'] = 'Category admin tool targets';

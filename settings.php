@@ -62,4 +62,11 @@ if ($hassiteconfig) {
         1209600,
         PARAM_INT
     ));
+
+    $subtypes = array('catactivity', 'catdatatype', 'catrule', 'cattarget');
+    foreach ($subtypes as $subtype) {
+        foreach (core_plugin_manager::instance()->get_plugins_of_type($subtype) as $plugin) {
+            $plugin->load_settings($ADMIN, 'categoryadmintool', $hassiteconfig);
+        }
+    }
 }
