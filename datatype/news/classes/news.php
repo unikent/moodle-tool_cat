@@ -26,8 +26,6 @@ namespace catdatatype_news;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/course/lib.php');
-require_once($CFG->dirroot . '/mod/aspirelists/lib.php');
 require_once($CFG->dirroot . '/mod/forum/lib.php');
 
 /**

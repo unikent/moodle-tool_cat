@@ -59,7 +59,7 @@ class tool_cat_course_tests extends \advanced_testcase
             'section' => 0
         )));
 
-        // Apply a rule to delete the section.
+        // Apply a rule to append news to the section.
         $rule = \tool_cat\rule::from_record(array(
             'id' => 1,
             'order' => 1,

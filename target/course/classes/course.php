@@ -71,7 +71,7 @@ class course extends \tool_cat\target
      */
     public function append_to($courses) {
         // Special case for news.
-        if (get_class($this->datatype) == 'cattarget_course\\datatype\\news') {
+        if (get_class($this->datatype) == 'catdatatype_news\\news') {
             foreach ($courses as $course) {
                 $this->datatype->add_to_course($course);
             }
