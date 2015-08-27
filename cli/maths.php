@@ -29,6 +29,7 @@ require_once($CFG->libdir . '/clilib.php');
 
 // Get a list of courses to rollover.
 $courses = $DB->get_records_sql('SELECT * FROM {course} WHERE (shortname LIKE "MA%" AND shortname NOT LIKE "MAE%") OR shortname = \'WSHOPMA1\'');
+$courses = $DB->get_records_sql('SELECT * FROM {course} WHERE id=3395');
 
 $sections = array(
     array(
@@ -137,11 +138,26 @@ HTML5;
         'section' => 0
     ));
 
-    // Prepend a discussion forum.
+    // Prepend an announcements forum.
     $rule = \tool_cat\rule::from_record(array(
         'id' => \tool_cat\rule::FAKE_RULE_ID,
         'order' => 1,
-        'rule' => 'prepend_to',
+        'rule' => 'append_to',
+        'target' => 'course',
+        'targetid' => null,
+        'datatype' => 'news',
+        'data' => serialize(array(
+            'intro' => 'Announcements relating to ' . $course->shortname . ' will be posted here.',
+            'showdescription' => 1
+        ))
+    ));
+    $rule->apply(array($course));
+
+    // Append a discussion forum.
+    $rule = \tool_cat\rule::from_record(array(
+        'id' => \tool_cat\rule::FAKE_RULE_ID,
+        'order' => 1,
+        'rule' => 'append_to',
         'target' => 'section',
         'targetid' => '0',
         'datatype' => 'activity',
@@ -149,21 +165,6 @@ HTML5;
             'activity' => 'forum',
             'name' => 'Discussion Forum ',
             'intro' => '<p>(optional) Use this Discussion Forum to discuss the material of ' . $course->shortname . ' with other students and/or staff.</p><p>Please note that posts seeking (or providing) direct solutions to coursework, either assessed or unassessed, are not permitted.</p>',
-            'showdescription' => 1
-        ))
-    ));
-    $rule->apply(array($course));
-
-    // Prepend an announcements forum.
-    $rule = \tool_cat\rule::from_record(array(
-        'id' => \tool_cat\rule::FAKE_RULE_ID,
-        'order' => 1,
-        'rule' => 'prepend_to',
-        'target' => 'course',
-        'targetid' => null,
-        'datatype' => 'news',
-        'data' => serialize(array(
-            'intro' => 'Announcements relating to ' . $course->shortname . ' will be posted here.',
             'showdescription' => 1
         ))
     ));
