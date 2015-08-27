@@ -34,4 +34,14 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class cattarget extends \core\plugininfo\base {
+    /**
+     * Should there be a way to uninstall the plugin via the administration UI.
+     *
+     * By default uninstallation is not allowed, plugin developers must enable it explicitly!
+     *
+     * @return bool
+     */
+    public function is_uninstall_allowed() {
+        return true;
+    }
 }
