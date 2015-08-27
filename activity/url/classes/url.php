@@ -17,12 +17,12 @@
 /**
  * Category admin tool activities.
  *
- * @package    catactivity_aspirelists
+ * @package    catactivity_url
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace catactivity_aspirelists\url;
+namespace catactivity_url;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -32,7 +32,7 @@ require_once($CFG->dirroot . '/mod/url/lib.php');
 /**
  * Category admin tool url activity.
  *
- * @package    catactivity_aspirelists
+ * @package    catactivity_url
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -59,7 +59,7 @@ class url extends \tool_cat\activity
     public function get_instance($course) {
         $data = (object)$this->get_data();
 
-        // Create aspirelists object.
+        // Create url object.
         $instance = new \stdClass();
         $instance->course       = $course->id;
         $instance->name         = $data->name;

@@ -17,19 +17,19 @@
 /**
  * Category admin tool activities.
  *
- * @package    catactivity_aspirelists
+ * @package    catactivity_forum
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace catactivity_aspirelists\forum;
+namespace catactivity_forum;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Category admin tool forum activity.
  *
- * @package    catactivity_aspirelists
+ * @package    catactivity_forum
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
