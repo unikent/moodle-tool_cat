@@ -17,24 +17,24 @@
 /**
  * Category admin tool rules.
  *
- * @package    tool_cat
+ * @package    catrule_empty_content
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\rule;
+namespace catrule_empty_content;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Category admin tool delete rule.
- * Deletes a target.
+ * Category admin tool empty_content rule.
+ * Deletes all content from a target.
  *
- * @package    tool_cat
+ * @package    catrule_empty_content
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class delete extends base
+class empty_content extends \tool_cat\rule
 {
     /**
      * Return a list of targets this rule supports.
@@ -43,7 +43,7 @@ class delete extends base
      */
     public function get_supported_targets() {
         return array(
-            'block', 'section', 'course'
+            'section', 'block_region'
         );
     }
 
@@ -54,7 +54,7 @@ class delete extends base
      * @return array An array of courses we applied ourselves to.
      */
     protected function _apply($courses) {
-        $this->target->delete($courses);
+        $this->target->empty_content($courses);
 
         return $courses;
     }

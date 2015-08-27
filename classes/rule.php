@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\rule;
+namespace tool_cat;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class base
+abstract class rule
 {
     protected $target;
 
@@ -46,7 +46,7 @@ abstract class base
             throw new \moodle_exception("Invalid rule.");
         }
 
-        $ruletype = "\\tool_cat\\rule\\" . $name;
+        $ruletype = "\\catrule_{$name}\\{$name}";
         return new $ruletype();
     }
 

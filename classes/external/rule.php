@@ -178,7 +178,7 @@ class rule extends external_api
             'rule' => $rule
         ));
 
-        $obj = \tool_cat\rule\base::create_rule($params['rule']);
+        $obj = \tool_cat\rule::create_rule($params['rule']);
         $keys = $obj->get_supported_targets();
 
         // Prettify.

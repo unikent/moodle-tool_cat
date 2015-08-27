@@ -121,7 +121,7 @@ SQL;
             // Add the buffer in.
             ksort($buffer);
             foreach ($buffer as $rule) {
-                $ret[] = \tool_cat\rule\base::from_record($rule);
+                $ret[] = \tool_cat\rule::from_record($rule);
             }
         }
 
@@ -143,7 +143,7 @@ SQL;
     /**
      * Apply a rule to this category.
      *
-     * @param rule\base $rule The rule to apply.
+     * @param rule $rule The rule to apply.
      */
     public function apply($rule) {
         $courses = $this->get_courses();

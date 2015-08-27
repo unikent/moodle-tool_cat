@@ -17,24 +17,24 @@
 /**
  * Category admin tool rules.
  *
- * @package    tool_cat
+ * @package    catrule_append_to
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\rule;
+namespace catrule_append_to;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Category admin tool prepend rule.
- * Prepends data to a target.
+ * Category admin tool append rule.
+ * Appends data to a target.
  *
- * @package    tool_cat
+ * @package    catrule_append_to
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class prepend_to extends base
+class append_to extends \tool_cat\rule
 {
     /**
      * Return a list of targets this rule supports.
@@ -54,7 +54,7 @@ class prepend_to extends base
      * @return array An array of courses we applied ourselves to.
      */
     protected function _apply($courses) {
-        $this->target->prepend_to($courses);
+        $this->target->append_to($courses);
 
         return $courses;
     }

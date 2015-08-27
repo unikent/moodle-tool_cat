@@ -60,7 +60,7 @@ class tool_cat_course_tests extends \advanced_testcase
         )));
 
         // Apply a rule to delete the section.
-        $rule = \tool_cat\rule\base::from_record(array(
+        $rule = \tool_cat\rule::from_record(array(
             'id' => 1,
             'order' => 1,
             'rule' => 'append_to',
@@ -91,7 +91,7 @@ class tool_cat_course_tests extends \advanced_testcase
         $this->assertEquals(9, $before);
 
         // Apply a rule to delete the section.
-        $rule = \tool_cat\rule\base::from_record(array(
+        $rule = \tool_cat\rule::from_record(array(
             'id' => 1,
             'order' => 1,
             'rule' => 'append_to',
@@ -121,7 +121,7 @@ class tool_cat_course_tests extends \advanced_testcase
         $this->assertEquals(9, $before);
 
         // Apply a rule to delete the section.
-        $rule = \tool_cat\rule\base::from_record(array(
+        $rule = \tool_cat\rule::from_record(array(
             'id' => 1,
             'order' => 1,
             'rule' => 'prepend_to',
