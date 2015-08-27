@@ -103,17 +103,14 @@ for ($i = 0; $i < 6; $i++) {
 
 // Apply first section.
 foreach ($courses as $course) {
-    $rule = \tool_cat\rule::from_record(array(
-        'id' => \tool_cat\rule::FAKE_RULE_ID,
-        'order' => 1,
-        'rule' => 'prepend_to',
-        'target' => 'course',
-        'targetid' => null,
-        'datatype' => 'section',
-        'data' => serialize(array(
-            'name' => get_course_display_name_for_list($course),
-            'visible' => 1,
-            'summary' => '<p style="margin: 0cm 0cm 10pt 72pt; text-indent: -72pt;"><em>All text in italics should be deleted before the module is made available to students.</em></p><p style="margin: 0cm 0cm 10pt 72pt; text-indent: -72pt;"><b>Synopsis</b></p><p><em>
+    // We can't use a rule for this.
+    $DB->set_field('course_sections', 'name', get_course_display_name_for_list($course), array(
+        'course' => $course->id,
+        'section' => 0
+    ));
+
+    $summary = <<<HTML5
+<p style="margin: 0cm 0cm 10pt 72pt; text-indent: -72pt;"><em>All text in italics should be deleted before the module is made available to students.</em></p><p style="margin: 0cm 0cm 10pt 72pt; text-indent: -72pt;"><b>Synopsis</b></p><p><em>
 
 Copied from the Module Guide</em></p><p><strong>Use of Moodle</strong></p><p><em>Key information on how moodle will be used to support the module, e.g. when material will be added to moodle, whether Announcments will be used, whether the discussion forum will be used, etc.</em></p><table><caption><strong>Contact Details<br></strong></caption><thead><tr><th scope="col"></th><th scope="col">Name</th><th scope="col">Email address</th><th scope="col">Telephone</th><th scope="col">Office Hours</th></tr></thead><tbody><tr><td><strong>Module Convenor</strong></td>
 <td>************</td>
@@ -133,11 +130,12 @@ Copied from the Module Guide</em></p><p><strong>Use of Moodle</strong></p><p><em
 <td><a href="mailto:***@kent.ac.uk">***@kent.ac.uk</a></td>
 <td>01227 82****</td>
 <td><p><em>Day, time</em></p><p><em>Day, time</em></p></td></tr></tbody></table><em>
-</em>',
-            'summaryformat' => \FORMAT_HTML
-        ))
+</em>
+HTML5;
+    $DB->set_field('course_sections', 'summary', $summary, array(
+        'course' => $course->id,
+        'section' => 0
     ));
-    $rule->apply(array($course));
 
     // Prepend a discussion forum.
     $rule = \tool_cat\rule::from_record(array(
