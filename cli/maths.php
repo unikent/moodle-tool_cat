@@ -28,7 +28,7 @@ require_once(dirname(__FILE__) . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
 
 // Get a list of courses to rollover.
-$courses = $DB->get_records_sql('SELECT shortname FROM {course} WHERE (shortname LIKE "MA%" AND shortname NOT LIKE "MAE%") OR shortname = \'WSHOPMA1\'');
+$courses = $DB->get_records_sql('SELECT * FROM {course} WHERE (shortname LIKE "MA%" AND shortname NOT LIKE "MAE%") OR shortname = \'WSHOPMA1\'');
 
 $sections = array(
     array(
