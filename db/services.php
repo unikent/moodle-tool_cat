@@ -41,43 +41,43 @@ $services = array(
 
 $functions = array(
     'tool_cat_get_rules' => array(
-        'classname'   => 'tool_cat\external\rule',
+        'classname'   => 'tool_cat\external',
         'methodname'  => 'get_rules',
         'description' => 'Get rules.',
         'type'        => 'read'
     ),
     'tool_cat_get_category_rules' => array(
-        'classname'   => 'tool_cat\external\rule',
+        'classname'   => 'tool_cat\external',
         'methodname'  => 'get_category_rules',
         'description' => 'Get rules for a given category.',
         'type'        => 'read'
     ),
     'tool_cat_get_targets' => array(
-        'classname'   => 'tool_cat\external\rule',
+        'classname'   => 'tool_cat\external',
         'methodname'  => 'get_targets',
         'description' => 'Get targets.',
         'type'        => 'read'
     ),
     'tool_cat_get_datatypes' => array(
-        'classname'   => 'tool_cat\external\rule',
+        'classname'   => 'tool_cat\external',
         'methodname'  => 'get_datatypes',
         'description' => 'Get datatypes.',
         'type'        => 'read'
     ),
     'tool_cat_get_activities' => array(
-        'classname'   => 'tool_cat\external\rule',
+        'classname'   => 'tool_cat\external',
         'methodname'  => 'get_activities',
         'description' => 'Get activities.',
         'type'        => 'read'
     ),
     'tool_cat_get_blocks' => array(
-        'classname'   => 'tool_cat\external\rule',
+        'classname'   => 'tool_cat\external',
         'methodname'  => 'get_blocks',
         'description' => 'Get blocks.',
         'type'        => 'read'
     ),
     'tool_cat_get_activity_fields' => array(
-        'classname'   => 'tool_cat\external\rule',
+        'classname'   => 'tool_cat\external',
         'methodname'  => 'get_activity_fields',
         'description' => 'Get activity fields.',
         'type'        => 'read'

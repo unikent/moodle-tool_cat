@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\external;
+namespace tool_cat;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -37,7 +37,7 @@ use external_function_parameters;
 /**
  * Category admin tool's rules services.
  */
-class rule extends external_api
+class external extends external_api
 {
     /**
      * Returns description of method parameters.
