@@ -58,7 +58,7 @@ abstract class rule
 
         $obj = static::create_rule($record->rule);
         $obj->id = $record->id;
-        $obj->target = \tool_cat\target\base::create_target($record->target, $record->targetid);
+        $obj->target = \tool_cat\target::create_target($record->target, $record->targetid);
 
         // Add a datatype to the rule if we have one.
         if (!empty($record->datatype)) {

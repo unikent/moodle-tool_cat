@@ -17,12 +17,12 @@
 /**
  * Category admin tool.
  *
- * @package    tool_cat
+ * @package    cattarget_course
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\target;
+namespace cattarget_course;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,11 +31,11 @@ require_once($CFG->dirroot . "/course/lib.php");
 /**
  * Category admin tool course target.
  *
- * @package    tool_cat
+ * @package    cattarget_course
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class course extends base
+class course extends \tool_cat\target
 {
     /**
      * Return a list of datatypes this target supports.
@@ -59,7 +59,7 @@ class course extends base
         ));
 
         $section->section = $maxid + 1;
-        section::create_section($course, $section);
+        \cattarget_section\section::create_section($course, $section);
 
         if ($prepend) {
             move_section_to($course, $section->section, 0);
@@ -71,7 +71,7 @@ class course extends base
      */
     public function append_to($courses) {
         // Special case for news.
-        if (get_class($this->datatype) == 'tool_cat\\datatype\\news') {
+        if (get_class($this->datatype) == 'cattarget_course\\datatype\\news') {
             foreach ($courses as $course) {
                 $this->datatype->add_to_course($course);
             }

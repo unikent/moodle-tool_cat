@@ -17,12 +17,12 @@
 /**
  * Category admin tool.
  *
- * @package    tool_cat
+ * @package    cattarget_section
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\target;
+namespace cattarget_section;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,11 +31,11 @@ require_once($CFG->dirroot . "/course/lib.php");
 /**
  * Category admin tool section target.
  *
- * @package    tool_cat
+ * @package    cattarget_section
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class section extends base
+class section extends \tool_cat\target
 {
     /**
      * Return a list of datatypes this target supports.

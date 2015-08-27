@@ -235,7 +235,7 @@ class rule extends external_api
             'target' => $target
         ));
 
-        $obj = \tool_cat\target\base::create_target($params['target']);
+        $obj = \tool_cat\target::create_target($params['target']);
         $keys = $obj->get_supported_datatypes();
         return array_combine($keys, array_map('ucwords', $keys));
     }

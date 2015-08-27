@@ -17,23 +17,23 @@
 /**
  * Category admin tool.
  *
- * @package    tool_cat
+ * @package    cattarget_block
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\target;
+namespace cattarget_block;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Category admin tool block target.
  *
- * @package    tool_cat
+ * @package    cattarget_block
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class block extends base
+class block extends \tool_cat\target
 {
     /**
      * Return a list of datatypes this target supports.

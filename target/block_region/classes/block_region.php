@@ -17,12 +17,12 @@
 /**
  * Category admin tool.
  *
- * @package    tool_cat
+ * @package    cattarget_block_region
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\target;
+namespace cattarget_block_region;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,11 +31,11 @@ require_once($CFG->libdir . "/blocklib.php");
 /**
  * Category admin tool block_region target.
  *
- * @package    tool_cat
+ * @package    cattarget_block_region
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class block_region extends base
+class block_region extends \tool_cat\target
 {
     /**
      * Return a list of datatypes this target supports.
