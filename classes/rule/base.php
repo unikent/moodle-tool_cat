@@ -62,7 +62,7 @@ abstract class base
 
         // Add a datatype to the rule if we have one.
         if (!empty($record->datatype)) {
-            $datatype = \tool_cat\datatype\base::create_datatype($record->datatype, $record->data);
+            $datatype = \tool_cat\datatype::create_datatype($record->datatype, $record->data);
             $obj->target->set_datatype($datatype);
         }
 

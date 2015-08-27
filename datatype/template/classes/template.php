@@ -17,12 +17,12 @@
 /**
  * Category admin tool datatypes.
  *
- * @package    tool_cat
+ * @package    catdatatype_template
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\datatype;
+namespace catdatatype_template\datatype;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -30,11 +30,11 @@ defined('MOODLE_INTERNAL') || die();
  * Category admin tool text data type.
  * Optionally rendered by the Mustache library.
  *
- * @package    tool_cat
+ * @package    catdatatype_template
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class template extends text
+class template extends catdatatype_text\text
 {
     /**
      * Render a mustache template.
@@ -46,7 +46,7 @@ class template extends text
     private function render_template($text, $context) {
         global $PAGE;
 
-        $renderer = $PAGE->get_renderer('tool_cat');
+        $renderer = $PAGE->get_renderer('catdatatype_template');
         return $renderer->render_mustache_string($text, $context);
     }
 

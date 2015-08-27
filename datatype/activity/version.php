@@ -15,24 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Category admin tool datatypes.
+ * Version information
  *
- * @package    tool_cat
+ * @package    catdatatype_activity
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace tool_cat\datatype;
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Category admin tool section data type.
- *
- * @package    tool_cat
- * @copyright  2015 University of Kent
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class section extends base
-{
-}
+$plugin->component = 'catdatatype_activity';
+$plugin->version   = 2015082600;
+$plugin->requires  = 2014051200;
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = '1.0 (Build: 2015082600)';

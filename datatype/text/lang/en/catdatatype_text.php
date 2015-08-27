@@ -15,24 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Category admin tool datatypes.
+ * Strings for the category admin tool text datatype.
  *
- * @package    tool_cat
+ * @package    catdatatype_text
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\datatype;
-
-defined('MOODLE_INTERNAL') || die();
-
-/**
- * Category admin tool block data type.
- *
- * @package    tool_cat
- * @copyright  2015 University of Kent
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-class block extends base
-{
-}
+$string['pluginname'] = 'CAT text datatype';
+$string['plugindesc'] = 'An text datatype for the category admin tool.';

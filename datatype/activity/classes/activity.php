@@ -17,12 +17,12 @@
 /**
  * Category admin tool datatypes.
  *
- * @package    tool_cat
+ * @package    catdatatype_activity
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\datatype;
+namespace catdatatype_activity;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,11 +31,11 @@ require_once($CFG->dirroot . '/course/lib.php');
 /**
  * Category admin tool activity data type.
  *
- * @package    tool_cat
+ * @package    catdatatype_activity
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class activity extends base
+class activity extends \tool_cat\datatype
 {
     /**
      * Return a list of datatypes this target supports.
@@ -88,7 +88,7 @@ class activity extends base
         ), '*', \MUST_EXIST);
 
         // Create our instance.
-        $activity = \tool_cat\activity::create_activity($data->activity, serialize($data));
+        $activity = \catdatatype_activity\activity::create_activity($data->activity, serialize($data));
         $instance = $activity->get_instance($course);
 
         // Create the cm.

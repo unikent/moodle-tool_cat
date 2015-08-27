@@ -274,7 +274,7 @@ class rule extends external_api
      * @throws \invalid_parameter_exception
      */
     public static function get_activities() {
-        $obj = \tool_cat\datatype\base::create_datatype('activity');
+        $obj = \tool_cat\datatype::create_datatype('activity');
 
         $keys = $obj->get_supported_activities();
         $values = array_map(function($str) {

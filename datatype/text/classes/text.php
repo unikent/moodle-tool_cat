@@ -17,12 +17,12 @@
 /**
  * Category admin tool datatypes.
  *
- * @package    tool_cat
+ * @package    catdatatype_text
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\datatype;
+namespace catdatatype_text;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -30,11 +30,11 @@ defined('MOODLE_INTERNAL') || die();
  * Category admin tool text data type.
  * Optionally rendered by the Mustache library.
  *
- * @package    tool_cat
+ * @package    catdatatype_text
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class text extends base
+class text extends \tool_cat\datatype
 {
     /**
      * Get the section text for a course.

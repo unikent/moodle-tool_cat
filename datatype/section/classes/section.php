@@ -17,34 +17,22 @@
 /**
  * Category admin tool datatypes.
  *
- * @package    tool_cat
+ * @package    catdatatype_section
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\datatype;
+namespace catdatatype_section;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/course/lib.php');
-require_once($CFG->dirroot . '/mod/aspirelists/lib.php');
-require_once($CFG->dirroot . '/mod/forum/lib.php');
-
 /**
- * Category admin tool news data type.
+ * Category admin tool section data type.
  *
- * @package    tool_cat
+ * @package    catdatatype_section
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class news extends base
+class section extends \tool_cat\datatype
 {
-    /**
-     * Append a news activity to the given course.
-     *
-     * @param  stdClass $course        The course to apply to.
-     */
-    public function add_to_course($course) {
-        forum_get_course_forum($course->id, 'news');
-    }
 }

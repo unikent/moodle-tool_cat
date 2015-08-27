@@ -17,61 +17,22 @@
 /**
  * Category admin tool datatypes.
  *
- * @package    tool_cat
+ * @package    catdatatype_block
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\datatype;
+namespace catdatatype_block;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Category admin tool data type.
+ * Category admin tool block data type.
  *
- * @package    tool_cat
+ * @package    catdatatype_block
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class base
+class block extends \tool_cat\datatype
 {
-    private $data;
-
-    /**
-     * Constructor.
-     */
-    public function __construct($data) {
-        $this->data = $data;
-    }
-
-    /**
-     * Return a datatype object, given a name.
-     */
-    public static function create_datatype($name, $data = '') {
-        // Sanity check.
-        if (!preg_match('/^([A-Za-z_]*)$/', $name)) {
-            throw new \moodle_exception("Invalid datatype.");
-        }
-
-        $datatype = "\\tool_cat\\datatype\\" . $name;
-        return new $datatype($data);
-    }
-
-    /**
-     * Set our datatype data.
-     *
-     * @param int $data datatype data.
-     */
-    public function set_data($data) {
-        $this->data = serialize($data);
-    }
-
-    /**
-     * Return the data of the datatype.
-     *
-     * @return int The data of the datatype.
-     */
-    public function get_data() {
-        return unserialize($this->data);
-    }
 }
