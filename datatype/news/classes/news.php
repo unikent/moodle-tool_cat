@@ -47,7 +47,7 @@ class news extends \tool_cat\datatype
 
         $forum = forum_get_course_forum($course->id, 'news');
 
-        $data = (object)$this->datatype->get_data();
+        $data = (object)$this->get_data();
         if (empty($data)) {
             return;
         }
@@ -60,7 +60,7 @@ class news extends \tool_cat\datatype
         }
 
         if (isset($data->showdescription)) {
-            $cm = get_coursemodule_from_instance('forum', $forum);
+            $cm = get_coursemodule_from_instance('forum', $forum->id, $course->id);
             if ($cm) {
                 $DB->set_field('course_modules', 'showdescription', $data->showdescription, array(
                     'id' => $cm->id
