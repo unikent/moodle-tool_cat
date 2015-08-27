@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace catdatatype_template\datatype;
+namespace catdatatype_template;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -34,7 +34,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class template extends catdatatype_text\text
+class template extends \catdatatype_text\text
 {
     /**
      * Render a mustache template.

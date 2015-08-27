@@ -53,7 +53,7 @@ abstract class datatype
             throw new \moodle_exception("Invalid datatype.");
         }
 
-        $activity = "\\catdatatype_{$name}\\{$name}";
+        $datatype = "\\catdatatype_{$name}\\{$name}";
         return new $datatype($data);
     }
 
