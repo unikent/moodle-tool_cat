@@ -44,7 +44,7 @@ class tool_cat_course_tests extends \advanced_testcase
             'name' => 'Test section.',
             'visible' => 1,
             'summary' => '',
-            'summaryformat' => 1
+            'summaryformat' => \FORMAT_HTML
         );
     }
 
@@ -61,11 +61,11 @@ class tool_cat_course_tests extends \advanced_testcase
 
         // Apply a rule to append news to the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'append_to',
             'target' => 'course',
-            'targetid' => $this->course->id,
+            'targetid' => null,
             'datatype' => 'news',
             'data' => serialize('')
         ));
@@ -92,11 +92,11 @@ class tool_cat_course_tests extends \advanced_testcase
 
         // Apply a rule to delete the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'append_to',
             'target' => 'course',
-            'targetid' => $this->course->id,
+            'targetid' => null,
             'datatype' => 'section',
             'data' => serialize($this->generate_sectiondata())
         ));
@@ -122,11 +122,11 @@ class tool_cat_course_tests extends \advanced_testcase
 
         // Apply a rule to delete the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'course',
-            'targetid' => $this->course->id,
+            'targetid' => null,
             'datatype' => 'section',
             'data' => serialize($this->generate_sectiondata())
         ));

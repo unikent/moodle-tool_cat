@@ -85,7 +85,7 @@ class category_rules extends \moodleform
 
         $mform =& $this->_form;
 
-        $rules = \tool_cat\external\rule::get_category_rules($category);
+        $rules = \tool_cat\external::get_category_rules($category);
 
         foreach ($rules as $rule) {
             $mform->addElement('header', "rule_{$rule->id}", 'Rule ' . ($rule->seq + 1));
@@ -123,7 +123,7 @@ class category_rules extends \moodleform
         $activity = optional_param($id . 'activity', $defaultactivity, PARAM_ALPHANUMEXT);
 
         // Add a selection box for the rule.
-        $validrules = \tool_cat\external\rule::get_rules();
+        $validrules = \tool_cat\external::get_rules();
         $mform->addElement('select', $id . 'rule', 'Rule', array_merge(array(
             0 => 'Select a rule'
         ), $validrules), array(
@@ -136,7 +136,7 @@ class category_rules extends \moodleform
         }
 
         // We have a rule!
-        $validtargets = \tool_cat\external\rule::get_targets($rule);
+        $validtargets = \tool_cat\external::get_targets($rule);
         $mform->addElement('select', $id . 'target', 'Target', array_merge(array(
             0 => 'Select a target'
         ), $validtargets), array(
@@ -151,7 +151,7 @@ class category_rules extends \moodleform
         }
 
         // We have a target!
-        $validdatatypes = \tool_cat\external\rule::get_datatypes($target);
+        $validdatatypes = \tool_cat\external::get_datatypes($target);
         $mform->addElement('select', $id . 'datatype', 'Data type', array_merge(array(
             0 => 'Select a data type'
         ), $validdatatypes), array(
@@ -174,7 +174,7 @@ class category_rules extends \moodleform
         // We might need extra information.
         switch ($datatype) {
             case 'activity':
-                $validactivities = \tool_cat\external\rule::get_activities();
+                $validactivities = \tool_cat\external::get_activities();
                 $mform->addElement('select', $id . 'activity', 'Activity', array_merge(array(
                     0 => 'Select an activity'
                 ), $validactivities), array(
@@ -189,7 +189,7 @@ class category_rules extends \moodleform
                 $mform->setDefault($id . 'activity', $activity);
 
                 // Add fields.
-                $validfields = \tool_cat\external\rule::get_activity_fields($activity);
+                $validfields = \tool_cat\external::get_activity_fields($activity);
                 foreach ($validfields as $name => $type) {
                     $mform->addElement('text', $id . $name, ucwords($name));
                     $mform->setType($id . $name, $type);
@@ -201,7 +201,7 @@ class category_rules extends \moodleform
             break;
 
             case 'block':
-                $validblocks = \tool_cat\external\rule::get_blocks();
+                $validblocks = \tool_cat\external::get_blocks();
                 $mform->addElement('select', $id . 'block', 'Block', array_merge(array(
                     0 => 'Select a block'
                 ), $validblocks));

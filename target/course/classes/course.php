@@ -62,7 +62,7 @@ class course extends \tool_cat\target
         \cattarget_section\section::create_section($course, $section);
 
         if ($prepend) {
-            move_section_to($course, $section->section, 0);
+            move_section_to($course, $section->section, 1);
         }
     }
 

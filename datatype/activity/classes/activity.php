@@ -55,8 +55,9 @@ class activity extends \tool_cat\datatype
      * @param  stdClass $section    The section to apply to.
      * @param  stdClass $module     The module to apply to.
      * @param  stdClass $instance   The instance to apply to.
+     * @param  stdClass $data       The original data we extracted.
      */
-    private function create_cm($course, $section, $module, $instance) {
+    private function create_cm($course, $section, $module, $instance, $data) {
         // Create a module container.
         $cm = new \stdClass();
         $cm->course     = $course->id;
@@ -64,6 +65,10 @@ class activity extends \tool_cat\datatype
         $cm->instance   = $instance->id;
         $cm->section    = $section->id;
         $cm->visible    = 1;
+
+        if (isset($data->showdescription)) {
+            $cm->showdescription = $data->showdescription;
+        }
 
         // Create the module.
         $cm->id = add_course_module($cm);
@@ -92,7 +97,7 @@ class activity extends \tool_cat\datatype
         $instance = $activity->get_instance($course);
 
         // Create the cm.
-        return $this->create_cm($course, $section, $module, $instance);
+        return $this->create_cm($course, $section, $module, $instance, $data);
     }
 
     /**
