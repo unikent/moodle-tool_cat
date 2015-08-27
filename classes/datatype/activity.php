@@ -88,7 +88,7 @@ class activity extends base
         ), '*', \MUST_EXIST);
 
         // Create our instance.
-        $activity = \tool_cat\activity\base::create_activity($data->activity, serialize($data));
+        $activity = \tool_cat\activity::create_activity($data->activity, serialize($data));
         $instance = $activity->get_instance($course);
 
         // Create the cm.

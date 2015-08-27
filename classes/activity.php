@@ -22,22 +22,28 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\activity;
+namespace tool_cat;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir  . '/resourcelib.php');
-require_once($CFG->dirroot . '/mod/url/lib.php');
-
 /**
- * Category admin tool url activity.
+ * Category admin tool activity.
  *
  * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class url extends base
+abstract class activity
 {
+    private $data;
+
+    /**
+     * Constructor.
+     */
+    public function __construct($data) {
+        $this->data = $data;
+    }
+
     /**
      * Return a list of fields this datatype requires.
      *
@@ -46,30 +52,45 @@ class url extends base
     public function get_supported_fields() {
         return array(
             'name' => PARAM_TEXT,
-            'intro' => PARAM_TEXT,
-            'url' => PARAM_URL
+            'intro' => PARAM_TEXT
         );
     }
 
     /**
-     * Create a URL object.
+     * Return a activity object, given a name.
+     */
+    public static function create_activity($name, $data = '') {
+        // Sanity check.
+        if (!preg_match('/^([A-Za-z_]*)$/', $name)) {
+            throw new \moodle_exception("Invalid activity.");
+        }
+
+        $activity = "\\catactivity_{$name}\\{$name}";
+        return new $activity($data);
+    }
+
+    /**
+     * Set our activity data.
+     *
+     * @param int $data activity data.
+     */
+    public function set_data($data) {
+        $this->data = serialize($data);
+    }
+
+    /**
+     * Return the data of the activity.
+     *
+     * @return int The data of the activity.
+     */
+    public function get_data() {
+        return unserialize($this->data);
+    }
+
+    /**
+     * Create a forum object.
      *
      * @param stdClass $course The course to apply to.
      */
-    public function get_instance($course) {
-        $data = (object)$this->get_data();
-
-        // Create aspirelists object.
-        $instance = new \stdClass();
-        $instance->course       = $course->id;
-        $instance->name         = $data->name;
-        $instance->intro        = isset($data->intro) ? $data->intro : null;
-        $instance->introformat  = \FORMAT_HTML;
-        $instance->display      = \RESOURCELIB_DISPLAY_AUTO;
-        $instance->externalurl  = $data->url;
-
-        $instance->id = url_add_instance($instance, null);
-
-        return $instance;
-    }
+    public abstract function get_instance($course);
 }

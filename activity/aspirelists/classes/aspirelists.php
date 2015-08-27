@@ -17,12 +17,12 @@
 /**
  * Category admin tool activities.
  *
- * @package    tool_cat
+ * @package    catactivity_aspirelists
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\activity;
+namespace catactivity_aspirelists\aspirelists;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,11 +31,11 @@ require_once($CFG->dirroot . '/mod/aspirelists/lib.php');
 /**
  * Category admin tool aspirelists activity.
  *
- * @package    tool_cat
+ * @package    catactivity_aspirelists
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class aspirelists extends base
+class aspirelists extends \tool_cat\activity
 {
     /**
      * Create an aspirelists object.

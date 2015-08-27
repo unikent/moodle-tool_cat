@@ -373,7 +373,7 @@ class rule extends external_api
             'activity' => $activity
         ));
 
-        $obj = \tool_cat\activity\base::create_activity($params['activity']);
+        $obj = \tool_cat\activity::create_activity($params['activity']);
         return $obj->get_supported_fields();
     }
 

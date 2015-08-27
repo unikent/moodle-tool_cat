@@ -17,23 +17,23 @@
 /**
  * Category admin tool activities.
  *
- * @package    tool_cat
+ * @package    catactivity_aspirelists
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_cat\activity;
+namespace catactivity_aspirelists\forum;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Category admin tool forum activity.
  *
- * @package    tool_cat
+ * @package    catactivity_aspirelists
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class forum extends base
+class forum extends \tool_cat\activity
 {
     /**
      * Create a forum object.
