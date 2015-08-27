@@ -43,6 +43,29 @@ class news extends \tool_cat\datatype
      * @param  stdClass $course        The course to apply to.
      */
     public function add_to_course($course) {
-        forum_get_course_forum($course->id, 'news');
+        global $DB;
+
+        $forum = forum_get_course_forum($course->id, 'news');
+
+        $data = (object)$this->datatype->get_data();
+        if (empty($data)) {
+            return;
+        }
+
+        // Set some extra vars.
+        if (isset($data->intro)) {
+            $DB->set_field('forum', 'intro', $data->intro, array(
+                'id' => $forum->id
+            ));
+        }
+
+        if (isset($data->showdescription)) {
+            $cm = get_coursemodule_from_instance('forum', $forum);
+            if ($cm) {
+                $DB->set_field('course_modules', 'showdescription', $data->showdescription, array(
+                    'id' => $cm->id
+                ));
+            }
+        }
     }
 }
