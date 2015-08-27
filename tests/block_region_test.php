@@ -67,7 +67,7 @@ class tool_cat_block_region_tests extends \advanced_testcase
 
         // Apply a rule to delete the block.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'empty_content',
             'target' => 'block_region',
@@ -103,7 +103,7 @@ class tool_cat_block_region_tests extends \advanced_testcase
 
         // Apply a rule to append a block.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'append_to',
             'target' => 'block_region',
@@ -115,7 +115,7 @@ class tool_cat_block_region_tests extends \advanced_testcase
 
         // Apply a rule to prepend a block.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 2,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'block_region',

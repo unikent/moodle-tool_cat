@@ -35,6 +35,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 abstract class rule
 {
+    const FAKE_RULE_ID = -1;
     protected $target;
 
     /**
@@ -70,11 +71,18 @@ abstract class rule
     }
 
     /**
+     * Returns true if this is a "fake" rule (not in DB).
+     */
+    protected final function is_fake() {
+        return $this->id == static::FAKE_RULE_ID;
+    }
+
+    /**
      * Apply the rule.
      *
      * @param array $courses An array of courses to apply to rule to.
      */
-    public function apply($courses) {
+    public final function apply($courses) {
         global $DB;
 
         // Remove all courses that have already applied this rule.
@@ -82,18 +90,26 @@ abstract class rule
             'ruleid' => $this->id
         ));
 
-        foreach ($courses as $k => $course) {
-            if (in_array($course->id, $intersect)) {
-                unset($courses[$k]);
+        if (!empty($intersect)) {
+            foreach ($courses as $k => $course) {
+                if (in_array($course->id, $intersect)) {
+                    unset($courses[$k]);
+                }
             }
         }
 
-        $done = $this->_apply($courses);
         unset($intersect);
 
-        $appliedbuffer = array();
+        // Apply.
+        $done = $this->_apply($courses);
+
+        // If this is a fake rule, stop now.
+        if ($this->is_fake()) {
+            return;
+        }
 
         // Trigger events.
+        $appliedbuffer = array();
         foreach ($done as $course) {
             // Trigger a rule applied event.
             $event = \tool_cat\event\rule_applied::create(array(
@@ -108,8 +124,8 @@ abstract class rule
                 'ruleid' => $this->id
             );
         }
-        unset($done);
 
+        unset($done);
         $DB->insert_records('tool_cat_applications', $appliedbuffer);
     }
 

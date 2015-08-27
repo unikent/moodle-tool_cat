@@ -61,7 +61,7 @@ class tool_cat_block_tests extends \advanced_testcase
 
         // Apply a rule to delete the block.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'delete',
             'target' => 'block',

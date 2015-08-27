@@ -52,7 +52,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to append to the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'append_to',
             'target' => 'section',
@@ -84,7 +84,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to prepend to the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'section',
@@ -117,7 +117,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to append to the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'append_to',
             'target' => 'section',
@@ -150,7 +150,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to prepend to the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'section',
@@ -179,7 +179,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to append to the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'append_to',
             'target' => 'section',
@@ -195,7 +195,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to prepend to the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 2,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'section',
@@ -238,7 +238,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to append to the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'append_to',
             'target' => 'section',
@@ -253,7 +253,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to prepend to the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 2,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'section',
@@ -295,7 +295,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to append to the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'append_to',
             'target' => 'section',
@@ -311,7 +311,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to prepend to the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 2,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'prepend_to',
             'target' => 'section',
@@ -355,7 +355,7 @@ class tool_cat_section_tests extends \advanced_testcase
 
         // Apply a rule to delete the section.
         $rule = \tool_cat\rule::from_record(array(
-            'id' => 1,
+            'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
             'rule' => 'delete',
             'target' => 'section',
