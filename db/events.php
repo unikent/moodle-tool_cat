@@ -24,10 +24,6 @@
 
 $observers = array (
     array (
-        'eventname' => '\core\event\course_updated',
-        'callback' => '\tool_cat\observers::course_updated',
-    ),
-    array (
         'eventname' => '\core\event\course_created',
         'callback' => '\tool_cat\observers::course_created',
     )

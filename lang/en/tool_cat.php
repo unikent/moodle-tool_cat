@@ -27,23 +27,14 @@ $string['plugindesc'] = 'The category admin tool allows mass-administration of c
 
 $string['cat:manage'] = 'Mass-manage courses within a category';
 
-$string['recyclebintaskname'] = 'Category recycle bin purge';
-$string['managername'] = 'Category manager';
-$string['recyclebin'] = 'Category recyclebin';
+$string['subplugintype_catactivity'] = 'Category admin tool activity';
+$string['subplugintype_catactivity_plural'] = 'Category admin tool activities';
 
-$string['enablerecyclebin'] = 'Enable the category manager';
-$string['recyclebinid'] = 'The ID of the removed category';
-$string['recyclebinexp'] = 'Number of seconds between delete and purge';
+$string['subplugintype_catdatatype'] = 'Category admin tool data type';
+$string['subplugintype_catdatatype_plural'] = 'Category admin tool data types';
 
-$string['course'] = 'Course';
-$string['date_deleted'] = 'Date Deleted';
-$string['date_scheduled'] = 'Purge Due Date';
-$string['status'] = 'Status';
+$string['subplugintype_catrule'] = 'Category admin tool rule';
+$string['subplugintype_catrule_plural'] = 'Category admin tool rules';
 
-$string['status_0'] = 'Scheduled';
-$string['status_1'] = 'Purged';
-$string['status_2'] = 'Errored';
-
-$string['delay'] = 'Delay';
-$string['delay_success'] = 'Course purge has been delayed by 2 weeks.';
-$string['action'] = 'Action';
+$string['subplugintype_cattarget'] = 'Category admin tool target';
+$string['subplugintype_cattarget_plural'] = 'Category admin tool targets';

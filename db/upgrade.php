@@ -84,5 +84,18 @@ function xmldb_tool_cat_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2015082401, 'tool', 'cat');
     }
 
+    if ($oldversion < 2015082600) {
+        // Define table tool_cat_recyclebin to be created.
+        $table = new xmldb_table('tool_cat_recyclebin');
+
+        // Conditionally launch create table for tool_cat_recyclebin.
+        if ($dbman->table_exists($table)) {
+            $dbman->drop_table($table);
+        }
+
+        // Cat savepoint reached.
+        upgrade_plugin_savepoint(true, 2015082600, 'tool', 'cat');
+    }
+
     return true;
 }

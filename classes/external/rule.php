@@ -178,7 +178,7 @@ class rule extends external_api
             'rule' => $rule
         ));
 
-        $obj = \tool_cat\rule\base::create_rule($params['rule']);
+        $obj = \tool_cat\rule::create_rule($params['rule']);
         $keys = $obj->get_supported_targets();
 
         // Prettify.
@@ -235,7 +235,7 @@ class rule extends external_api
             'target' => $target
         ));
 
-        $obj = \tool_cat\target\base::create_target($params['target']);
+        $obj = \tool_cat\target::create_target($params['target']);
         $keys = $obj->get_supported_datatypes();
         return array_combine($keys, array_map('ucwords', $keys));
     }
@@ -274,7 +274,7 @@ class rule extends external_api
      * @throws \invalid_parameter_exception
      */
     public static function get_activities() {
-        $obj = \tool_cat\datatype\base::create_datatype('activity');
+        $obj = \tool_cat\datatype::create_datatype('activity');
 
         $keys = $obj->get_supported_activities();
         $values = array_map(function($str) {
@@ -373,7 +373,7 @@ class rule extends external_api
             'activity' => $activity
         ));
 
-        $obj = \tool_cat\activity\base::create_activity($params['activity']);
+        $obj = \tool_cat\activity::create_activity($params['activity']);
         return $obj->get_supported_fields();
     }
 
