@@ -87,15 +87,17 @@ class activity extends \tool_cat\datatype
     }
 
     /**
-     * Create everything and return the cm but don't add it to the section.
-     *
-     * @param  stdClass $course   The course to apply to.
-     * @param  stdClass $section  The section to apply to.
+     * Get data (CM).
      */
-    private function get_cm($course, $section) {
+    public function get_data() {
         global $DB;
 
-        $data = (object)$this->get_data();
+        $context = $this->get_context();
+        if (!is_array($context) || !isset($context['course']) || !isset($context['section'])) {
+            throw new \moodle_exception("Invalid activity datatype context!");
+        }
+
+        $data = parent::get_data();
 
         // Get the module.
         $module = $DB->get_record('modules', array(
@@ -104,54 +106,9 @@ class activity extends \tool_cat\datatype
 
         // Create our instance.
         $activity = \tool_cat\activity::create_activity($data->activity, serialize($data));
-        $instance = $activity->get_instance($course);
+        $instance = $activity->get_instance($context['course']);
 
         // Create the cm.
-        return $this->create_cm($course, $section, $module, $instance, $data);
-    }
-
-    /**
-     * Append an activity to the given course/section.
-     *
-     * @param  stdClass $course        The course to apply to.
-     * @param  int      $sectionident  The section number to apply to (not ID).
-     */
-    public function append_to_section($course, $sectionident) {
-        global $DB;
-
-        // Find the section.
-        $section = $DB->get_record('course_sections', array(
-            'course' => $course->id,
-            'section' => $sectionident
-        ));
-
-        $cm = $this->get_cm($course, $section);
-        course_add_cm_to_section($course->id, $cm->id, $section->section);
-    }
-
-    /**
-     * Prepend an activity to the given course/section.
-     *
-     * @param  stdClass $course        The course to apply to.
-     * @param  int      $sectionident  The section number to apply to (not ID).
-     */
-    public function prepend_to_section($course, $sectionident) {
-        global $DB;
-
-        // Find the section.
-        $section = $DB->get_record('course_sections', array(
-            'course' => $course->id,
-            'section' => $sectionident
-        ));
-
-        // Find the first element in the section.
-        $pos = null;
-        $seq = explode(',', $section->sequence);
-        if (!empty($seq)) {
-            $pos = reset($seq);
-        }
-
-        $cm = $this->get_cm($course, $section);
-        course_add_cm_to_section($course->id, $cm->id, $section->section, $pos);
+        return $this->create_cm($context['course'], $context['section'], $module, $instance, $data);
     }
 }

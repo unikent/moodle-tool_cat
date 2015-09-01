@@ -46,7 +46,7 @@ class text extends \tool_cat\datatype
     protected function render_template($text, $context) {
         global $PAGE;
 
-        $renderer = $PAGE->get_renderer('catdatatype_template');
+        $renderer = $PAGE->get_renderer('catdatatype_text');
         return $renderer->render_mustache_string($text, $context);
     }
 
@@ -73,66 +73,5 @@ class text extends \tool_cat\datatype
         }
 
         return $text;
-    }
-
-    /**
-     * Get the section text for a course.
-     *
-     * @param  stdClass $course        The course to apply to.
-     * @param  int      $sectionident  The section number to apply to (not ID).
-     * @return string                  The current section text.
-     */
-    public function get_section_text($course, $sectionident) {
-        global $DB;
-
-        return $DB->get_field('course_sections', 'summary', array(
-            'course' => $course->id,
-            'section' => $sectionident
-        ));
-    }
-    /**
-     * Get the section text for a course.
-     *
-     * @param  stdClass $course        The course to apply to.
-     * @param  int      $sectionident  The section number to apply to (not ID).
-     * @param  string   $text          The new section text.
-     */
-    public function set_section_text($course, $sectionident, $text) {
-        global $DB;
-
-        $DB->set_field('course_sections', 'summary', $text, array(
-            'course' => $course->id,
-            'section' => $sectionident
-        ));
-    }
-
-    /**
-     * Append this text to the given course/section.
-     *
-     * @param  stdClass $course        The course to apply to.
-     * @param  int      $sectionident  The section number to apply to (not ID).
-     */
-    public function append_to_section($course, $sectionident) {
-        $data = $this->get_data();
-
-        $text = $this->get_section_text($course, $sectionident);
-        $text .= $data->text;
-
-        $this->set_section_text($course, $sectionident, $text);
-    }
-
-    /**
-     * Prepend this text to the given course/section.
-     *
-     * @param  stdClass $course        The course to apply to.
-     * @param  int      $sectionident  The section number to apply to (not ID).
-     */
-    public function prepend_to_section($course, $sectionident) {
-        $data = $this->get_data();
-
-        $text = $data->text;
-        $text .= $this->get_section_text($course, $sectionident);
-
-        $this->set_section_text($course, $sectionident, $text);
     }
 }

@@ -35,6 +35,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 abstract class datatype
 {
+    private $name;
     private $data;
     private $context;
 
@@ -71,7 +72,9 @@ abstract class datatype
         }
 
         $datatype = "\\catdatatype_{$name}\\{$name}";
-        return new $datatype($data);
+        $datatype = new $datatype($data);
+        $datatype->name = $name;
+        return $datatype;
     }
 
     /**
@@ -90,5 +93,12 @@ abstract class datatype
      */
     public function get_data() {
         return (object)unserialize($this->data);
+    }
+
+    /**
+     * Get the name of the datatype.
+     */
+    public function get_name() {
+        return $this->name;
     }
 }
