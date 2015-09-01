@@ -218,7 +218,8 @@ class category_rules extends \moodleform
                 }
             break;
 
-            case 'section':
+            // For now - until we make the form dynamic.
+            case 'standard':
                 $mform->addElement('text', $id . 'title', 'Section title');
                 $mform->setType($id . 'title', PARAM_TEXT);
 

@@ -67,7 +67,9 @@ abstract class datatype
      */
     public static function create_datatype($name, $data = '') {
         // Sanity check.
-        if (!preg_match('/^([A-Za-z_]*)$/', $name)) {
+        $pluginman = \core_plugin_manager::instance();
+        $plugins = $pluginman->get_plugins_of_type('catdatatype');
+        if (!isset($plugins[$name]) || $plugins[$name]->is_enabled() === false) {
             throw new \moodle_exception("Invalid datatype.");
         }
 
