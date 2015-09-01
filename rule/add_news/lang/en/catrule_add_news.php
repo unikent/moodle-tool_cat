@@ -15,12 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for the category admin tool news datatype.
+ * Strings for the category admin tool add_news rule.
  *
- * @package    catdatatype_news
+ * @package    catrule_add_news
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'CAT news datatype';
-$string['plugindesc'] = 'An news datatype for the category admin tool.';
+$string['pluginname'] = 'CAT add_news rule';
+$string['plugindesc'] = 'An add_news rule for the category admin tool.';
+
+$string['prettyname'] = 'Add news forum';

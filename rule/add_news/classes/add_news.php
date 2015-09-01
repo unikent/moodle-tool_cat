@@ -15,28 +15,53 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Category admin tool datatypes.
+ * Category admin tool rules.
  *
- * @package    catdatatype_news
+ * @package    catrule_add_news
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace catdatatype_news;
+namespace catrule_add_news;
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/forum/lib.php');
 
 /**
- * Category admin tool news data type.
+ * Category admin tool news rule.
  *
- * @package    catdatatype_news
+ * @package    catrule_add_news
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class news extends \tool_cat\datatype
+class add_news extends \tool_cat\rule
 {
+    /**
+     * Return a list of targets this rule supports.
+     *
+     * @return array An array of valid targets.
+     */
+    public function get_supported_targets() {
+        return array(
+            'course'
+        );
+    }
+
+    /**
+     * Apply the rule.
+     *
+     * @param array $courses An array of courses to apply to rule to.
+     * @return array An array of courses we applied ourselves to.
+     */
+    protected function _apply($courses) {
+        foreach ($courses as $course) {
+            $this->add_to_course($course);
+        }
+
+        return $courses;
+    }
+
     /**
      * Append a news activity to the given course.
      *
