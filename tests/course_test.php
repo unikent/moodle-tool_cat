@@ -66,7 +66,7 @@ class tool_cat_course_tests extends \advanced_testcase
             'rule' => 'add_news',
             'target' => 'course',
             'targetid' => null,
-            'datatype' => '',
+            'datatype' => 'standard',
             'data' => serialize('')
         ));
         $rule->apply(array($this->course));
