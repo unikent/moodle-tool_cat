@@ -122,8 +122,8 @@ class tool_cat_section_tests extends \advanced_testcase
             'rule' => 'append_to',
             'target' => 'section',
             'targetid' => '1',
-            'datatype' => 'template',
-            'data' => serialize((object)array('text' => $sectiontext))
+            'datatype' => 'text',
+            'data' => serialize((object)array('text' => $sectiontext, 'template' => true))
         ));
         $rule->apply(array($this->course));
 
@@ -155,8 +155,8 @@ class tool_cat_section_tests extends \advanced_testcase
             'rule' => 'prepend_to',
             'target' => 'section',
             'targetid' => '1',
-            'datatype' => 'template',
-            'data' => serialize((object)array('text' => $sectiontext))
+            'datatype' => 'text',
+            'data' => serialize((object)array('text' => $sectiontext, 'template' => true))
         ));
         $rule->apply(array($this->course));
 

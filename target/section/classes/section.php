@@ -44,7 +44,7 @@ class section extends \tool_cat\target
      */
     public function get_supported_datatypes() {
         return array(
-            'activity', 'text', 'template'
+            'activity', 'text'
         );
     }
 

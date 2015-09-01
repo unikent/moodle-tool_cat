@@ -36,12 +36,29 @@ defined('MOODLE_INTERNAL') || die();
 abstract class datatype
 {
     private $data;
+    private $context;
 
     /**
      * Constructor.
      */
     public function __construct($data) {
         $this->data = $data;
+    }
+
+    /**
+     * Set our context.
+     *
+     * @param stdClass $context Mustache variables.
+     */
+    public function set_context($context) {
+        $this->context = $context;
+    }
+
+    /**
+     * Returns our context.
+     */
+    public function get_context() {
+        return $this->context;
     }
 
     /**

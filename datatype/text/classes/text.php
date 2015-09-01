@@ -37,6 +37,45 @@ defined('MOODLE_INTERNAL') || die();
 class text extends \tool_cat\datatype
 {
     /**
+     * Render a mustache template.
+     *
+     * @param  string   $text     The text to render.
+     * @param  stdClass $context  Mustache variables.
+     * @return string             The rendered text.
+     */
+    protected function render_template($text, $context) {
+        global $PAGE;
+
+        $renderer = $PAGE->get_renderer('catdatatype_template');
+        return $renderer->render_mustache_string($text, $context);
+    }
+
+    /**
+     * Return the rendered text.
+     *
+     * @return string The data.
+     */
+    public function get_data() {
+        $data = parent::get_data();
+
+        $text = $data->text;
+
+        // Check we aren't a template.
+        if (isset($data->template) && $data->template) {
+            $context = $this->get_context();
+            if (empty($context)) {
+                debugging("Cannot render a template string with a blank context! Make sure you call set_context first.");
+                $context = new \stdClass();
+            }
+
+            // Render as a template.
+            $text = $this->render_template($text, $context);
+        }
+
+        return $text;
+    }
+
+    /**
      * Get the section text for a course.
      *
      * @param  stdClass $course        The course to apply to.

@@ -232,7 +232,6 @@ class category_rules extends \moodleform
             break;
 
             case 'text':
-            case 'template':
                 $mform->addElement('textarea', $id . 'text', 'Data');
                 $mform->setType($id . 'text', PARAM_TEXT);
 
