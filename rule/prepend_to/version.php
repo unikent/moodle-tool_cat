@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'catrule_prepend_to';
-$plugin->version   = 2015082600;
+$plugin->version   = 2015090100;
 $plugin->requires  = 2014051200;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '1.0 (Build: 2015082600)';

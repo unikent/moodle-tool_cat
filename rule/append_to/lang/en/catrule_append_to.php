@@ -24,3 +24,5 @@
 
 $string['pluginname'] = 'CAT append_to rule';
 $string['plugindesc'] = 'An append_to rule for the category admin tool.';
+
+$string['prettyname'] = 'Append to';
