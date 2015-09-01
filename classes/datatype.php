@@ -72,6 +72,6 @@ abstract class datatype
      * @return int The data of the datatype.
      */
     public function get_data() {
-        return unserialize($this->data);
+        return (object)unserialize($this->data);
     }
 }

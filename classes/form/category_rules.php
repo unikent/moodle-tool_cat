@@ -206,14 +206,15 @@ class category_rules extends \moodleform
                     0 => 'Select a block'
                 ), $validblocks));
 
+                /* TODO - move this to target identifier.
                 $mform->addElement('select', $id . 'blockpos', 'Block Position', array(
                     \BLOCK_POS_LEFT => 'Left',
                     \BLOCK_POS_RIGHT => 'Right'
                 ));
+                 */
 
                 if (isset($obj)) {
                     $mform->setDefault($id . 'block', isset($data->block) ? $data->block : '');
-                    $mform->setDefault($id . 'blockpos', isset($data->blockpos) ? $data->blockpos : '');
                 }
             break;
 
