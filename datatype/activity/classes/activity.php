@@ -43,9 +43,19 @@ class activity extends \tool_cat\datatype
      * @return array An array of valid datatypes.
      */
     public function get_supported_activities() {
-        return array(
-            'aspirelists', 'forum', 'url'
-        );
+        $pluginman = \core_plugin_manager::instance();
+        $plugins = $pluginman->get_plugins_of_type('catactivity');
+
+        $rules = array();
+        foreach ($plugins as $plugin) {
+            if ($plugin->is_enabled() === false) {
+                continue;
+            }
+
+            $rules[] = $plugin->name;
+        }
+
+        return $rules;
     }
 
     /**
