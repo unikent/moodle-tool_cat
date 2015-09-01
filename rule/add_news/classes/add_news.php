@@ -72,7 +72,7 @@ class add_news extends \tool_cat\rule
 
         $forum = forum_get_course_forum($course->id, 'news');
 
-        $data = (object)$this->get_data();
+        $data = (object)$this->datatype->get_data();
         if (empty($data)) {
             return;
         }

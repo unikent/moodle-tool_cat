@@ -44,7 +44,7 @@ class course extends \tool_cat\target
      */
     public function get_supported_datatypes() {
         return array(
-            'section'
+            'standard'
         );
     }
 
