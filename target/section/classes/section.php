@@ -44,7 +44,7 @@ class section extends \tool_cat\target
      */
     public function get_supported_datatypes() {
         return array(
-            'activity', 'text', 'template'
+            'activity', 'text'
         );
     }
 
@@ -63,14 +63,67 @@ class section extends \tool_cat\target
     }
 
     /**
+     * Get the section text for a course.
+     *
+     * @param  stdClass $course        The course to apply to.
+     * @param  int      $sectionident  The section number to apply to (not ID).
+     * @return string                  The current section text.
+     */
+    public function get_section_text($course, $sectionident) {
+        global $DB;
+
+        return $DB->get_field('course_sections', 'summary', array(
+            'course' => $course->id,
+            'section' => $sectionident
+        ));
+    }
+    /**
+     * Get the section text for a course.
+     *
+     * @param  stdClass $course        The course to apply to.
+     * @param  int      $sectionident  The section number to apply to (not ID).
+     * @param  string   $text          The new section text.
+     */
+    public function set_section_text($course, $sectionident, $text) {
+        global $DB;
+
+        $DB->set_field('course_sections', 'summary', $text, array(
+            'course' => $course->id,
+            'section' => $sectionident
+        ));
+    }
+
+    /**
      * Apply the append rule.
      */
     public function append_to($courses) {
         $sectionident = $this->get_identifier();
 
-        foreach ($courses as $course) {
-            $this->datatype->append_to_section($course, $sectionident);
+        $type = 'text_append_to';
+        if ($this->datatype->get_name() == 'activity') {
+            $type = 'activity_append_to';
         }
+
+        foreach ($courses as $course) {
+            $this->$type($course, $sectionident);
+        }
+    }
+
+    /**
+     * Apply the append rule.
+     */
+    public function activity_append_to($course, $sectionident) {
+        $this->activity_helper($course, $sectionident, false);
+    }
+
+    /**
+     * Apply the append rule.
+     */
+    public function text_append_to($course, $sectionident) {
+        $this->datatype->set_context($course);
+        $text = $this->get_section_text($course, $sectionident);
+        $text .= $this->datatype->get_data();
+        $this->set_section_text($course, $sectionident, $text);
     }
 
     /**
@@ -133,8 +186,63 @@ class section extends \tool_cat\target
     public function prepend_to($courses) {
         $sectionident = $this->get_identifier();
 
-        foreach ($courses as $course) {
-            $this->datatype->prepend_to_section($course, $sectionident);
+        $type = 'text_prepend_to';
+        if ($this->datatype->get_name() == 'activity') {
+            $type = 'activity_prepend_to';
         }
+
+        foreach ($courses as $course) {
+            $this->$type($course, $sectionident);
+        }
+    }
+
+    /**
+     * Apply the prepend rule.
+     */
+    public function activity_prepend_to($course, $sectionident) {
+        $this->activity_helper($course, $sectionident, true);
+    }
+
+    /**
+     * Apply the prepend rule.
+     */
+    public function text_prepend_to($course, $sectionident) {
+        $this->datatype->set_context($course);
+        $text = $this->datatype->get_data();
+        $text .= $this->get_section_text($course, $sectionident);
+        $this->set_section_text($course, $sectionident, $text);
+    }
+
+    /**
+     * Helper for the activity append/prepends.
+     *
+     * @param  stdClass $course        The course to apply to.
+     * @param  int      $sectionident  The section number to apply to (not ID).
+     */
+    private function activity_helper($course, $sectionident, $prepend = false) {
+        global $DB;
+
+        // Find the section.
+        $section = $DB->get_record('course_sections', array(
+            'course' => $course->id,
+            'section' => $sectionident
+        ));
+
+        // Find the first element in the section.
+        $pos = null;
+        if ($prepend) {
+            $seq = explode(',', $section->sequence);
+            if (!empty($seq)) {
+                $pos = reset($seq);
+            }
+        }
+
+        // Get the CM, add it.
+        $this->datatype->set_context(array(
+            'course' => $course,
+            'section' => $section
+        ));
+        $cm = $this->datatype->get_data();
+        course_add_cm_to_section($course->id, $cm->id, $section->section, $pos);
     }
 }

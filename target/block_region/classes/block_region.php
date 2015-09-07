@@ -90,7 +90,7 @@ class block_region extends \tool_cat\target
             }
 
             // Add the block.
-            $blockmanager->add_block($datatype->get_name(), $region, $weight, false);
+            $blockmanager->add_block($datatype->get_data(), $region, $weight, false);
         }
     }
 

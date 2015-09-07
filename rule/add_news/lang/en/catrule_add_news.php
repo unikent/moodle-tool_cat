@@ -15,17 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * Strings for the category admin tool add_news rule.
  *
- * @package    catdatatype_section
+ * @package    catrule_add_news
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+$string['pluginname'] = 'CAT add_news rule';
+$string['plugindesc'] = 'An add_news rule for the category admin tool.';
 
-$plugin->component = 'catdatatype_section';
-$plugin->version   = 2015082600;
-$plugin->requires  = 2014051200;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.0 (Build: 2015082600)';
+$string['prettyname'] = 'Add news forum';

@@ -15,12 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for the category admin tool section datatype.
+ * Version information
  *
- * @package    catdatatype_section
+ * @package    catdatatype_standard
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'CAT section datatype';
-$string['plugindesc'] = 'An section datatype for the category admin tool.';
+defined('MOODLE_INTERNAL') || die();
+
+$plugin->component = 'catdatatype_standard';
+$plugin->version   = 2015082600;
+$plugin->requires  = 2014051200;
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = '1.0 (Build: 2015082600)';

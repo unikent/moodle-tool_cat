@@ -17,18 +17,15 @@
 /**
  * Version information
  *
- * @package    catdatatype_template
+ * @package    catrule_add_news
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'catdatatype_template';
+$plugin->component = 'catrule_add_news';
 $plugin->version   = 2015082600;
 $plugin->requires  = 2014051200;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '1.0 (Build: 2015082600)';
-$plugin->dependencies = array(
-    'catdatatype_text' => 2015082600
-);

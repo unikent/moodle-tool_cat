@@ -35,7 +35,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 abstract class datatype
 {
+    private $name;
     private $data;
+    private $context;
 
     /**
      * Constructor.
@@ -45,16 +47,36 @@ abstract class datatype
     }
 
     /**
+     * Set our context.
+     *
+     * @param stdClass $context Mustache variables.
+     */
+    public function set_context($context) {
+        $this->context = $context;
+    }
+
+    /**
+     * Returns our context.
+     */
+    public function get_context() {
+        return $this->context;
+    }
+
+    /**
      * Return a datatype object, given a name.
      */
     public static function create_datatype($name, $data = '') {
         // Sanity check.
-        if (!preg_match('/^([A-Za-z_]*)$/', $name)) {
+        $pluginman = \core_plugin_manager::instance();
+        $plugins = $pluginman->get_plugins_of_type('catdatatype');
+        if (!isset($plugins[$name]) || $plugins[$name]->is_enabled() === false) {
             throw new \moodle_exception("Invalid datatype.");
         }
 
         $datatype = "\\catdatatype_{$name}\\{$name}";
-        return new $datatype($data);
+        $datatype = new $datatype($data);
+        $datatype->name = $name;
+        return $datatype;
     }
 
     /**
@@ -73,5 +95,12 @@ abstract class datatype
      */
     public function get_data() {
         return (object)unserialize($this->data);
+    }
+
+    /**
+     * Get the name of the datatype.
+     */
+    public function get_name() {
+        return $this->name;
     }
 }

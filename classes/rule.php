@@ -43,7 +43,9 @@ abstract class rule
      */
     public static function create_rule($name) {
         // Sanity check.
-        if (!preg_match('/^([A-Za-z_]*)$/', $name)) {
+        $pluginman = \core_plugin_manager::instance();
+        $plugins = $pluginman->get_plugins_of_type('catrule');
+        if (!isset($plugins[$name]) || $plugins[$name]->is_enabled() === false) {
             throw new \moodle_exception("Invalid rule.");
         }
 
@@ -61,11 +63,14 @@ abstract class rule
         $obj->id = $record->id;
         $obj->target = \tool_cat\target::create_target($record->target, $record->targetid);
 
-        // Add a datatype to the rule if we have one.
-        if (!empty($record->datatype)) {
-            $datatype = \tool_cat\datatype::create_datatype($record->datatype, $record->data);
-            $obj->target->set_datatype($datatype);
+        if (empty($record->datatype)) {
+            $record->datatype = 'standard';
+            $record->data = null;
         }
+
+        // Add a datatype to the rule.
+        $datatype = \tool_cat\datatype::create_datatype($record->datatype, $record->data);
+        $obj->target->set_datatype($datatype);
 
         return $obj;
     }

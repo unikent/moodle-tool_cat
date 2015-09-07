@@ -61,7 +61,9 @@ abstract class activity
      */
     public static function create_activity($name, $data = '') {
         // Sanity check.
-        if (!preg_match('/^([A-Za-z_]*)$/', $name)) {
+        $pluginman = \core_plugin_manager::instance();
+        $plugins = $pluginman->get_plugins_of_type('catactivity');
+        if (!isset($plugins[$name]) || $plugins[$name]->is_enabled() === false) {
             throw new \moodle_exception("Invalid activity.");
         }
 

@@ -43,7 +43,7 @@ class prepend_to extends \tool_cat\rule
      */
     public function get_supported_targets() {
         return array(
-            'block_region', 'section', 'course'
+            'block_region', 'standard', 'course'
         );
     }
 

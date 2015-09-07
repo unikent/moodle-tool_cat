@@ -64,12 +64,19 @@ class external extends external_api
      * @throws \invalid_parameter_exception
      */
     public static function get_rules() {
-        return array(
-            'append_to' => 'Append to',
-            'prepend_to' => 'Prepend to',
-            'empty_content' => 'Empty content',
-            'delete' => 'Delete'
-        );
+        $pluginman = \core_plugin_manager::instance();
+        $plugins = $pluginman->get_plugins_of_type('catrule');
+
+        $rules = array();
+        foreach ($plugins as $plugin) {
+            if ($plugin->is_enabled() === false) {
+                continue;
+            }
+
+            $rules[$plugin->name] = get_string('prettyname', "{$plugin->type}_{$plugin->name}");
+        }
+
+        return $rules;
     }
 
     /**

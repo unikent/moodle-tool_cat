@@ -15,30 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Output rendering of category admin tool.
+ * Category admin tool datatypes.
  *
- * @package    tool_cat
+ * @package    catdatatype_standard
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace catdatatype_standard;
+
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Rendering methods for the catdatatype_template pages.
+ * Category admin tool standard data type.
+ *
+ * @package    catdatatype_standard
+ * @copyright  2015 University of Kent
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class catdatatype_template_renderer extends plugin_renderer_base
+class standard extends \tool_cat\datatype
 {
-    /**
-     * Render a mustache template.
-     *
-     * @param  string   $text     The text to render.
-     * @param  stdClass $context  Mustache variables.
-     * @return string             The rendered text.
-     */
-    public function render_mustache_string($text, $context) {
-        $mustache = $this->get_mustache();
-        $template = $mustache->loadLambda($text);
-        return $template->render($context);
-    }
 }

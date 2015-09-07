@@ -44,7 +44,7 @@ class course extends \tool_cat\target
      */
     public function get_supported_datatypes() {
         return array(
-            'section', 'news'
+            'standard'
         );
     }
 
@@ -70,15 +70,6 @@ class course extends \tool_cat\target
      * Append a section.
      */
     public function append_to($courses) {
-        // Special case for news.
-        if (get_class($this->datatype) == 'catdatatype_news\\news') {
-            foreach ($courses as $course) {
-                $this->datatype->add_to_course($course);
-            }
-
-            return;
-        }
-
         // Not news! Add a section.
         $section = (object)$this->datatype->get_data();
         foreach ($courses as $course) {

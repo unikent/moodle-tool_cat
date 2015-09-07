@@ -24,6 +24,8 @@
 
 define('CLI_SCRIPT', true);
 
+die("No longer used");
+
 require_once(dirname(__FILE__) . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
 

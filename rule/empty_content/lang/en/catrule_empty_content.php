@@ -24,3 +24,5 @@
 
 $string['pluginname'] = 'CAT empty_content rule';
 $string['plugindesc'] = 'An empty_content rule for the category admin tool.';
+
+$string['prettyname'] = 'Empty content';

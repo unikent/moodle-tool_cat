@@ -63,10 +63,10 @@ class tool_cat_course_tests extends \advanced_testcase
         $rule = \tool_cat\rule::from_record(array(
             'id' => \tool_cat\rule::FAKE_RULE_ID,
             'order' => 1,
-            'rule' => 'append_to',
+            'rule' => 'add_news',
             'target' => 'course',
             'targetid' => null,
-            'datatype' => 'news',
+            'datatype' => 'standard',
             'data' => serialize('')
         ));
         $rule->apply(array($this->course));
@@ -97,7 +97,7 @@ class tool_cat_course_tests extends \advanced_testcase
             'rule' => 'append_to',
             'target' => 'course',
             'targetid' => null,
-            'datatype' => 'section',
+            'datatype' => 'standard',
             'data' => serialize($this->generate_sectiondata())
         ));
         $rule->apply(array($this->course));
@@ -127,7 +127,7 @@ class tool_cat_course_tests extends \advanced_testcase
             'rule' => 'prepend_to',
             'target' => 'course',
             'targetid' => null,
-            'datatype' => 'section',
+            'datatype' => 'standard',
             'data' => serialize($this->generate_sectiondata())
         ));
         $rule->apply(array($this->course));
