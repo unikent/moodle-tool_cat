@@ -17,14 +17,14 @@
 /**
  * Version information
  *
- * @package    catrule_delete
+ * @package    catrule_visibility
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'catrule_delete';
+$plugin->component = 'catrule_visibility';
 $plugin->version   = 2015110300;
 $plugin->requires  = 2014051200;
 $plugin->maturity = MATURITY_STABLE;

@@ -97,5 +97,19 @@ function xmldb_tool_cat_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2015082600, 'tool', 'cat');
     }
 
+    if ($oldversion < 2015110300) {
+        // Define field type to be added to tool_cat_rules.
+        $table = new xmldb_table('tool_cat_rules');
+        $field = new xmldb_field('config', XMLDB_TYPE_TEXT, null, null, null, null, null, 'data');
+
+        // Conditionally launch add field type.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Kent savepoint reached.
+        upgrade_plugin_savepoint(true, 2015110300, 'tool', 'cat');
+    }
+
     return true;
 }

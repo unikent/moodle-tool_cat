@@ -37,11 +37,21 @@ abstract class rule
 {
     const FAKE_RULE_ID = -1;
     protected $target;
+    protected $config;
+
+    /**
+     * Constructor.
+     */
+    public function __construct($config = null) {
+        if ($config) {
+            $this->config = json_decode($config);
+        }
+    }
 
     /**
      * Return a rule object, given a name.
      */
-    public static function create_rule($name) {
+    public static function create_rule($name, $config = null) {
         // Sanity check.
         $pluginman = \core_plugin_manager::instance();
         $plugins = $pluginman->get_plugins_of_type('catrule');
@@ -50,7 +60,7 @@ abstract class rule
         }
 
         $ruletype = "\\catrule_{$name}\\{$name}";
-        return new $ruletype();
+        return new $ruletype($config);
     }
 
     /**
@@ -59,7 +69,7 @@ abstract class rule
     public static function from_record($record) {
         $record = (object)$record;
 
-        $obj = static::create_rule($record->rule);
+        $obj = static::create_rule($record->rule, $record->config);
         $obj->id = $record->id;
         $obj->target = \tool_cat\target::create_target($record->target, $record->targetid);
 

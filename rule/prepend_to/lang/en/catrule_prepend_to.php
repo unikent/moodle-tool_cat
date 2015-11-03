@@ -23,6 +23,6 @@
  */
 
 $string['pluginname'] = 'CAT prepend_to rule';
-$string['plugindesc'] = 'An prepend_to rule for the category admin tool.';
+$string['plugindesc'] = 'A prepend_to rule for the category admin tool.';
 
 $string['prettyname'] = 'Prepend to';

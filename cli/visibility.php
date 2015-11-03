@@ -15,17 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * Tool to make all courses in a category visible (or not).
  *
- * @package    catrule_delete
+ * @package    tool_cat
  * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+define('CLI_SCRIPT', true);
 
-$plugin->component = 'catrule_delete';
-$plugin->version   = 2015110300;
-$plugin->requires  = 2014051200;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.0 (Build: 2015082600)';
+require_once(dirname(__FILE__) . '/../../../../config.php');
+require_once($CFG->libdir . '/clilib.php');
+
+list($options, $unrecognized) = cli_get_params(
+    array(
+        'category' => 0,
+        'visibility' => 1,
+    )
+);
+
+if (empty($options['category']) || empty($options['visibility'])) {
+    print_error("You must specify a category with --category and visibility with --visibility.");
+    exit(0);
+}
+
+$config = (object)array("visibility" => $options['visibility']);
+$rule = new \catrule_visibility\visibility(json_encode($config));
+
+$category = new \tool_cat\category($options['category']);
+$category->apply($rule);
