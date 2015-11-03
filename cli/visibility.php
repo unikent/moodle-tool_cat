@@ -26,6 +26,7 @@ define('CLI_SCRIPT', true);
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
+require_once($CFG->dirroot . '/course/lib.php');
 
 list($options, $unrecognized) = cli_get_params(
     array(
@@ -39,8 +40,14 @@ if (empty($options['category']) || empty($options['visibility'])) {
     exit(0);
 }
 
-$config = (object)array("visibility" => $options['visibility']);
-$rule = new \catrule_visibility\visibility(json_encode($config));
+\core\session\manager::set_user(get_admin());
 
 $category = new \tool_cat\category($options['category']);
-$category->apply($rule);
+$courses = $category->get_courses();
+foreach ($courses as $course) {print_r($course);
+    if ($course->visible != $options['visibility']) {
+        mtrace("Updating {$course->id}");
+        $course->visible = $options['visibility'];
+        update_course($course);
+    }
+}
