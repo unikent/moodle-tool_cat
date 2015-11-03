@@ -44,7 +44,7 @@ if (empty($options['category']) || empty($options['visibility'])) {
 
 $category = new \tool_cat\category($options['category']);
 $courses = $category->get_courses();
-foreach ($courses as $course) {print_r($course);
+foreach ($courses as $course) {
     if ($course->visible != $options['visibility']) {
         mtrace("Updating {$course->id}");
         $course->visible = $options['visibility'];
