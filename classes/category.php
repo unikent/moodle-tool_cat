@@ -98,7 +98,11 @@ SQL;
     public function get_rules() {
         global $DB;
 
-        $coursecat = \coursecat::get($this->id);
+        $coursecat = \coursecat::get($this->id, \IGNORE_MISSING);
+        if (!$coursecat) {
+            return array();
+        }
+
         $parents = $coursecat->get_parents();
         $categories = array_merge($parents, array($this->id));
 
