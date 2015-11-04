@@ -36,6 +36,7 @@ if (($data = $form->get_data())) {
     $rules = $form->get_rules($data);
     foreach ($rules as $rule) {
         $rule->data = serialize($rule->data);
+        $rule->config = json_encode($rule->config);
 
         if (isset($rule->id)) {
             $DB->update_record('tool_cat_rules', $rule);

@@ -23,6 +23,6 @@
  */
 
 $string['pluginname'] = 'CAT delete rule';
-$string['plugindesc'] = 'An delete rule for the category admin tool.';
+$string['plugindesc'] = 'A delete rule for the category admin tool.';
 
 $string['prettyname'] = 'Delete';
