@@ -49,15 +49,6 @@ class external extends external_api
     }
 
     /**
-     * Expose to AJAX.
-     *
-     * @return boolean
-     */
-    public static function get_rules_is_allowed_from_ajax() {
-        return true;
-    }
-
-    /**
      * Get a list of valid rules.
      *
      * @return array [string]
@@ -101,15 +92,6 @@ class external extends external_api
                 VALUE_REQUIRED
             )
         ));
-    }
-
-    /**
-     * Expose to AJAX.
-     *
-     * @return boolean
-     */
-    public static function get_category_rules_is_allowed_from_ajax() {
-        return true;
     }
 
     /**
@@ -165,15 +147,6 @@ class external extends external_api
     }
 
     /**
-     * Expose to AJAX.
-     *
-     * @return boolean
-     */
-    public static function get_targets_is_allowed_from_ajax() {
-        return true;
-    }
-
-    /**
      * Returns a list of valid targets for a given rule.
      *
      * @param $rule
@@ -222,15 +195,6 @@ class external extends external_api
     }
 
     /**
-     * Expose to AJAX.
-     *
-     * @return boolean
-     */
-    public static function get_datatypes_is_allowed_from_ajax() {
-        return true;
-    }
-
-    /**
      * Returns a list of valid data types for a given target.
      *
      * @param $target
@@ -266,15 +230,6 @@ class external extends external_api
     }
 
     /**
-     * Expose to AJAX.
-     *
-     * @return boolean
-     */
-    public static function get_activities_is_allowed_from_ajax() {
-        return true;
-    }
-
-    /**
      * Returns a list of valid activities for the activity.
      *
      * @return array [string]
@@ -307,15 +262,6 @@ class external extends external_api
      */
     public static function get_blocks_parameters() {
         return new external_function_parameters(array());
-    }
-
-    /**
-     * Expose to AJAX.
-     *
-     * @return boolean
-     */
-    public static function get_blocks_is_allowed_from_ajax() {
-        return true;
     }
 
     /**
@@ -357,15 +303,6 @@ class external extends external_api
                 VALUE_REQUIRED
             )
         ));
-    }
-
-    /**
-     * Expose to AJAX.
-     *
-     * @return boolean
-     */
-    public static function get_activity_fields_is_allowed_from_ajax() {
-        return true;
     }
 
     /**
